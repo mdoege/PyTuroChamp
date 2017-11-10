@@ -102,8 +102,6 @@ def getval(b):
 			bv += vals[m.piece_type]
 	return wv / bv
 
-lastpos = getpos(b)
-
 def search(b, ply):
 	"Search moves and evaluate positions (computer is assumed to play white)"
 	b2 = c.Board(b.fen())
@@ -124,24 +122,40 @@ def search(b, ply):
 		b2.pop()
 	return bm
 
-ll = []
+while True:	# game loop
+	lastpos = getpos(b)
+	ll = []
 
-print(b)
-print(getval(b))
+	print(b)
+	print(getval(b))
 
-for x in b.legal_moves:
-	b.push(x)
-	p = getpos(b) - lastpos
-	t = search(b, 0)
-	print("%s %.1f %.3f" % (x, p, t))
-	ll.append((x, p, t))
-	b.pop()
+	for x in b.legal_moves:
+		b.push(x)
+		p = getpos(b) - lastpos
+		t = search(b, 0)
+		print("%s %.1f %.3f" % (x, p, t))
+		ll.append((x, p, t))
+		b.pop()
 
-# sort mainly by piece values, and then by positional value
-ll.sort(key = lambda m: 100 * m[2] + m[1])
-ll.reverse()
+	# sort mainly by piece values, and then by positional value
+	ll.sort(key = lambda m: 100 * m[2] + m[1])
+	ll.reverse()
 
-for x in ll:
-	print(x)
+	for x in ll:
+		print(x)
+	print()
+	print("My move: %s" % ll[0][0])
+	b.push(ll[0][0])
+
+	while True:
+		print(b)
+		print(getval(b))
+		move = input("Your move? ")
+		try:
+			b.push_san(move.strip())
+		except:
+			print("Sorry? Try again")
+		else:
+			break
 
 
