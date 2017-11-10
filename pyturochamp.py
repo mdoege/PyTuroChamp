@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 
+# A Python chess engine,
+# inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
 # not implemented: castling
@@ -12,11 +14,11 @@ import math
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MAXPLIES = 1
+MAXPLIES = 2
 
-#b = c.Board()
+b = c.Board()
 
-b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")	# test position
+#b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")	# test position
 
 def sqrt(x):
 	"Rounded square root"
