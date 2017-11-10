@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 
+# http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
 # not implemented: castling
 
@@ -12,6 +13,10 @@ COMPC = c.WHITE
 PLAYC = c.BLACK
 
 b = c.Board()
+
+def sqrt(x):
+	"Rounded square root"
+	return round(math.sqrt(x), 1)
 
 def getpos(b):
 	"Get positional-play value for a board"
@@ -29,7 +34,7 @@ def getpos(b):
 				# enemy square
 				elif e.color == PLAYC:
 					cp_pt += 2
-			ppv += math.sqrt(mv_pt + cp_pt)
+			ppv += sqrt(mv_pt + cp_pt)
 			if m.piece_type != c.QUEEN and m.piece_type != c.KING:
 				ndef = len(list(b.attackers(COMPC, i)))
 				# defended
@@ -52,7 +57,7 @@ def getpos(b):
 					# enemy square
 					elif e.color == PLAYC:
 						cp_pt += 2
-				ppv -= math.sqrt(mv_pt + cp_pt)
+				ppv -= sqrt(mv_pt + cp_pt)
 		if m and m.piece_type == c.PAWN and m.color == COMPC:
 			# pawn ranks advanced
 			ppv += .2 * (i // 8 - 1)	# assumes computer plays white
@@ -74,6 +79,6 @@ lastpos = getpos(b)
 for x in b.legal_moves:
 	b.push(x)
 	p = getpos(b) - lastpos
-	print("%s %.2f" % (x, p))
+	print("%s %.1f" % (x, p))
 	b.pop()
 
