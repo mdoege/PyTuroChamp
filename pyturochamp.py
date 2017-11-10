@@ -12,9 +12,11 @@ import math
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MAXPLIES = 2
+MAXPLIES = 1
 
-b = c.Board()
+#b = c.Board()
+
+b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")	# test position
 
 def sqrt(x):
 	"Rounded square root"
@@ -86,7 +88,7 @@ c.KNIGHT : 3,
 c.BISHOP : 3.5,
 c.ROOK : 5,
 c.QUEEN : 10,
-c.KING : 0,
+c.KING : 0.001,
 }
 
 def getval(b):
@@ -122,10 +124,24 @@ def search(b, ply):
 		b2.pop()
 	return bm
 
+ll = []
+
+print(b)
+print(getval(b))
+
 for x in b.legal_moves:
 	b.push(x)
 	p = getpos(b) - lastpos
 	t = search(b, 0)
 	print("%s %.1f %.3f" % (x, p, t))
+	ll.append((x, p, t))
 	b.pop()
+
+# sort mainly by piece values, and then by positional value
+ll.sort(key = lambda m: 100 * m[2] + m[1])
+ll.reverse()
+
+for x in ll:
+	print(x)
+
 
