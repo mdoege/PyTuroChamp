@@ -13,8 +13,8 @@ PLAYC = c.BLACK
 
 b = c.Board()
 
-for x in b.legal_moves:
-	b.push(x)
+def getpos(b):
+	"Get positional-play value for a board"
 	ppv = 0
 	for i in range(64):
 		m = b.piece_at(i)
@@ -67,6 +67,13 @@ for x in b.legal_moves:
 		if b.is_checkmate():
 			ppv += 1
 		b.pop()
-	print(x, ppv)
+	return ppv
+
+lastpos = getpos(b)
+
+for x in b.legal_moves:
+	b.push(x)
+	p = getpos(b) - lastpos
+	print("%s %.2f" % (x, p))
 	b.pop()
 
