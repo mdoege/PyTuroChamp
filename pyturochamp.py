@@ -20,6 +20,9 @@ b = c.Board()
 
 #b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")	# test position
 
+# test position from Stockfish game
+#b = c.Board("rn2k2r/1p3ppp/p4n2/Pb2p1B1/4P2P/2b1K3/R1P2PP1/3q1BNR w kq - 0 15")
+
 def sqrt(x):
 	"Rounded square root"
 	return round(math.sqrt(x), 1)
@@ -142,6 +145,10 @@ while True:	# game loop
 	# sort mainly by piece values, and then by positional value
 	ll.sort(key = lambda m: 100 * m[2] + m[1])
 	ll.reverse()
+
+	if not ll:
+		print("You win!")
+		break
 
 	for x in ll:
 		print(x)
