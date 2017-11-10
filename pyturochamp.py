@@ -61,8 +61,12 @@ def getpos(b):
 		if m and m.piece_type == c.PAWN and m.color == COMPC:
 			# pawn ranks advanced
 			ppv += .2 * (i // 8 - 1)	# assumes computer plays white
-			# pawn defended
-			if len(list(b.attackers(COMPC, i))):
+			# pawn defended (other pawns do not count)
+			pawndef = False
+			for att in b.attackers(COMPC, i):
+				if b.piece_at(att).piece_type != c.PAWN:
+					pawndef = True
+			if pawndef:
 				ppv += .3
 	# black king
 	if b.is_check():
