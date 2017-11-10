@@ -78,11 +78,32 @@ def getpos(b):
 		b.pop()
 	return ppv
 
+vals = {
+c.PAWN : 1,
+c.KNIGHT : 3,
+c.BISHOP : 3.5,
+c.ROOK : 5,
+c.QUEEN : 10,
+c.KING : 0,
+}
+
+def getval(b):
+	"Get total piece value of board"
+	wv, bv = 0, 0
+	for i in range(64):
+		m = b.piece_at(i)
+		if m and m.color == c.WHITE:
+			wv += vals[m.piece_type]
+		if m and m.color == c.BLACK:
+			bv += vals[m.piece_type]
+	return wv / bv
+
 lastpos = getpos(b)
 
 for x in b.legal_moves:
 	b.push(x)
 	p = getpos(b) - lastpos
-	print("%s %.1f" % (x, p))
+	t = getval(b)
+	print("%s %.1f %.3f" % (x, p, t))
 	b.pop()
 
