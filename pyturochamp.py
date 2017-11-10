@@ -12,6 +12,8 @@ import math
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
+MAXPLIES = 2
+
 b = c.Board()
 
 def sqrt(x):
@@ -100,10 +102,30 @@ def getval(b):
 
 lastpos = getpos(b)
 
+def search(b, ply):
+	"Search moves and evaluate positions (computer is assumed to play white)"
+	b2 = c.Board(b.fen())
+	if (ply // 2) == 0:
+		bm = 0
+	else:
+		bm = 1000
+	for x in b2.legal_moves:
+		b2.push(x)
+		if ply == MAXPLIES:
+			t = getval(b2)
+			if (ply // 2) == 0 and t > bm:
+				bm = t
+			if (ply // 2) == 1 and t < bm:
+				bm = t
+		else:
+			bm = search(b2, ply + 1)
+		b2.pop()
+	return bm
+
 for x in b.legal_moves:
 	b.push(x)
 	p = getpos(b) - lastpos
-	t = getval(b)
+	t = search(b, 0)
 	print("%s %.1f %.3f" % (x, p, t))
 	b.pop()
 
