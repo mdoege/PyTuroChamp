@@ -4,7 +4,7 @@
 # inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
-# not implemented: castling, pawn promotion
+# not implemented: pawn promotion
 
 import chess as c
 import math, time
@@ -152,9 +152,22 @@ while True:	# game loop
 
 	nl = len(b.legal_moves)
 	tt = time.time()
+	cr0 = b.has_castling_rights(COMPC)
+
 	for n, x in enumerate(b.legal_moves):
+		if b.is_castling(x):		# are we castling now?
+			castle = 1
+		else:
+			castle = 0
 		b.push(x)
-		p = getpos(b) - lastpos
+		p = getpos(b) - lastpos + castle
+		cr = b.has_castling_rights(COMPC)
+		if cr0 == True and cr == True:	# can we castle later?
+			p += 1
+		for y in b.legal_moves:
+			if b.is_castling(y):	# can we castle next?
+				p += 1
+
 		t = search(b, 0, tomove = 1)
 		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))

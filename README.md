@@ -8,7 +8,7 @@ The computer plays as White and will always start with
 
   1. e3 
 
-Castling and promotion are not implemented.
+Pawn promotion is not implemented.
 
 ### Prerequisites
 
