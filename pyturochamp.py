@@ -4,7 +4,7 @@
 # inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
-# not implemented: castling, pawn promotion, en passant capture
+# not implemented: castling, pawn promotion
 
 import chess as c
 import math, time
