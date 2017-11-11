@@ -7,7 +7,7 @@
 import chess as c
 import math, time
 
-# computer always plays as White
+# computer always has to play as White
 
 COMPC = c.WHITE
 PLAYC = c.BLACK
@@ -16,7 +16,9 @@ MAXPLIES = 2	# maximum search depth; 0 or 2 is recommended
 
 b = c.Board()
 
-#b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")	# test position
+### Various test positions, with White to play:
+
+#b = c.Board("8/k7/8/3Q4/8/3r4/6K1/3b4 w - - 0 1")
 
 # test position from Stockfish game
 #b = c.Board("rn2k2r/1p3ppp/p4n2/Pb2p1B1/4P2P/2b1K3/R1P2PP1/3q1BNR w kq - 0 15")
@@ -25,7 +27,18 @@ b = c.Board()
 
 #b = c.Board("r1bqr1k1/1p3pp1/p1n2n1p/P1b4P/R5PR/2N1pN2/1PP2P2/3QKB2 w - - 0 15")
 
+# pawn promotion checkmate test
 #b = c.Board("7k/1P3ppp/8/8/8/8/2K5/8 w - - 0 1")
+
+# http://www.telegraph.co.uk/science/2017/03/14/can-solve-chess-problem-holds-key-human-consciousness/
+#b = c.Board("8/p7/kpP5/qrp1b3/rpP2b2/pP4b1/P3K3/8 w - - 0 1")
+
+#b = c.Board("r2qk2r/1pp2ppp/p1nb1n2/8/3p2bP/1P4Q1/P1PP1P2/RNB1KBNR w KQkq - 2 10")
+
+#b = c.Board("r3k2r/1pp2ppp/p2b4/8/1n1p1PbP/NP4K1/P1PP4/R1B1qBNR w kq - 1 15")
+
+# castle test
+#b = c.Board("r1bqk1nr/pppp1ppp/1bn1p3/8/2BP4/4PN2/PPP2PPP/RNBQK2R w KQkq - 1 5")
 
 def sqrt(x):
 	"Rounded square root"
@@ -156,7 +169,7 @@ while True:	# game loop
 
 	for n, x in enumerate(b.legal_moves):
 		if b.is_castling(x):		# are we castling now?
-			castle = 1
+			castle = 2	# use 2 points, unlike Turing who uses 1
 		else:
 			castle = 0
 		b.push(x)
@@ -166,15 +179,19 @@ while True:	# game loop
 			p += 1
 		for y in b.legal_moves:
 			if b.is_castling(y):	# can we castle in the next move?
-				p += 1
+				p += 2	# use 2 points, unlike Turing who uses 1
 
 		t = search(b, 0, tomove = 1)
 		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
 
-	# sort mainly by piece values, and then by positional value
-	ll.sort(key = lambda m: 100 * m[2] + m[1])
+	if not b.is_check():
+		# sort mainly by piece values, and then by positional value
+		ll.sort(key = lambda m: 100 * m[2] + m[1])
+	else:
+		# sort by positional value when in check
+		ll.sort(key = lambda m: 100 * m[1] + m[2])
 	ll.reverse()
 
 	if b.result() != '*':
