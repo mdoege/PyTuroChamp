@@ -164,8 +164,8 @@ while True:	# game loop
 	ll.sort(key = lambda m: 100 * m[2] + m[1])
 	ll.reverse()
 
-	if not ll:
-		print("You win!")
+	if b.result() != '*':
+		print("Game result:", b.result())
 		break
 
 	for x in ll:
