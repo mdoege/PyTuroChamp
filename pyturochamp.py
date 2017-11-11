@@ -214,7 +214,10 @@ while True:	# game loop
 		print(getval(b))
 		move = input("Your move? ")
 		try:
-			b.push_san(move)
+			try:
+				b.push_san(move)
+			except ValueError:
+				b.push_uci(move)
 		except:
 			print("Sorry? Try again. (Or type Control-C to quit.)")
 		else:
