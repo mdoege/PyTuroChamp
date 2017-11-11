@@ -163,7 +163,7 @@ while True:	# game loop
 		print(getval(b))
 		move = input("Your move? ")
 		try:
-			b.push_san(move.strip())
+			b.push_san(move)
 		except:
 			print("Sorry? Try again")
 		else:
