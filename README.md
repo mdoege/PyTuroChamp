@@ -1,6 +1,6 @@
 ## PyTuroChamp
 
-A toy chess engine inspired by Alan Turing's 1952 TUROCHAMP.
+A toy chess engine inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
 
 This does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
 
@@ -15,4 +15,6 @@ Castling, promotion, and *en passant* are not implemented.
 * Python 3
 * [python-chess](https://github.com/niklasf/python-chess)
 
+### License
 
+Public Domain
