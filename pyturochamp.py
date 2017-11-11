@@ -4,8 +4,6 @@
 # inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
-# not implemented: pawn promotion
-
 import chess as c
 import math, time
 
@@ -26,6 +24,8 @@ b = c.Board()
 #b = c.Board("rnbqkb1r/pp3ppp/5n2/2pp4/P2Q3P/4P3/1PP2PP1/RNB1KBNR w KQkq - 0 6")
 
 #b = c.Board("r1bqr1k1/1p3pp1/p1n2n1p/P1b4P/R5PR/2N1pN2/1PP2P2/3QKB2 w - - 0 15")
+
+#b = c.Board("7k/1P3ppp/8/8/8/8/2K5/8 w - - 0 1")
 
 def sqrt(x):
 	"Rounded square root"
@@ -162,10 +162,10 @@ while True:	# game loop
 		b.push(x)
 		p = getpos(b) - lastpos + castle
 		cr = b.has_castling_rights(COMPC)
-		if cr0 == True and cr == True:	# can we castle later?
+		if cr0 == True and cr == True:	# can we still castle later?
 			p += 1
 		for y in b.legal_moves:
-			if b.is_castling(y):	# can we castle next?
+			if b.is_castling(y):	# can we castle in the next move?
 				p += 1
 
 		t = search(b, 0, tomove = 1)
@@ -187,6 +187,10 @@ while True:	# game loop
 	print("My move: %s     ( calculation time spent: %u m %u s )" % (
 		ll[0][0], (time.time() - tt) // 60, (time.time() - tt) % 60))
 	b.push(ll[0][0])
+
+	if b.result() != '*':
+		print("Game result:", b.result())
+		break
 
 	while True:
 		print(b)

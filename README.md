@@ -8,8 +8,6 @@ The computer plays as White and will always start with
 
   1. e3 
 
-Pawn promotion is not implemented.
-
 ### Prerequisites
 
 * Python 3
