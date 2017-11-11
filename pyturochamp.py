@@ -201,8 +201,9 @@ while True:	# game loop
 	for x in ll:
 		print(x)
 	print()
-	print("My move: %s     ( calculation time spent: %u m %u s )" % (
-		ll[0][0], (time.time() - tt) // 60, (time.time() - tt) % 60))
+	print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
+		b.fullmove_number, ll[0][0],
+		(time.time() - tt) // 60, (time.time() - tt) % 60))
 	b.push(ll[0][0])
 
 	if b.result() != '*':
