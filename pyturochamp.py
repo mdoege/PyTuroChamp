@@ -14,7 +14,7 @@ import math
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MAXPLIES = 2	# maximum search depth; values between 0 and 3 are recommended
+MAXPLIES = 2	# maximum search depth; 0 or 2 is recommended
 
 b = c.Board()
 
@@ -22,6 +22,8 @@ b = c.Board()
 
 # test position from Stockfish game
 #b = c.Board("rn2k2r/1p3ppp/p4n2/Pb2p1B1/4P2P/2b1K3/R1P2PP1/3q1BNR w kq - 0 15")
+
+#b = c.Board("rnbqkb1r/pp3ppp/5n2/2pp4/P2Q3P/4P3/1PP2PP1/RNB1KBNR w KQkq - 0 6")
 
 def sqrt(x):
 	"Rounded square root"
@@ -105,25 +107,30 @@ def getval(b):
 			wv += vals[m.piece_type]
 		if m and m.color == c.BLACK:
 			bv += vals[m.piece_type]
-	return wv / bv
+	return round(wv / bv, 2)
 
-def search(b, ply):
+def search(b, ply, tomove = 0):
 	"Search moves and evaluate positions (computer is assumed to play White)"
 	b2 = c.Board(b.fen())
-	if (ply // 2) == 0:
+	if tomove == 0:
 		bm = 0
 	else:
 		bm = 1000
+	t0 = getval(b2)
 	for x in b2.legal_moves:
 		b2.push(x)
+		t = getval(b2)
+		#print(ply, x, t)
 		if ply == MAXPLIES:
-			t = getval(b2)
-			if (ply // 2) == 0 and t > bm:
+			if tomove == 0 and t > bm:
 				bm = t
-			if (ply // 2) == 1 and t < bm:
+			if tomove == 1 and t < bm:
 				bm = t
 		else:
-			bm = search(b2, ply + 1)
+			if tomove == 0 and t >= t0:
+				bm = search(b2, ply + 1, tomove = 1 - tomove)
+			if tomove == 1 and t <= t0:
+				bm = search(b2, ply + 1, tomove = 1 - tomove)
 		b2.pop()
 	return bm
 
@@ -139,8 +146,8 @@ while True:	# game loop
 	for n, x in enumerate(b.legal_moves):
 		b.push(x)
 		p = getpos(b) - lastpos
-		t = search(b, 0)
-		print("(%u/%u) %s %.1f %.3f" % (n + 1, nl, x, p, t))
+		t = search(b, 0, tomove = 1)
+		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
 
