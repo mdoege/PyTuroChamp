@@ -7,7 +7,7 @@
 # not implemented: castling, pawn promotion, en passant capture
 
 import chess as c
-import math
+import math, time
 
 # computer always plays as White
 
@@ -143,6 +143,7 @@ while True:	# game loop
 	print("FEN:", b.fen())
 
 	nl = len(b.legal_moves)
+	tt = time.time()
 	for n, x in enumerate(b.legal_moves):
 		b.push(x)
 		p = getpos(b) - lastpos
@@ -162,7 +163,8 @@ while True:	# game loop
 	for x in ll:
 		print(x)
 	print()
-	print("My move: %s" % ll[0][0])
+	print("My move: %s     ( calculation time spent: %u m %u s )" % (
+		ll[0][0], (time.time() - tt) // 60, (time.time() - tt) % 60))
 	b.push(ll[0][0])
 
 	while True:
@@ -172,7 +174,7 @@ while True:	# game loop
 		try:
 			b.push_san(move)
 		except:
-			print("Sorry? Try again")
+			print("Sorry? Try again. (Or type Control-C to quit.)")
 		else:
 			break
 
