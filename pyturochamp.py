@@ -133,6 +133,7 @@ while True:	# game loop
 
 	print(b)
 	print(getval(b))
+	print("FEN:", b.fen())
 
 	nl = len(b.legal_moves)
 	for n, x in enumerate(b.legal_moves):
@@ -160,7 +161,6 @@ while True:	# game loop
 	while True:
 		print(b)
 		print(getval(b))
-		print("FEN:", b.fen())
 		move = input("Your move? ")
 		try:
 			b.push_san(move.strip())
