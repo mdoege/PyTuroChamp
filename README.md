@@ -4,11 +4,11 @@ A toy chess engine inspired by Alan Turing's 1952 TUROCHAMP.
 
 This does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
 
-The computer plays as white and will always start with
+The computer plays as White and will always start with
 
   1. e3 
 
-Castling, promotion, etc. are not implemented.
+Castling, promotion, and *en passant* are not implemented.
 
 ### Prerequisites
 

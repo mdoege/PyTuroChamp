@@ -4,17 +4,17 @@
 # inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
-# not implemented: castling
+# not implemented: castling, pawn promotion, en passant capture
 
 import chess as c
 import math
 
-# computer plays as white
+# computer always plays as White
 
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MAXPLIES = 2
+MAXPLIES = 2	# maximum search depth; values between 0 and 3 are recommended
 
 b = c.Board()
 
@@ -69,7 +69,7 @@ def getpos(b):
 				ppv -= sqrt(mv_pt + cp_pt)
 		if m and m.piece_type == c.PAWN and m.color == COMPC:
 			# pawn ranks advanced
-			ppv += .2 * (i // 8 - 1)	# assumes computer plays white
+			ppv += .2 * (i // 8 - 1)	# assumes computer plays White
 			# pawn defended (other pawns do not count)
 			pawndef = False
 			for att in b.attackers(COMPC, i):
@@ -108,7 +108,7 @@ def getval(b):
 	return wv / bv
 
 def search(b, ply):
-	"Search moves and evaluate positions (computer is assumed to play white)"
+	"Search moves and evaluate positions (computer is assumed to play White)"
 	b2 = c.Board(b.fen())
 	if (ply // 2) == 0:
 		bm = 0
