@@ -128,7 +128,7 @@ def getval(b):
 	if b.result() == '1-0':
 		return 1000
 
-	return round(wv / bv, 2)
+	return round(20 * wv / bv) / 20	# round tactical value in .05 steps
 
 def search(b, ply, tomove = 0):
 	"Search moves and evaluate positions (computer is assumed to play White)"
