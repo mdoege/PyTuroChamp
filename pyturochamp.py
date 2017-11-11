@@ -134,11 +134,12 @@ while True:	# game loop
 	print(b)
 	print(getval(b))
 
-	for x in b.legal_moves:
+	nl = len(b.legal_moves)
+	for n, x in enumerate(b.legal_moves):
 		b.push(x)
 		p = getpos(b) - lastpos
 		t = search(b, 0)
-		print("%s %.1f %.3f" % (x, p, t))
+		print("(%u/%u) %s %.1f %.3f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
 
@@ -159,6 +160,7 @@ while True:	# game loop
 	while True:
 		print(b)
 		print(getval(b))
+		print("FEN:", b.fen())
 		move = input("Your move? ")
 		try:
 			b.push_san(move.strip())
