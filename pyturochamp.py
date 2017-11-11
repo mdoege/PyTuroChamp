@@ -25,6 +25,8 @@ b = c.Board()
 
 #b = c.Board("rnbqkb1r/pp3ppp/5n2/2pp4/P2Q3P/4P3/1PP2PP1/RNB1KBNR w KQkq - 0 6")
 
+#b = c.Board("r1bqr1k1/1p3pp1/p1n2n1p/P1b4P/R5PR/2N1pN2/1PP2P2/3QKB2 w - - 0 15")
+
 def sqrt(x):
 	"Rounded square root"
 	return round(math.sqrt(x), 1)
@@ -107,6 +109,12 @@ def getval(b):
 			wv += vals[m.piece_type]
 		if m and m.color == c.BLACK:
 			bv += vals[m.piece_type]
+	# checkmate
+	if b.result() == '0-1':
+		return -1000
+	if b.result() == '1-0':
+		return 1000
+
 	return round(wv / bv, 2)
 
 def search(b, ply, tomove = 0):
