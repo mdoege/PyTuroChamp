@@ -1,0 +1,12 @@
+[Event "?"]
+[Site "?"]
+[Date "2017.11.11"]
+[Round "?"]
+[White "PyTuroChamp"]
+[Black "Stockfish 31101"]
+[Result "0-1"]
+
+1.e3 e6 2.d4 Nf6 3.Nc3 d5 4.h4 c5 5.dxc5 Bxc5 6.a4 e5 7.a5 a6 8.Ra4 O-O 9.
+h5 h6 10.Rhh4 Re8 11.Nf3 Nc6 12.g4 d4 13.exd4 exd4+ 14.Be3 dxe3 15.Qc1 
+exf2# 0-1
+
