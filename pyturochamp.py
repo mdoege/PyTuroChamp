@@ -155,7 +155,8 @@ def search(b, ply, tomove = 0):
 		b2.pop()
 	return bm
 
-while True:	# game loop
+def getmove(b):
+	"Get move list for board"
 	lastpos = getpos(b)
 	ll = []
 
@@ -193,35 +194,40 @@ while True:	# game loop
 		# sort by positional value when in check
 		ll.sort(key = lambda m: 100 * m[1] + m[2])
 	ll.reverse()
+	return ll
 
-	if b.result() != '*':
-		print("Game result:", b.result())
-		break
+if __name__ == '__main__':
+	while True:	# game loop
+		ll = getmove(b)
 
-	for x in ll:
-		print(x)
-	print()
-	print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-		b.fullmove_number, ll[0][0],
-		(time.time() - tt) // 60, (time.time() - tt) % 60))
-	b.push(ll[0][0])
-
-	if b.result() != '*':
-		print("Game result:", b.result())
-		break
-
-	while True:
-		print(b)
-		print(getval(b))
-		move = input("Your move? ")
-		try:
-			try:
-				b.push_san(move)
-			except ValueError:
-				b.push_uci(move)
-		except:
-			print("Sorry? Try again. (Or type Control-C to quit.)")
-		else:
+		if b.result() != '*':
+			print("Game result:", b.result())
 			break
+
+		for x in ll:
+			print(x)
+		print()
+		print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
+			b.fullmove_number, ll[0][0],
+			(time.time() - tt) // 60, (time.time() - tt) % 60))
+		b.push(ll[0][0])
+
+		if b.result() != '*':
+			print("Game result:", b.result())
+			break
+
+		while True:
+			print(b)
+			print(getval(b))
+			move = input("Your move? ")
+			try:
+				try:
+					b.push_san(move)
+				except ValueError:
+					b.push_uci(move)
+			except:
+				print("Sorry? Try again. (Or type Control-C to quit.)")
+			else:
+				break
 
 
