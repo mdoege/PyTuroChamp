@@ -179,7 +179,7 @@ def getmove(b):
 			if b.is_castling(y):	# can we castle in the next move?
 				p += 2	# use 2 points, unlike Turing who uses 1
 
-		t = searchmax(b, 0, -1e6, 1e6)
+		t = searchmin(b, 0, -1e6, 1e6)
 		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
