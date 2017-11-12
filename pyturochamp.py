@@ -12,7 +12,7 @@ import math, time
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MAXPLIES = 2	# maximum search depth; 0 or 2 is recommended
+MAXPLIES = 3	# maximum search depth
 
 b = c.Board()
 
@@ -124,30 +124,34 @@ def getval(b):
 
 	return round(20 * wv / bv) / 20	# round tactical value in .05 steps
 
-def search(b, ply, tomove = 0):
-	"Search moves and evaluate positions (computer is assumed to play White)"
-	b2 = c.Board(b.fen())
-	if tomove == 0:
-		bm = 0
-	else:
-		bm = 1000
-	t0 = getval(b2)
-	for x in b2.legal_moves:
-		b2.push(x)
-		t = getval(b2)
-		#print(ply, x, t)
-		if ply == MAXPLIES:
-			if tomove == 0 and t > bm:
-				bm = t
-			if tomove == 1 and t < bm:
-				bm = t
-		else:
-			if tomove == 0 and t >= t0:
-				bm = search(b2, ply + 1, tomove = 1 - tomove)
-			if tomove == 1 and t <= t0:
-				bm = search(b2, ply + 1, tomove = 1 - tomove)
-		b2.pop()
-	return bm
+# https://chessprogramming.wikispaces.com/Alpha-Beta
+def searchmax(b, ply, alpha, beta):
+	"Search moves and evaluate positions"
+	if ply == MAXPLIES:
+		return getval(b)
+	for x in b.legal_moves:
+		b.push(x)
+		t = searchmin(b, ply + 1, alpha, beta)
+		b.pop()
+		if t >= beta:
+			return beta
+		if t > alpha:
+			alpha = t
+	return alpha
+
+def searchmin(b, ply, alpha, beta):
+	"Search moves and evaluate positions"
+	if ply == MAXPLIES:
+		return getval(b)
+	for x in b.legal_moves:
+		b.push(x)
+		t = searchmax(b, ply + 1, alpha, beta)
+		b.pop()
+		if t <= alpha:
+			return alpha
+		if t < beta:
+			beta = t
+	return beta
 
 def getmove(b):
 	"Get move list for board"
@@ -175,7 +179,7 @@ def getmove(b):
 			if b.is_castling(y):	# can we castle in the next move?
 				p += 2	# use 2 points, unlike Turing who uses 1
 
-		t = search(b, 0, tomove = 1)
+		t = searchmax(b, 0, -1e6, 1e6)
 		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
