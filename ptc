@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+cd /home/martin/git/PyTuroChamp
+
+python ptc_xboard.py 
+

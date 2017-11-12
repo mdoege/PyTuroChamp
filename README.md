@@ -12,6 +12,7 @@ The computer plays as White and will always start with
 
 * pyturochamp.py: The chess engine itself
 * ptc_xboard.py: XBoard interface
+* ptc: Shell script to run from a GUI, e.g. [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.) Also keep in mind the engine can only play as White at the moment, so set up the GUI accordingly.
 * movetest.py: Test engine response to board situations
 * *.pgn: Sample games in PGN format
 

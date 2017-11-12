@@ -15,6 +15,8 @@ abc = "abcdefgh"
 nn  = "12345678"
 
 log = open("PyTuroChamp-log.txt", 'w')
+d = ''
+r = ''
 
 while True:
 	l = ''
@@ -32,6 +34,8 @@ while True:
 		elif l == 'new':
 			d = c.Board()
 		elif l == 'go' or l == 'force':
+			if not d:
+				d = c.Board()
 			r = p.getmove(d, silent = True)
 			r = str(r[0][0])
 			d.push_uci(r)
