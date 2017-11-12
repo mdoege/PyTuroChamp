@@ -159,7 +159,6 @@ def getmove(b):
 	print("FEN:", b.fen())
 
 	nl = len(b.legal_moves)
-	tt = time.time()
 	cr0 = b.has_castling_rights(COMPC)
 
 	for n, x in enumerate(b.legal_moves):
@@ -192,6 +191,7 @@ def getmove(b):
 
 if __name__ == '__main__':
 	while True:	# game loop
+		tt = time.time()
 		ll = getmove(b)
 
 		if b.result() != '*':
