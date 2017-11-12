@@ -99,7 +99,10 @@ def getpos(b):
 		if b.is_checkmate():
 			ppv += 1
 		b.pop()
-	return ppv
+	if COMPC == c.WHITE:
+		return ppv
+	else:
+		return -ppv
 
 vals = {
 c.PAWN : 1,
@@ -192,7 +195,10 @@ def getmove(b, silent = False):
 			if b.is_castling(y):	# can we castle in the next move?
 				p += 2	# use 2 points, unlike Turing who uses 1
 
-		t = searchmin(b, 0, -1e6, 1e6)
+		if COMPC == c.WHITE:
+			t = searchmin(b, 0, -1e6, 1e6)
+		else:
+			t = searchmax(b, 0, -1e6, 1e6)
 		if not silent:
 			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
@@ -204,7 +210,8 @@ def getmove(b, silent = False):
 	else:
 		# sort by positional value when in check
 		ll.sort(key = lambda m: 100 * m[1] + m[2])
-	ll.reverse()
+	if COMPC == c.WHITE:
+		ll.reverse()
 	return ll
 
 if __name__ == '__main__':
