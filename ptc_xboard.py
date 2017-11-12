@@ -46,10 +46,11 @@ while True:
 			print("move", r)
 			log.write("move %s\n" % r)
 			log.flush()
-		elif len(l) == 4:
+		else:
 			if not d:
 				d = c.Board()
 			if l[0] in abc and l[2] in abc and l[1] in nn and l[3] in nn:
+				l = l.replace('=', '').lower()	# Knights outputs malformed UCI pawn promotion moves
 				d.push_uci(l)
 				r = p.getmove(d, silent = True)
 				r = str(r[0][0])
