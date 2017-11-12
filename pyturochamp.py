@@ -153,14 +153,15 @@ def searchmin(b, ply, alpha, beta):
 			beta = t
 	return beta
 
-def getmove(b):
+def getmove(b, silent = False):
 	"Get move list for board"
 	lastpos = getpos(b)
 	ll = []
 
-	print(b)
-	print(getval(b))
-	print("FEN:", b.fen())
+	if not silent:
+		print(b)
+		print(getval(b))
+		print("FEN:", b.fen())
 
 	nl = len(b.legal_moves)
 	cr0 = b.has_castling_rights(COMPC)
@@ -180,7 +181,8 @@ def getmove(b):
 				p += 2	# use 2 points, unlike Turing who uses 1
 
 		t = searchmin(b, 0, -1e6, 1e6)
-		print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
+		if not silent:
+			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
 		b.pop()
 

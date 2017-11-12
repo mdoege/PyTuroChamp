@@ -11,6 +11,7 @@ The computer plays as White and will always start with
 ### Files
 
 * pyturochamp.py: The chess engine itself
+* ptc_xboard.py: XBoard interface
 * movetest.py: Test engine response to board situations
 * *.pgn: Sample games in PGN format
 
