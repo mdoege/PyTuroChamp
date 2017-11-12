@@ -8,6 +8,12 @@ The computer plays as White and will always start with
 
   1. e3 
 
+### Files
+
+* pyturochamp.py: The chess engine itself
+* movetest.py: Test engine response to board situations
+* *.pgn: Sample games in PGN format
+
 ### Prerequisites
 
 * Python 3
