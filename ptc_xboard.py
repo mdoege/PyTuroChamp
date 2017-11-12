@@ -47,6 +47,8 @@ while True:
 			log.write("move %s\n" % r)
 			log.flush()
 		elif len(l) == 4:
+			if not d:
+				d = c.Board()
 			if l[0] in abc and l[2] in abc and l[1] in nn and l[3] in nn:
 				d.push_uci(l)
 				r = p.getmove(d, silent = True)

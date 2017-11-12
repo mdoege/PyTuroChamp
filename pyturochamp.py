@@ -7,10 +7,10 @@
 import chess as c
 import math, time
 
-# computer always has to play as White
+# computer plays as Black by default
 
-COMPC = c.WHITE
-PLAYC = c.BLACK
+COMPC = c.BLACK
+PLAYC = c.WHITE
 
 MAXPLIES = 3	# maximum search depth
 
@@ -80,7 +80,10 @@ def getpos(b):
 				ppv -= sqrt(mv_pt + cp_pt)
 		if m and m.piece_type == c.PAWN and m.color == COMPC:
 			# pawn ranks advanced
-			ppv += .2 * (i // 8 - 1)	# assumes computer plays White
+			if COMPC == c.WHITE:
+				ppv += .2 * (i // 8 - 1)
+			else:
+				ppv += .2 * (6 - i // 8)
 			# pawn defended (other pawns do not count)
 			pawndef = False
 			for att in b.attackers(COMPC, i):
@@ -155,8 +158,17 @@ def searchmin(b, ply, alpha, beta):
 
 def getmove(b, silent = False):
 	"Get move list for board"
+	global COMPC, PLAYC
+
 	lastpos = getpos(b)
 	ll = []
+
+	if b.turn == c.WHITE:
+		COMPC = c.WHITE
+		PLAYC = c.BLACK
+	else:
+		COMPC = c.BLACK
+		PLAYC = c.WHITE
 
 	if not silent:
 		print(b)
@@ -197,25 +209,6 @@ def getmove(b, silent = False):
 
 if __name__ == '__main__':
 	while True:	# game loop
-		tt = time.time()
-		ll = getmove(b)
-
-		if b.result() != '*':
-			print("Game result:", b.result())
-			break
-
-		for x in ll:
-			print(x)
-		print()
-		print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-			b.fullmove_number, ll[0][0],
-			(time.time() - tt) // 60, (time.time() - tt) % 60))
-		b.push(ll[0][0])
-
-		if b.result() != '*':
-			print("Game result:", b.result())
-			break
-
 		while True:
 			print(b)
 			print(getval(b))
@@ -229,5 +222,23 @@ if __name__ == '__main__':
 				print("Sorry? Try again. (Or type Control-C to quit.)")
 			else:
 				break
+
+		if b.result() != '*':
+			print("Game result:", b.result())
+			break
+
+		tt = time.time()
+		ll = getmove(b)
+		for x in ll:
+			print(x)
+		print()
+		print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
+			b.fullmove_number, ll[0][0],
+			(time.time() - tt) // 60, (time.time() - tt) % 60))
+		b.push(ll[0][0])
+
+		if b.result() != '*':
+			print("Game result:", b.result())
+			break
 
 
