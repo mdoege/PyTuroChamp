@@ -18,6 +18,15 @@ log = open("PyTuroChamp-log.txt", 'w')
 d = ''
 r = ''
 
+def move(r):
+	rm = str(r[0][0])
+	d.push_uci(rm)
+	print("move", rm)
+	print("# % .2f" % (r[0][1] + r[0][2]))
+	log.write("move %s\n" % rm)
+	log.write("# % .2f\n" % (r[0][1] + r[0][2]))
+	log.flush()
+
 while True:
 	l = ''
 	try:
@@ -38,11 +47,7 @@ while True:
 				d = c.Board()
 			r = p.getmove(d, silent = True)
 			if r:
-				r = str(r[0][0])
-				d.push_uci(r)
-				print("move", r)
-				log.write("move %s\n" % r)
-				log.flush()
+				move(r)
 		elif l == '?':
 			print("move", r)
 			log.write("move %s\n" % r)
@@ -55,10 +60,6 @@ while True:
 				d.push_uci(l)
 				r = p.getmove(d, silent = True)
 				if r:
-					r = str(r[0][0])
-					d.push_uci(r)
-					print("move", r)
-					log.write("move %s\n" % r)
-					log.flush()
+					move(r)
 
 
