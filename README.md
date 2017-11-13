@@ -4,14 +4,6 @@ A toy chess engine inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogr
 
 This does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
 
-As White the computer will always start with
-
-  1. e3
-
-and as Black
-
-  1. e6
-
 ### Files
 
 * pyturochamp.py: The chess engine itself

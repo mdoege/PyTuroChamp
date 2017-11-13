@@ -4,6 +4,8 @@
 # inspired by (but not compatible with)
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
+from pst import pst
+
 import chess as c
 import math, time
 
@@ -13,6 +15,7 @@ COMPC = c.BLACK
 PLAYC = c.WHITE
 
 MAXPLIES = 4	# maximum search depth
+PSTAB    = .5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 
@@ -43,6 +46,17 @@ def getpos(b):
 	ppv = 0
 	for i in range(64):
 		m = b.piece_at(i)
+		if m and m.color == COMPC:
+			mm = m.piece_type
+			if mm == c.KING and (
+			  len(b.pieces(c.PAWN, COMPC)) + len(b.pieces(c.PAWN, PLAYC)) ) <= 8:	# endgame is different
+				mm = 8								#   for the King
+			if COMPC == c.WHITE:
+				j, k = i // 8, i % 8
+				ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 10
+			else:
+				ppv += PSTAB * pst[mm][i]               / 10
+
 		if m and m.piece_type in (c.KING, c.QUEEN, c.ROOK, c.BISHOP, c.KNIGHT) and m.color == COMPC:
 			mv_pt, cp_pt = 0, 0
 			a = b.attacks(i)
@@ -99,6 +113,8 @@ def getpos(b):
 		if b.is_checkmate():
 			ppv += 1
 		b.pop()
+	# ppv has been computed as positive = good until here,
+	#   finally we add the sign here to be compatible with getval()'s score
 	if COMPC == c.WHITE:
 		return ppv
 	else:
@@ -194,7 +210,7 @@ def getmove(b, silent = False):
 			p += 3 * pm()		# Turing uses 1
 		for y in b.legal_moves:
 			if b.is_castling(y):	# can we castle in the next move?
-				p += 5	* pm()	# Turing uses 1
+				p += 15	* pm()	# Turing uses 1
 
 		if COMPC == c.WHITE:
 			t = searchmin(b, 0, -1e6, 1e6)
