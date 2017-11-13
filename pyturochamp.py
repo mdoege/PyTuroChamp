@@ -104,31 +104,15 @@ def getpos(b):
 	else:
 		return -ppv
 
-vals = {
-c.PAWN : 1,
-c.KNIGHT : 3,
-c.BISHOP : 3.5,
-c.ROOK : 5,
-c.QUEEN : 10,
-c.KING : 0.001,
-}
-
 def getval(b):
 	"Get total piece value of board"
-	wv, bv = 0, 0
-	for i in range(64):
-		m = b.piece_at(i)
-		if m and m.color == c.WHITE:
-			wv += vals[m.piece_type]
-		if m and m.color == c.BLACK:
-			bv += vals[m.piece_type]
-	# checkmate
-	if b.result() == '0-1':
-		return -1000
-	if b.result() == '1-0':
-		return 1000
-
-	return wv - bv
+	return (
+		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
+	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
+	+	3.5 * (len(b.pieces(c.BISHOP, c.WHITE)) - len(b.pieces(c.BISHOP, c.BLACK)))
+	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
+	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+	)
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
