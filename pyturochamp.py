@@ -128,7 +128,7 @@ def getval(b):
 	if b.result() == '1-0':
 		return 1000
 
-	return round(20 * wv / bv) / 20	# round tactical value in .05 steps
+	return wv - bv
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
@@ -204,12 +204,7 @@ def getmove(b, silent = False):
 		ll.append((x, p, t))
 		b.pop()
 
-	if not b.is_check():
-		# sort mainly by piece values, and then by positional value
-		ll.sort(key = lambda m: 100 * m[2] + m[1])
-	else:
-		# sort by positional value when in check
-		ll.sort(key = lambda m: 100 * m[1] + m[2])
+	ll.sort(key = lambda m: m[1] + m[2])
 	if COMPC == c.WHITE:
 		ll.reverse()
 	return ll
