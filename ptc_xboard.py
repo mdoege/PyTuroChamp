@@ -37,11 +37,12 @@ while True:
 			if not d:
 				d = c.Board()
 			r = p.getmove(d, silent = True)
-			r = str(r[0][0])
-			d.push_uci(r)
-			print("move", r)
-			log.write("move %s\n" % r)
-			log.flush()
+			if r:
+				r = str(r[0][0])
+				d.push_uci(r)
+				print("move", r)
+				log.write("move %s\n" % r)
+				log.flush()
 		elif l == '?':
 			print("move", r)
 			log.write("move %s\n" % r)
@@ -53,10 +54,11 @@ while True:
 				l = l.replace('=', '').lower()	# Knights outputs malformed UCI pawn promotion moves
 				d.push_uci(l)
 				r = p.getmove(d, silent = True)
-				r = str(r[0][0])
-				d.push_uci(r)
-				print("move", r)
-				log.write("move %s\n" % r)
-				log.flush()
+				if r:
+					r = str(r[0][0])
+					d.push_uci(r)
+					print("move", r)
+					log.write("move %s\n" % r)
+					log.flush()
 
 
