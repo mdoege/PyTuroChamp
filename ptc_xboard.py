@@ -56,7 +56,8 @@ while True:
 			if not d:
 				d = c.Board()
 			if l[0] in abc and l[2] in abc and l[1] in nn and l[3] in nn:
-				l = l.replace('=', '').lower()	# Knights outputs malformed UCI pawn promotion moves
+				if len(l) == 6:
+					l = l[:4] + 'q'	# "Knights" outputs malformed UCI pawn promotion moves
 				d.push_uci(l)
 				r = p.getmove(d, silent = True)
 				if r:
