@@ -1,0 +1,17 @@
+[Event "Casual Game"]
+[Site "?"]
+[Date "2017.11.13"]
+[Round "-"]
+[White "PyTuroChamp Bare Bones"]
+[Black "Stockfish 311017 64 POPCNT"]
+[Result "0-1"]
+[TimeControl "-"]
+
+1. e4 d5 2. Nf3 e4 3. Ne5 Qd5 4. d4 Nd7 5. Nc3 Qa5 6. Bb5 c6 7. Nc6 Qc7 8. Ne5 a6 9. Bf4 b5
+10. O-O Qb6 11. Nd5 Qd6 12. Nd7 Qd5 13. Nb6 Qf5 14. Be5 Ra6 15. Nd5 f6 16. Nc7 Kf7 17. g4 Qg4
+18. Qg4 Bg4 19. h3 Bh3 20. Bf4 Rc6 21. Rfe1 e5 22. e5 g5 23. e6 Kg7 24. e7 Ne7 25. Bd6 Ng6
+26. Nb5 Bd6 27. Re3 Bf5 28. Nd4 Rc5 29. Ree1 Nh4 30. Rad1 Bg4 31. Ne6 Be6 32. Rd6 Nf3 33. Kh1
+Ne1 34. Re6 f5 35. Re7 Kg6 36. Kg1 Rb5 37. a3 Nc2 38. Kh2 Rb2 39. Kg3 Kf6 40. Rd7 Ke6 41. Rg7
+Kf6 42. Rd7 Ke6 43. Rg7 g4 44. Kf4 Na3 45. Ke3 Kf6 46. Rd7 Ke6 47. Rg7 Kf6 48. Rd7 Ke6 49. Rg7
+Nc4 50. Kd4 Kf6 51. Rc7 Nd6 52. Rd7 Ke6 53. Rg7 Rf2 54. Rc7 Nb5 55. Kc5 Nc7 56. Kc4 Nd5 57. Kb5
+Kd7 58. Kc5 Ke6 59. Kb5 e3 60. Kc4 e2 61. Kd4 e1Q 62. Kc5 Qb4 0-1

@@ -1,0 +1,6 @@
+#!/usr/bin/bash
+
+cd /home/martin/git/PyTuroChamp
+
+python3 bare_xboard.py 
+
