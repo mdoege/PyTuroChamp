@@ -19,10 +19,6 @@ PSTAB    = .5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 
-def sqrt(x):
-	"Rounded square root"
-	return round(math.sqrt(x), 1)
-
 def getpos(b):
 	"Get positional-play value for a board"
 	ppv = 0
@@ -105,7 +101,6 @@ def getmove(b, silent = False):
 		print("FEN:", b.fen())
 
 	nl = len(b.legal_moves)
-	cr0 = b.has_castling_rights(COMPC)
 
 	# move ordering
 	am = []

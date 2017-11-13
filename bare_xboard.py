@@ -14,7 +14,7 @@ import bare as p
 abc = "abcdefgh"
 nn  = "12345678"
 
-log = open("PyTuroChamp-log.txt", 'w')
+log = open("Bare-log.txt", 'w')
 d = ''
 r = ''
 
