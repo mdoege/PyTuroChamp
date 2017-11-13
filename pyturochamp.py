@@ -12,7 +12,7 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# maximum search depth
+MAXPLIES = 4	# maximum search depth
 
 b = c.Board()
 
@@ -143,6 +143,12 @@ def searchmin(b, ply, alpha, beta):
 			beta = t
 	return beta
 
+def pm():
+	if COMPC == c.WHITE:
+		return 1
+	else:
+		return -1
+
 def getmove(b, silent = False):
 	"Get move list for board"
 	global COMPC, PLAYC
@@ -165,19 +171,30 @@ def getmove(b, silent = False):
 	nl = len(b.legal_moves)
 	cr0 = b.has_castling_rights(COMPC)
 
-	for n, x in enumerate(b.legal_moves):
+	# move ordering
+	am = []
+	for x in b.legal_moves:
+		if b.is_capture(x):
+			am.append((x, 10))
+		else:
+			am.append((x, b.piece_at(x.from_square).piece_type))
+	am.sort(key = lambda m: m[1])
+	am.reverse()
+
+	for n, q in enumerate(am):
+		x = q[0]
 		if b.is_castling(x):		# are we castling now?
-			castle = 2	# use 2 points, unlike Turing who uses 1
+			castle = 5 * pm()	# Turing uses 1
 		else:
 			castle = 0
 		b.push(x)
 		p = getpos(b) - lastpos + castle
 		cr = b.has_castling_rights(COMPC)
 		if cr0 == True and cr == True:	# can we still castle later?
-			p += 1
+			p += 3 * pm()		# Turing uses 1
 		for y in b.legal_moves:
 			if b.is_castling(y):	# can we castle in the next move?
-				p += 2	# use 2 points, unlike Turing who uses 1
+				p += 5	* pm()	# Turing uses 1
 
 		if COMPC == c.WHITE:
 			t = searchmin(b, 0, -1e6, 1e6)
