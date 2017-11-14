@@ -200,17 +200,17 @@ def getmove(b, silent = False):
 	for n, q in enumerate(am):
 		x = q[0]
 		if b.is_castling(x):		# are we castling now?
-			castle = 5 * pm()	# Turing uses 1
+			castle = 2 * pm()	# Turing uses 1
 		else:
 			castle = 0
 		b.push(x)
 		p = getpos(b) - lastpos + castle
 		cr = b.has_castling_rights(COMPC)
 		if cr0 == True and cr == True:	# can we still castle later?
-			p += 3 * pm()		# Turing uses 1
+			p += pm()
 		for y in b.legal_moves:
 			if b.is_castling(y):	# can we castle in the next move?
-				p += 15	* pm()	# Turing uses 1
+				p += pm()
 
 		if COMPC == c.WHITE:
 			t = searchmin(b, 0, -1e6, 1e6)
