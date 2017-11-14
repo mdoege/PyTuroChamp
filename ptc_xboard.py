@@ -50,7 +50,7 @@ def pgn():
 		game.headers["Black"] = nm
 		game.headers["White"] = "User"
 	with open(mf, 'w') as f:
-		f.write(str(game) + '\n\n')
+		f.write(str(game) + '\n\n\n')
 
 def newgame():
 	global d
