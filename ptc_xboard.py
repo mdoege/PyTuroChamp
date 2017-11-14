@@ -7,8 +7,9 @@
 
 #    Optional debug flags:  -debug -nameOfDebugFile debug.txt -engineDebugOutput 2
 
-import sys
+import sys, datetime
 import chess as c
+import chess.pgn
 
 abc = "abcdefgh"
 nn  = "12345678"
@@ -16,9 +17,13 @@ nn  = "12345678"
 if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
 	import pyturochamp as p
 	lf = "PyTuroChamp-log.txt"
+	mf = "PyTuroChamp.pgn"
+	nm = "PyTuroChamp"
 else:
 	import bare as p
 	lf = "Bare-log.txt"
+	mf = "Bare.pgn"
+	nm = "Bare"
 
 log = open(lf, 'w')
 d = ''
@@ -32,6 +37,25 @@ def move(r):
 	log.write("move %s\n" % rm)
 	log.write("# % .2f\n" % (r[0][1] + r[0][2]))
 	log.flush()
+	pgn()
+
+def pgn():
+	game = chess.pgn.Game.from_board(d)
+	now = datetime.datetime.now()
+	game.headers["Date"] = now.strftime("%Y.%m.%d")
+	if p.pm() > 0:
+		game.headers["White"] = nm
+		game.headers["Black"] = "User"
+	else:
+		game.headers["Black"] = nm
+		game.headers["White"] = "User"
+	with open(mf, 'w') as f:
+		f.write(str(game) + '\n\n')
+
+def newgame():
+	global d
+
+	d = c.Board()
 
 while True:
 	l = ''
@@ -47,10 +71,10 @@ while True:
 		elif l == 'quit':
 			sys.exit(0)
 		elif l == 'new':
-			d = c.Board()
+			newgame()
 		elif l == 'go' or l == 'force':
 			if not d:
-				d = c.Board()
+				newgame()
 			r = p.getmove(d, silent = True)
 			if r:
 				move(r)
@@ -60,11 +84,12 @@ while True:
 			log.flush()
 		else:
 			if not d:
-				d = c.Board()
+				newgame()
 			if l[0] in abc and l[2] in abc and l[1] in nn and l[3] in nn:
 				if len(l) == 6:
 					l = l[:4] + 'q'	# "Knights" outputs malformed UCI pawn promotion moves
 				d.push_uci(l)
+				pgn()
 				r = p.getmove(d, silent = True)
 				if r:
 					move(r)
