@@ -106,12 +106,12 @@ def getmove(b, silent = False):
 	am = []
 	for x in b.legal_moves:
 		if b.is_capture(x):
-			am.append((x, 10))
+			am.append((x, 10 * b.piece_at(x.to_square).piece_type + b.piece_at(x.from_square).piece_type))
 		else:
 			am.append((x, b.piece_at(x.from_square).piece_type))
 	am.sort(key = lambda m: m[1])
 	am.reverse()
-
+	print(am)
 	for n, q in enumerate(am):
 		x = q[0]
 		b.push(x)
