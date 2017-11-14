@@ -14,8 +14,8 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 4	# maximum search depth
-PSTAB    = .5	# influence of piece-square table on moves, 0 = none
+MAXPLIES = 3	# maximum search depth
+PSTAB    = 1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 
@@ -31,9 +31,9 @@ def getpos(b):
 				mm = 8								#   for the King
 			if COMPC == c.WHITE:
 				j, k = i // 8, i % 8
-				ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 10
+				ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 100
 			else:
-				ppv -= PSTAB * pst[mm][i]               / 10
+				ppv -= PSTAB * pst[mm][i]               / 100
 	return ppv
 
 def getval(b):
