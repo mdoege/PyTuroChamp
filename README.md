@@ -11,7 +11,7 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 | pyturochamp.py | The chess engine with Turing's heuristics. Plays more human-like, except for weird but typical moves like a2a4 and h2h4. |
 | bare.py | Bare bones version, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
 | ptc, bare | Shells script to run PTC/Bare from a chess GUI, e.g. [KDE Knights](https://www.kde.org/applications/games/knights/) (works very well) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
-| *_xboard.py | XBoard interface modules for PTC/Bare |
+| ptc_xboard.py | XBoard interface module for PTC/Bare |
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
 

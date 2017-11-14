@@ -3,18 +3,24 @@
 # XBoard interface to PyTuroChamp
 
 # Start with:
-# xboard -fcp "python3 ptc_xboard.py" -initialMode MachineWhite -firstProtocolVersion 1
+# xboard -fcp "python3 xboard.py"
 
 #    Optional debug flags:  -debug -nameOfDebugFile debug.txt -engineDebugOutput 2
 
 import sys
 import chess as c
-import pyturochamp as p
 
 abc = "abcdefgh"
 nn  = "12345678"
 
-log = open("PyTuroChamp-log.txt", 'w')
+if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
+	import pyturochamp as p
+	lf = "PyTuroChamp-log.txt"
+else:
+	import bare as p
+	lf = "Bare-log.txt"
+
+log = open(lf, 'w')
 d = ''
 r = ''
 
