@@ -111,7 +111,7 @@ def getmove(b, silent = False):
 			am.append((x, b.piece_at(x.from_square).piece_type))
 	am.sort(key = lambda m: m[1])
 	am.reverse()
-	print(am)
+
 	for n, q in enumerate(am):
 		x = q[0]
 		b.push(x)
