@@ -14,8 +14,8 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# maximum search depth
-PSTAB    = 1	# influence of piece-square table on moves, 0 = none
+IMAXPLIES = 3	# inital maximum search depth
+PSTAB     = 5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 
@@ -107,7 +107,7 @@ def getpos(b):
 				ppv += .3
 	# black king
 	if b.is_check():
-		ppv += .5
+		ppv += .25
 	for y in b.legal_moves:
 		b.push(y)
 		if b.is_checkmate():
@@ -133,7 +133,7 @@ def getval(b):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply == MAXPLIES:
+	if ply >= MAXPLIES:
 		return getval(b)
 	for x in order(b, ply):
 		b.push(x)
@@ -147,7 +147,7 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply == MAXPLIES:
+	if ply >= MAXPLIES:
 		return getval(b)
 	for x in order(b, ply):
 		b.push(x)
@@ -186,10 +186,12 @@ def pm():
 
 def getmove(b, silent = False):
 	"Get move list for board"
-	global COMPC, PLAYC
+	global COMPC, PLAYC, MAXPLIES
 
 	lastpos = getpos(b)
 	ll = []
+
+	MAXPLIES = IMAXPLIES + 3 * (((32 - len(b.piece_map())) / 32) ** 2)
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
