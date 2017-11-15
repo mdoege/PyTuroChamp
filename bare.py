@@ -83,10 +83,11 @@ def order(b, ply):
 	for x in b.legal_moves:
 		if b.is_capture(x):
 			if b.piece_at(x.to_square):
+				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
 				am.append((x, 10 * b.piece_at(x.to_square).piece_type
-							+ b.piece_at(x.from_square).piece_type))
+							- b.piece_at(x.from_square).piece_type))
 			else:	# to square is empty during en passant capture
-				am.append((x, 10 + b.piece_at(x.from_square).piece_type))
+				am.append((x, 10 - b.piece_at(x.from_square).piece_type))
 		else:
 			am.append((x, b.piece_at(x.from_square).piece_type))
 	am.sort(key = lambda m: m[1])

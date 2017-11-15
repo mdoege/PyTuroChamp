@@ -15,6 +15,7 @@ COMPC = c.BLACK
 PLAYC = c.WHITE
 
 IMAXPLIES = 3	# inital maximum search depth
+QPLIES    = IMAXPLIES + 4
 PSTAB     = 5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
@@ -130,10 +131,22 @@ def getval(b):
 	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
+def isdead(b, p):
+	"Is the position dead? (quiescence) I.e., can the capturing piece be recaptured?"
+	if p >= QPLIES:
+		return True
+	x = b.pop()
+	if b.is_capture(x) and len(b.attackers(not b.turn, x.to_square)):
+		b.push(x)
+		return False
+	else:
+		b.push(x)
+		return True
+
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply >= MAXPLIES:
+	if ply >= MAXPLIES and isdead(b, ply):
 		return getval(b)
 	for x in order(b, ply):
 		b.push(x)
@@ -147,7 +160,7 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply >= MAXPLIES:
+	if ply >= MAXPLIES and isdead(b, ply):
 		return getval(b)
 	for x in order(b, ply):
 		b.push(x)
@@ -167,10 +180,11 @@ def order(b, ply):
 	for x in b.legal_moves:
 		if b.is_capture(x):
 			if b.piece_at(x.to_square):
+				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
 				am.append((x, 10 * b.piece_at(x.to_square).piece_type
-							+ b.piece_at(x.from_square).piece_type))
+							- b.piece_at(x.from_square).piece_type))
 			else:	# to square is empty during en passant capture
-				am.append((x, 10 + b.piece_at(x.from_square).piece_type))
+				am.append((x, 10 - b.piece_at(x.from_square).piece_type))
 		else:
 			am.append((x, b.piece_at(x.from_square).piece_type))
 	am.sort(key = lambda m: m[1])
