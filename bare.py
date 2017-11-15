@@ -51,7 +51,7 @@ def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
 	if ply == MAXPLIES:
 		return getval(b)
-	for x in b.legal_moves:
+	for x in order(b, ply):
 		b.push(x)
 		t = searchmin(b, ply + 1, alpha, beta)
 		b.pop()
@@ -65,7 +65,7 @@ def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
 	if ply == MAXPLIES:
 		return getval(b)
-	for x in b.legal_moves:
+	for x in order(b, ply):
 		b.push(x)
 		t = searchmax(b, ply + 1, alpha, beta)
 		b.pop()
@@ -74,6 +74,25 @@ def searchmin(b, ply, alpha, beta):
 		if t < beta:
 			beta = t
 	return beta
+
+def order(b, ply):
+	"Move ordering"
+	if ply > 0:
+		return b.legal_moves
+	am, bm = [], []
+	for x in b.legal_moves:
+		if b.is_capture(x):
+			if b.piece_at(x.to_square):
+				am.append((x, 10 * b.piece_at(x.to_square).piece_type
+							+ b.piece_at(x.from_square).piece_type))
+			else:	# to square is empty during en passant capture
+				am.append((x, 10 + b.piece_at(x.from_square).piece_type))
+		else:
+			am.append((x, b.piece_at(x.from_square).piece_type))
+	am.sort(key = lambda m: m[1])
+	am.reverse()
+	bm = [q[0] for q in am]
+	return bm
 
 def pm():
 	if COMPC == c.WHITE:
@@ -102,22 +121,7 @@ def getmove(b, silent = False):
 
 	nl = len(b.legal_moves)
 
-	# move ordering
-	am = []
-	for x in b.legal_moves:
-		if b.is_capture(x):
-			if b.piece_at(x.to_square):
-				am.append((x, 10 * b.piece_at(x.to_square).piece_type
-							+ b.piece_at(x.from_square).piece_type))
-			else:	# to square is empty during en passant capture
-				am.append((x, 10 + b.piece_at(x.from_square).piece_type))
-		else:
-			am.append((x, b.piece_at(x.from_square).piece_type))
-	am.sort(key = lambda m: m[1])
-	am.reverse()
-
-	for n, q in enumerate(am):
-		x = q[0]
+	for n, x in enumerate(b.legal_moves):
 		b.push(x)
 		p = getpos(b) - lastpos
 		if COMPC == c.WHITE:
