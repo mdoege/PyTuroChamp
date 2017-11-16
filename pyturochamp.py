@@ -132,11 +132,13 @@ def getval(b):
 	)
 
 def isdead(b, p):
-	"Is the position dead? (quiescence) I.e., can the capturing piece be recaptured?"
+	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
 	if p >= QPLIES:
 		return True
+	if b.is_check():
+		return False
 	x = b.pop()
-	if b.is_capture(x) and len(b.attackers(not b.turn, x.to_square)):
+	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
 		b.push(x)
 		return False
 	else:

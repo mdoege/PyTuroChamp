@@ -54,7 +54,7 @@ def getval(b):
 	)
 
 def isdead(b, p):
-	"Is the position dead? (quiescence) I.e., can the capturing piece be recaptured?"
+	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
 	if p <= -QPLIES:
 		return True
 	if b.is_check():
