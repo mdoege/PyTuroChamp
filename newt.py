@@ -57,8 +57,10 @@ def isdead(b, p):
 	"Is the position dead? (quiescence) I.e., can the capturing piece be recaptured?"
 	if p <= -QPLIES:
 		return True
+	if b.is_check():
+		return False
 	x = b.pop()
-	if b.is_capture(x) and len(b.attackers(not b.turn, x.to_square)):
+	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
 		b.push(x)
 		return False
 	else:
@@ -104,6 +106,7 @@ def order(b, ply):
 		return b.legal_moves
 	am, bm = [], []
 	for x in b.legal_moves:
+		#if MAXPLIES - ply < len(PV) and str(x) == PV[MAXPLIES - ply]:
 		if str(x) in PV:
 			am.append((x, 1000))
 			#print(x)
