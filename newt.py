@@ -1,8 +1,6 @@
 #!/usr/bin/env python3
 
-# A Python chess engine,
-# inspired by (but not compatible with)
-# http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
+# A Python chess engine
 
 from pst import pst
 
@@ -14,9 +12,9 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-DEPTH = 4	# maximum search depth
-QPLIES    = 8
-PSTAB     = .1	# influence of piece-square table on moves, 0 = none
+DEPTH  = 4	# maximum search depth
+QPLIES = 4	# additional maximum quiescence search plies
+PSTAB  = 1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 PV = []		# array for primary variation
@@ -105,10 +103,8 @@ def order(b, ply):
 		return b.legal_moves
 	am, bm = [], []
 	for x in b.legal_moves:
-		#if MAXPLIES - ply < len(PV) and str(x) == PV[MAXPLIES - ply]:
 		if str(x) in PV:
 			am.append((x, 1000))
-			#print(x)
 		elif b.is_capture(x):
 			if b.piece_at(x.to_square):
 				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
