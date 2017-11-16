@@ -45,7 +45,7 @@ def sqrt(x):
 def getpos(b):
 	"Get positional-play value for a board"
 	ppv = 0
-	for i in range(64):
+	for i in b.piece_map().keys():
 		m = b.piece_at(i)
 		if m and m.color == COMPC:
 			mm = m.piece_type
@@ -248,7 +248,8 @@ def getmove(b, silent = False):
 	ll.sort(key = lambda m: m[1] + m[2])
 	if COMPC == c.WHITE:
 		ll.reverse()
-	return ll
+	print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
+	return ll[0][1] + ll[0][2], [str(ll[0][0])]
 
 if __name__ == '__main__':
 	while True:	# game loop

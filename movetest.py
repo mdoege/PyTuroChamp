@@ -13,13 +13,10 @@ t = [
 
 for x, y, z in t:
 	d = c.Board(x)
-	l = p.getmove(d)
-	r = str(l[0][0])
-	if r == y:
+	t, r = p.getmove(d)
+	if r[0] == y:
 		print(z, "test passed", 30 * '=')
 	else:
-		for m in l:
-			print(m)
-		print(z, "test FAILED:", r, 30 * '*')
+		print(z, "test FAILED:", r[0], 30 * '*')
 
 

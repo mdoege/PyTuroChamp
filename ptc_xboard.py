@@ -19,23 +19,26 @@ if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
 	lf = "PyTuroChamp-log.txt"
 	mf = "PyTuroChamp.pgn"
 	nm = "PyTuroChamp"
-else:
+elif sys.argv[1] == 'bare':
 	import bare as p
 	lf = "Bare-log.txt"
 	mf = "Bare.pgn"
 	nm = "Bare"
+else:
+	import newt as p
+	lf = "Newt-log.txt"
+	mf = "Newt.pgn"
+	nm = "Newt"
 
 log = open(lf, 'w')
 d = ''
 r = ''
 
 def move(r):
-	rm = str(r[0][0])
+	rm = r[0]
 	d.push_uci(rm)
 	print("move", rm)
-	print("# % .2f" % (r[0][1] + r[0][2]))
 	log.write("move %s\n" % rm)
-	log.write("# % .2f\n" % (r[0][1] + r[0][2]))
 	log.flush()
 	pgn()
 
@@ -61,13 +64,13 @@ while True:
 	l = ''
 	try:
 		l = input()
-	except KeyboardInterrupt:
-		pass
+	except KeyboardInterrupt:	# XBoard sends Control-C characters, so these must be caught
+		pass			#   Otherwise Python would quit.
 	if l:
 		log.write(l + '\n')
 		log.flush()
 		if l == 'xboard':
-			print('feature myname="PyTuroChamp" done=1')
+			print('feature myname="%s" done=1' % nm)
 		elif l == 'quit':
 			sys.exit(0)
 		elif l == 'new':
@@ -75,7 +78,7 @@ while True:
 		elif l == 'go' or l == 'force':
 			if not d:
 				newgame()
-			r = p.getmove(d, silent = True)
+			t, r = p.getmove(d, silent = True)
 			if r:
 				move(r)
 		elif l == '?':
@@ -90,7 +93,7 @@ while True:
 					l = l[:4] + 'q'	# "Knights" outputs malformed UCI pawn promotion moves
 				d.push_uci(l)
 				pgn()
-				r = p.getmove(d, silent = True)
+				t, r = p.getmove(d, silent = True)
 				if r:
 					move(r)
 

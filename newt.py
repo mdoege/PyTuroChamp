@@ -14,10 +14,12 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-IMAXPLIES = 3	# inital maximum search depth
-PSTAB     = 5	# influence of piece-square table on moves, 0 = none
+DEPTH = 4	# maximum search depth
+QPLIES    = 4
+PSTAB     = .1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
+PV = 50 * [0]
 
 def getpos(b):
 	"Get positional-play value for a board"
@@ -33,8 +35,13 @@ def getpos(b):
 				j, k = i // 8, i % 8
 				ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 100
 			else:
-				ppv -= PSTAB * pst[mm][i]               / 100
-	return ppv
+				ppv += PSTAB * pst[mm][i]               / 100
+	# ppv has been computed as positive = good until here,
+	#   finally we add the sign here to be compatible with getval()'s score
+	if COMPC == c.WHITE:
+		return ppv
+	else:
+		return -ppv
 
 def getval(b):
 	"Get total piece value of board"
@@ -46,42 +53,61 @@ def getval(b):
 	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
+def isdead(b, p):
+	"Is the position dead? (quiescence) I.e., can the capturing piece be recaptured?"
+	if p <= -QPLIES:
+		return True
+	x = b.pop()
+	if b.is_capture(x) and len(b.attackers(not b.turn, x.to_square)):
+		b.push(x)
+		return False
+	else:
+		b.push(x)
+		return True
+
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
-	"Search moves and evaluate positions"
-	if ply >= MAXPLIES:
-		return getval(b)
+	"Search moves and evaluate positions for White"
+	if ply <= 0 and isdead(b, ply):
+		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	v = None
 	for x in order(b, ply):
 		b.push(x)
-		t = searchmin(b, ply + 1, alpha, beta)
+		t, vv = searchmin(b, ply - 1, alpha, beta)
 		b.pop()
 		if t >= beta:
-			return beta
+			return beta, vv
 		if t > alpha:
 			alpha = t
-	return alpha
+			v = vv
+	return alpha, v
 
 def searchmin(b, ply, alpha, beta):
-	"Search moves and evaluate positions"
-	if ply >= MAXPLIES:
-		return getval(b)
+	"Search moves and evaluate positions for Black"
+	if ply <= 0 and isdead(b, ply):
+		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	v = None
 	for x in order(b, ply):
 		b.push(x)
-		t = searchmax(b, ply + 1, alpha, beta)
+		t, vv = searchmax(b, ply - 1, alpha, beta)
 		b.pop()
 		if t <= alpha:
-			return alpha
+			return alpha, vv
 		if t < beta:
 			beta = t
-	return beta
+			v = vv
+	return beta, v
 
 def order(b, ply):
 	"Move ordering"
-	if ply > 0:
+	if 1 < ply < MAXPLIES:
 		return b.legal_moves
 	am, bm = [], []
 	for x in b.legal_moves:
-		if b.is_capture(x):
+		if str(x) in PV:
+			am.append((x, 1000))
+			#print(x)
+		elif b.is_capture(x):
 			if b.piece_at(x.to_square):
 				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
 				am.append((x, 10 * b.piece_at(x.to_square).piece_type
@@ -103,12 +129,7 @@ def pm():
 
 def getmove(b, silent = False):
 	"Get move list for board"
-	global COMPC, PLAYC, MAXPLIES
-
-	lastpos = getpos(b)
-	ll = []
-
-	MAXPLIES = IMAXPLIES + 3 * (((32 - len(b.piece_map())) / 32) ** 2)
+	global COMPC, PLAYC, MAXPLIES, PV
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -118,29 +139,21 @@ def getmove(b, silent = False):
 		PLAYC = c.WHITE
 
 	if not silent:
-		print(b)
-		print(getval(b))
 		print("FEN:", b.fen())
 
-	nl = len(b.legal_moves)
-
-	for n, x in enumerate(b.legal_moves):
-		b.push(x)
-		p = getpos(b) - lastpos
+	for MAXPLIES in range(2, DEPTH + 1):
 		if COMPC == c.WHITE:
-			t = searchmin(b, 0, -1e6, 1e6)
+			t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
 		else:
-			t = searchmax(b, 0, -1e6, 1e6)
-		if not silent:
-			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
-		ll.append((x, p, t))
-		b.pop()
+			t, PV = searchmin(b, MAXPLIES, -1e6, 1e6)
 
-	ll.sort(key = lambda m: m[1] + m[2])
-	if COMPC == c.WHITE:
-		ll.reverse()
-	print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
-	return ll[0][1] + ll[0][2], [str(ll[0][0])]
+		try:
+			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+			print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))
+		except:
+			PV = [str(list(b.legal_moves)[0])]	# we will get checkmated very soon, so pick the available move
+
+	return t, PV
 
 if __name__ == '__main__':
 	while True:	# game loop
@@ -153,6 +166,7 @@ if __name__ == '__main__':
 					b.push_san(move)
 				except ValueError:
 					b.push_uci(move)
+				print(b)
 			except:
 				print("Sorry? Try again. (Or type Control-C to quit.)")
 			else:
@@ -163,14 +177,11 @@ if __name__ == '__main__':
 			break
 
 		tt = time.time()
-		ll = getmove(b)
-		for x in ll:
-			print(x)
-		print()
-		print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-			b.fullmove_number, ll[0][0],
-			(time.time() - tt) // 60, (time.time() - tt) % 60))
-		b.push(ll[0][0])
+		t, ppp = getmove(b)
+		print(t, ppp)
+		print("My move: %u. %s" % (b.fullmove_number, ppp[0]))
+		print("  ( calculation time spent: %u m %u s )" % ((time.time() - tt) // 60, (time.time() - tt) % 60))
+		b.push(c.Move.from_uci(ppp[0]))
 
 		if b.result() != '*':
 			print("Game result:", b.result())
