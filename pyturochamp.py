@@ -45,6 +45,11 @@ def sqrt(x):
 def getpos(b):
 	"Get positional-play value for a board"
 	ppv = 0
+	if not len(b.legal_moves) and b.is_checkmate():
+		if b.turn == c.WHITE:
+			ppv = -1000
+		else:
+			ppv =  1000
 	for i in b.piece_map().keys():
 		m = b.piece_at(i)
 		if m and m.color == COMPC:
@@ -133,7 +138,7 @@ def getval(b):
 
 def isdead(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
-	if p >= QPLIES:
+	if p >= QPLIES or not len(b.legal_moves):
 		return True
 	if b.is_check():
 		return False

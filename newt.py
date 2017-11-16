@@ -15,47 +15,46 @@ COMPC = c.BLACK
 PLAYC = c.WHITE
 
 DEPTH = 4	# maximum search depth
-QPLIES    = 4
+QPLIES    = 8
 PSTAB     = .1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
-PV = 50 * [0]
+PV = []		# array for primary variation
 
 def getpos(b):
-	"Get positional-play value for a board"
+	"Get positional-play value for a board for both players"
 	ppv = 0
+	if not len(b.legal_moves) and b.is_checkmate():
+		if b.turn == c.WHITE:
+			ppv = -1000
+		else:
+			ppv =  1000
 	for i in b.piece_map().keys():
 		m = b.piece_at(i)
-		if m and m.color == COMPC:
-			mm = m.piece_type
-			if mm == c.KING and (
-			  len(b.pieces(c.PAWN, COMPC)) + len(b.pieces(c.PAWN, PLAYC)) ) <= 8:	# endgame is different
-				mm = 8								#   for the King
-			if COMPC == c.WHITE:
-				j, k = i // 8, i % 8
-				ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 100
-			else:
-				ppv += PSTAB * pst[mm][i]               / 100
-	# ppv has been computed as positive = good until here,
-	#   finally we add the sign here to be compatible with getval()'s score
-	if COMPC == c.WHITE:
-		return ppv
-	else:
-		return -ppv
+		mm = m.piece_type
+		if mm == c.KING and (
+		  len(b.pieces(c.PAWN, COMPC)) + len(b.pieces(c.PAWN, PLAYC)) ) <= 8:	# endgame is different
+			mm = 8								#   for the King
+		if m.color == c.WHITE:
+			j, k = i // 8, i % 8
+			ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 100
+		else:
+			ppv -= PSTAB * pst[mm][i]               / 100
+	return ppv
 
 def getval(b):
 	"Get total piece value of board"
 	return (
 		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
 	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
-	+	3.5 * (len(b.pieces(c.BISHOP, c.WHITE)) - len(b.pieces(c.BISHOP, c.BLACK)))
+	+	3 * (len(b.pieces(c.BISHOP, c.WHITE))   - len(b.pieces(c.BISHOP, c.BLACK)))
 	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
-	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+	+	9 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
 def isdead(b, p):
-	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
-	if p <= -QPLIES:
+	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? Is there a check on this or the last move?"
+	if p <= -QPLIES or not len(b.legal_moves):	# when too many plies or checkmate
 		return True
 	if b.is_check():
 		return False
@@ -72,7 +71,7 @@ def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for White"
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
-	v = None
+	v = PV
 	for x in order(b, ply):
 		b.push(x)
 		t, vv = searchmin(b, ply - 1, alpha, beta)
@@ -88,7 +87,7 @@ def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions for Black"
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
-	v = None
+	v = PV
 	for x in order(b, ply):
 		b.push(x)
 		t, vv = searchmax(b, ply - 1, alpha, beta)
@@ -131,7 +130,7 @@ def pm():
 		return -1
 
 def getmove(b, silent = False):
-	"Get move list for board"
+	"Get value and primary variation for board"
 	global COMPC, PLAYC, MAXPLIES, PV
 
 	if b.turn == c.WHITE:
@@ -144,18 +143,16 @@ def getmove(b, silent = False):
 	if not silent:
 		print("FEN:", b.fen())
 
-	for MAXPLIES in range(2, DEPTH + 1):
+	for MAXPLIES in range(1, DEPTH + 1):
 		if COMPC == c.WHITE:
 			t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
 		else:
 			t, PV = searchmin(b, MAXPLIES, -1e6, 1e6)
 
-		try:
-			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
-			print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))
-		except:
-			PV = [str(list(b.legal_moves)[0])]	# we will get checkmated very soon, so pick the available move
-
+		PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)), flush = True)
+		if t < -500 or t > 500:	# found a checkmate
+			break
 	return t, PV
 
 if __name__ == '__main__':
