@@ -12,9 +12,9 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-DEPTH  = 4	# maximum search depth
-QPLIES = 4	# additional maximum quiescence search plies
-PSTAB  = 1	# influence of piece-square table on moves, 0 = none
+DEPTH  = 3	# maximum search depth
+QPLIES = 8	# additional maximum quiescence search plies
+PSTAB  = .1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 PV = []		# array for primary variation
@@ -69,6 +69,10 @@ def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for White"
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	if ply <= 0:
+		o = order(b, ply)
+		if not o:
+			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
 	v = PV
 	for x in order(b, ply):
 		b.push(x)
@@ -85,6 +89,10 @@ def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions for Black"
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	if ply <= 0:
+		o = order(b, ply)
+		if not o:
+			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
 	v = PV
 	for x in order(b, ply):
 		b.push(x)
@@ -99,21 +107,25 @@ def searchmin(b, ply, alpha, beta):
 
 def order(b, ply):
 	"Move ordering"
-	if 1 < ply < MAXPLIES:
-		return b.legal_moves
+	if ply >= 0:		# try moves from PV before others
+		am, bm = [], []
+		for x in b.legal_moves:
+			if str(x) in PV:
+				am.append(x)
+			else:
+				bm.append(x)
+		return am + bm
+
+	# quiescence search (ply < 0), sort captures by MVV/LVA value
 	am, bm = [], []
 	for x in b.legal_moves:
-		if str(x) in PV:
-			am.append((x, 1000))
-		elif b.is_capture(x):
+		if b.is_capture(x):
 			if b.piece_at(x.to_square):
 				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
 				am.append((x, 10 * b.piece_at(x.to_square).piece_type
 							- b.piece_at(x.from_square).piece_type))
 			else:	# to square is empty during en passant capture
 				am.append((x, 10 - b.piece_at(x.from_square).piece_type))
-		else:
-			am.append((x, b.piece_at(x.from_square).piece_type))
 	am.sort(key = lambda m: m[1])
 	am.reverse()
 	bm = [q[0] for q in am]
