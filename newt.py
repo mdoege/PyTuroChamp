@@ -50,6 +50,13 @@ def getval(b):
 	+	9 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
+def getneg(b):
+	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
+	if b.turn:
+		return getval(b) + getpos(b)
+	else:
+		return -getval(b) - getpos(b)
+
 def isdead(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? Is there a check on this or the last move?"
 	if p <= -QPLIES or not moves:	# when too many plies or checkmate
@@ -66,7 +73,7 @@ def isdead(b, p):
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
-	"Search moves and evaluate positions for White"
+	"Search moves and evaluate positions for player whose turn it is"
 	global moves
 
 	# This way is quite a bit faster than a simple "list(b.legal_moves)",
@@ -75,15 +82,16 @@ def searchmax(b, ply, alpha, beta):
 	moves = [q for q in b.legal_moves]
 
 	if ply <= 0 and isdead(b, ply):
-		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+		return getneg(b), [str(q) for q in b.move_stack]
 	o = order(b, ply)
 	if ply <= 0:
 		if not o:
-			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+			return getneg(b), [str(q) for q in b.move_stack]
 	v = PV
 	for x in o:
 		b.push(x)
-		t, vv = searchmin(b, ply - 1, alpha, beta)
+		t, vv = searchmax(b, ply - 1, -beta, -alpha)
+		t = -t
 		b.pop()
 		if t >= beta:
 			return beta, vv
@@ -91,30 +99,6 @@ def searchmax(b, ply, alpha, beta):
 			alpha = t
 			v = vv
 	return alpha, v
-
-def searchmin(b, ply, alpha, beta):
-	"Search moves and evaluate positions for Black"
-	global moves
-
-	moves = [q for q in b.legal_moves]
-
-	if ply <= 0 and isdead(b, ply):
-		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
-	o = order(b, ply)
-	if ply <= 0:
-		if not o:
-			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
-	v = PV
-	for x in o:
-		b.push(x)
-		t, vv = searchmax(b, ply - 1, alpha, beta)
-		b.pop()
-		if t <= alpha:
-			return alpha, vv
-		if t < beta:
-			beta = t
-			v = vv
-	return beta, v
 
 def order(b, ply):
 	"Move ordering"
@@ -163,13 +147,10 @@ def getmove(b, silent = False):
 		print("FEN:", b.fen())
 
 	for MAXPLIES in range(1, DEPTH + 1):
-		if COMPC == c.WHITE:
-			t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
-		else:
-			t, PV = searchmin(b, MAXPLIES, -1e6, 1e6)
+		t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
 
 		PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
-		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)), flush = True)
+		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)), flush = True)	# negamax, so a positive score means the computer scores better
 		if t < -500 or t > 500:	# found a checkmate
 			break
 	return t, PV
