@@ -5,7 +5,7 @@
 from pst import pst
 
 import chess as c
-import math, time
+import sys, math, time
 
 # computer plays as Black by default
 
@@ -22,18 +22,18 @@ PV = []		# array for primary variation
 def getpos(b):
 	"Get positional-play value for a board for both players"
 	ppv = 0
-	if not len(b.legal_moves) and b.is_checkmate():
+	if not moves and b.is_checkmate():
 		if b.turn == c.WHITE:
 			ppv = -1000
 		else:
 			ppv =  1000
-	for i in b.piece_map().keys():
-		m = b.piece_at(i)
-		mm = m.piece_type
+	pm = b.piece_map()
+	for i in pm.keys():
+		mm = pm[i].piece_type
 		if mm == c.KING and (
 		  len(b.pieces(c.PAWN, COMPC)) + len(b.pieces(c.PAWN, PLAYC)) ) <= 8:	# endgame is different
 			mm = 8								#   for the King
-		if m.color == c.WHITE:
+		if pm[i].color == c.WHITE:
 			j, k = i // 8, i % 8
 			ppv += PSTAB * pst[mm][8 * (7 - j) + k] / 100
 		else:
@@ -52,7 +52,7 @@ def getval(b):
 
 def isdead(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? Is there a check on this or the last move?"
-	if p <= -QPLIES or not len(b.legal_moves):	# when too many plies or checkmate
+	if p <= -QPLIES or not moves:	# when too many plies or checkmate
 		return True
 	if b.is_check():
 		return False
@@ -67,14 +67,21 @@ def isdead(b, p):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for White"
+	global moves
+
+	# This way is quite a bit faster than a simple "list(b.legal_moves)",
+	# because the LegalMoveGenerator's __len__ is not called, which would
+	# generate the moves *twice*. Thanks, SnakeViz team!
+	moves = [q for q in b.legal_moves]
+
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	o = order(b, ply)
 	if ply <= 0:
-		o = order(b, ply)
 		if not o:
 			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
 	v = PV
-	for x in order(b, ply):
+	for x in o:
 		b.push(x)
 		t, vv = searchmin(b, ply - 1, alpha, beta)
 		b.pop()
@@ -87,14 +94,18 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions for Black"
+	global moves
+
+	moves = [q for q in b.legal_moves]
+
 	if ply <= 0 and isdead(b, ply):
 		return getval(b) + getpos(b), [str(q) for q in b.move_stack]
+	o = order(b, ply)
 	if ply <= 0:
-		o = order(b, ply)
 		if not o:
 			return getval(b) + getpos(b), [str(q) for q in b.move_stack]
 	v = PV
-	for x in order(b, ply):
+	for x in o:
 		b.push(x)
 		t, vv = searchmax(b, ply - 1, alpha, beta)
 		b.pop()
@@ -109,7 +120,7 @@ def order(b, ply):
 	"Move ordering"
 	if ply >= 0:		# try moves from PV before others
 		am, bm = [], []
-		for x in b.legal_moves:
+		for x in moves:
 			if str(x) in PV:
 				am.append(x)
 			else:
@@ -118,7 +129,7 @@ def order(b, ply):
 
 	# quiescence search (ply < 0), sort captures by MVV/LVA value
 	am, bm = [], []
-	for x in b.legal_moves:
+	for x in moves:
 		if b.is_capture(x):
 			if b.piece_at(x.to_square):
 				# MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
@@ -167,8 +178,10 @@ if __name__ == '__main__':
 	while True:	# game loop
 		while True:
 			print(b)
-			print(getval(b))
+			print()
 			move = input("Your move? ")
+			if move == "quit":
+				sys.exit(0)
 			try:
 				try:
 					b.push_san(move)
@@ -176,7 +189,7 @@ if __name__ == '__main__':
 					b.push_uci(move)
 				print(b)
 			except:
-				print("Sorry? Try again. (Or type Control-C to quit.)")
+				print("Sorry? Try again. (Or type quit to quit.)")
 			else:
 				break
 
@@ -186,7 +199,7 @@ if __name__ == '__main__':
 
 		tt = time.time()
 		t, ppp = getmove(b)
-		print(t, ppp)
+
 		print("My move: %u. %s" % (b.fullmove_number, ppp[0]))
 		print("  ( calculation time spent: %u m %u s )" % ((time.time() - tt) // 60, (time.time() - tt) % 60))
 		b.push(c.Move.from_uci(ppp[0]))
