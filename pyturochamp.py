@@ -14,8 +14,8 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-IMAXPLIES = 3	# inital maximum search depth
-QPLIES    = IMAXPLIES + 4
+MAXPLIES = 3	# maximum search depth
+QPLIES    = MAXPLIES + 4
 PSTAB     = 5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
@@ -212,8 +212,6 @@ def getmove(b, silent = False):
 	lastpos = getpos(b)
 	ll = []
 
-	MAXPLIES = IMAXPLIES + 3 * (((32 - len(b.piece_map())) / 32) ** 2)
-
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
 		PLAYC = c.BLACK
@@ -279,14 +277,11 @@ if __name__ == '__main__':
 			break
 
 		tt = time.time()
-		ll = getmove(b)
-		for x in ll:
-			print(x)
-		print()
+		t, m = getmove(b)
 		print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-			b.fullmove_number, ll[0][0],
+			b.fullmove_number, m[0],
 			(time.time() - tt) // 60, (time.time() - tt) % 60))
-		b.push(ll[0][0])
+		b.push(c.Move.from_uci(m[0]))
 
 		if b.result() != '*':
 			print("Game result:", b.result())

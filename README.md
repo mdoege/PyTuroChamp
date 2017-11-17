@@ -10,7 +10,7 @@ is favored like Turing's algorithm would.
 
 **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
 
-**Newt** also ditches the old heuristics and adds newer techniques like PV-based iterative deepening. It is by far the strongest of the three engines here.
+**Newt** also ditches the old heuristics and adds newer techniques like PV-based iterative deepening. It is both fairly strong and fast.
 
 **PTC-Host** lets you easily host games between the engines directly from Python, without the need for a chess GUI.
 
