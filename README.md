@@ -34,6 +34,12 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 * Python 3
 * [python-chess](https://github.com/niklasf/python-chess)
 
+### References
+
+* Turing, Alan (1952): [*Digital computers applied to games*](https://docs.google.com/file/d/0B0xb4crOvCgTNmEtRXFBQUIxQWs/edit)
+* [Chess Programming Wiki](https://chessprogramming.wikispaces.com/)
+* Muller, H.G.: [*Micro-Max, a 133-line Chess Source*](http://home.hccnet.nl/h.g.muller/max-src2.html)
+
 ### License
 
 Public Domain
