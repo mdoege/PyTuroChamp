@@ -188,7 +188,7 @@ def getopen(b):
 				sm1 = []
 			if sm1 and sm1 not in sm:
 				sm.append(sm1)
-	print('#', id[2], id[0], id[1])
+	print('# %s %s  (%s)' % (id[2], id[0], id[1]))
 	return sm
 
 def getmove(b, silent = False):
