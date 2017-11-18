@@ -6,6 +6,7 @@ from pst import pst
 
 import chess as c
 import sys, math, time
+from random import choice
 
 # computer plays as Black by default
 
@@ -132,6 +133,59 @@ def pm():
 	else:
 		return -1
 
+def pc(col):
+	if col == c.WHITE:
+		return 1
+	else:
+		return -1
+
+def getnewmove(m, n):
+	if len(m) <= len(n):
+		return []
+	i = 0
+	for x, y in zip(m, n):
+		if x == y:
+			i += 1
+		else:
+			break
+	if i == len(n):
+		return m[i]
+	else:
+		return []
+
+ob = open("chess-eco.pos.txt").readlines()
+def getopen(b):
+	"Identify opening and get a book move if possible"
+	op = []
+	d = c.Board()
+	for x in b.move_stack:
+		op.append(d.san(x))
+		d.push(x)
+	played = '%s' % (' '.join(op))
+
+	hits = []
+	id = '', '', ''
+	sm = []
+
+	for l in ob:
+		h5 = l.split('"')
+		if len(h5) > 5:
+			eco, name, mv = h5[1], h5[3], h5[5]
+			if played[:len(mv)] == mv:
+				if len(mv) > len(id[1]):
+					id = name, mv, eco
+			sm1 = getnewmove(mv.split(), op)
+			try:
+				if sm1:
+					sm1 = str(b.parse_san(sm1))
+			except:
+				print("Illegal book move", sm1)
+				sm1 = []
+			if sm1 and sm1 not in sm:
+				sm.append(sm1)
+	print('#', id[2], id[0], id[1])
+	return sm
+
 def getmove(b, silent = False):
 	"Get value and primary variation for board"
 	global COMPC, PLAYC, MAXPLIES, PV
@@ -145,6 +199,10 @@ def getmove(b, silent = False):
 
 	if not silent:
 		print("FEN:", b.fen())
+
+	opening = getopen(b)
+	if opening:
+		return 0, [choice(opening)]
 
 	for MAXPLIES in range(1, DEPTH + 1):
 		t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
@@ -160,6 +218,7 @@ if __name__ == '__main__':
 		while True:
 			print(b)
 			print()
+			print(getopen(b))
 			move = input("Your move? ")
 			if move == "quit":
 				sys.exit(0)
