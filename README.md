@@ -42,4 +42,5 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 
 ### License
 
-Public Domain
+* Public Domain
+* Opening book: GPL

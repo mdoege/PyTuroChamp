@@ -153,7 +153,12 @@ def getnewmove(m, n):
 	else:
 		return []
 
-ob = open("chess-eco.pos.txt").readlines()
+try:
+	ob = open("chess-eco.pos.txt").readlines()
+except:
+	print("Opening book not found!")
+	ob = []
+
 def getopen(b):
 	"Identify opening and get a book move if possible"
 	op = []
@@ -218,7 +223,7 @@ if __name__ == '__main__':
 		while True:
 			print(b)
 			print()
-			print(getopen(b))
+			#print(getopen(b))
 			move = input("Your move? ")
 			if move == "quit":
 				sys.exit(0)
