@@ -13,7 +13,7 @@ from random import choice
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-DEPTH  = 3	# maximum search depth
+DEPTH  = 4	# maximum search depth
 QPLIES = 8	# additional maximum quiescence search plies
 PSTAB  = .1	# influence of piece-square table on moves, 0 = none
 
@@ -210,10 +210,21 @@ def getmove(b, silent = False, usebook = True):
 		if opening:
 			return 0, [choice(opening)]
 
+	win = .25	# initial aspiration window bounds (https://chessprogramming.wikispaces.com/Aspiration+Windows)
+	aa, ab = -1e6, 1e6	# initial alpha and beta
 	for MAXPLIES in range(1, DEPTH + 1):
-		t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
-
-		PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+		it = 0
+		while it < 100:
+			t, PV = searchmax(b, MAXPLIES, aa, ab)
+			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+			if not PV:
+				win *= 2
+				aa, ab = t - win, t + win
+				print("# fail", it, win, flush = True)
+			else:
+				break
+			it += 1
+		aa, ab = t - win, t + win
 		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)), flush = True)	# negamax, so a positive score means the computer scores better
 		if t < -500 or t > 500:	# found a checkmate
 			break
