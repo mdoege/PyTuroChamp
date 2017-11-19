@@ -18,7 +18,7 @@ t = [
 
 for x, y, z in t:
 	d = c.Board(x)
-	t, r = p.getmove(d)
+	t, r = p.getmove(d, usebook = False)
 	if r[0] == y:
 		print(z, "test passed", 30 * '=')
 	else:

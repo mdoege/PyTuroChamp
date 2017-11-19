@@ -191,7 +191,7 @@ def getopen(b):
 	print('# %s %s  (%s)' % (id[2], id[0], id[1]))
 	return sm
 
-def getmove(b, silent = False):
+def getmove(b, silent = False, usebook = True):
 	"Get value and primary variation for board"
 	global COMPC, PLAYC, MAXPLIES, PV
 
@@ -205,9 +205,10 @@ def getmove(b, silent = False):
 	if not silent:
 		print("FEN:", b.fen())
 
-	opening = getopen(b)
-	if opening:
-		return 0, [choice(opening)]
+	if usebook:
+		opening = getopen(b)
+		if opening:
+			return 0, [choice(opening)]
 
 	for MAXPLIES in range(1, DEPTH + 1):
 		t, PV = searchmax(b, MAXPLIES, -1e6, 1e6)
