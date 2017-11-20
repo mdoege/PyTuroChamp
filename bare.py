@@ -101,7 +101,7 @@ def pm():
 	else:
 		return -1
 
-def getmove(b, silent = False):
+def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
 	global COMPC, PLAYC, MAXPLIES
 
@@ -120,7 +120,7 @@ def getmove(b, silent = False):
 		print(getval(b))
 		print("FEN:", b.fen())
 
-	nl = len(b.legal_moves)
+	nl = len(list(b.legal_moves))
 
 	for n, x in enumerate(b.legal_moves):
 		b.push(x)

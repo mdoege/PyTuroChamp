@@ -45,7 +45,7 @@ def sqrt(x):
 def getpos(b):
 	"Get positional-play value for a board"
 	ppv = 0
-	if not len(b.legal_moves) and b.is_checkmate():
+	if not len(list(b.legal_moves)) and b.is_checkmate():
 		if b.turn == c.WHITE:
 			ppv = -1000
 		else:
@@ -138,7 +138,7 @@ def getval(b):
 
 def isdead(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
-	if p >= QPLIES or not len(b.legal_moves):
+	if p >= QPLIES or not len(list(b.legal_moves)):
 		return True
 	if b.is_check():
 		return False
@@ -205,7 +205,7 @@ def pm():
 	else:
 		return -1
 
-def getmove(b, silent = False):
+def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
 	global COMPC, PLAYC, MAXPLIES
 
@@ -224,7 +224,7 @@ def getmove(b, silent = False):
 		print(getval(b))
 		print("FEN:", b.fen())
 
-	nl = len(b.legal_moves)
+	nl = len(list(b.legal_moves))
 	cr0 = b.has_castling_rights(COMPC)
 
 	for n, x in enumerate(b.legal_moves):
