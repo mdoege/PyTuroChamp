@@ -14,8 +14,8 @@ import math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# inital maximum search depth
-PSTAB     = 5	# influence of piece-square table on moves, 0 = none
+MAXPLIES = 4	# inital maximum search depth
+PSTAB    = .5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 
@@ -40,10 +40,10 @@ def getval(b):
 	"Get total piece value of board"
 	return (
 		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
-	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
-	+	3 * (len(b.pieces(c.BISHOP, c.WHITE))   - len(b.pieces(c.BISHOP, c.BLACK)))
-	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
-	+	9 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+	+	2.8 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
+	+	3.2 * (len(b.pieces(c.BISHOP, c.WHITE))   - len(b.pieces(c.BISHOP, c.BLACK)))
+	+	4.79 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
+	+	9.29 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
