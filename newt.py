@@ -5,8 +5,11 @@
 from pst import pst
 
 import chess as c
-import sys, math, time
+import os, sys, math, time
 from random import choice
+
+if sys.path[0]:
+	os.chdir(sys.path[0])	# change working directory to script directory so the opening book will be found
 
 # computer plays as Black by default
 
