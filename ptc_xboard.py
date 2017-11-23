@@ -30,7 +30,11 @@ else:
 	mf = "Newt.pgn"
 	nm = "Newt"
 
-log = open(lf, 'w')
+try:
+	log = open(lf, 'w')
+except:
+	log = ''
+	print("# Could not create log file")
 d = ''
 r = ''
 
@@ -38,8 +42,9 @@ def move(r):
 	rm = r[0]
 	d.push_uci(rm)
 	print("move", rm)
-	log.write("move %s\n" % rm)
-	log.flush()
+	if log:
+		log.write("move %s\n" % rm)
+		log.flush()
 	pgn()
 
 def pgn():
@@ -52,8 +57,11 @@ def pgn():
 	else:
 		game.headers["Black"] = nm
 		game.headers["White"] = "User"
-	with open(mf, 'w') as f:
-		f.write(str(game) + '\n\n\n')
+	try:
+		with open(mf, 'w') as f:
+			f.write(str(game) + '\n\n\n')
+	except:
+		print("# Could not write PGN file")
 
 def newgame():
 	global d
@@ -67,8 +75,9 @@ while True:
 	except KeyboardInterrupt:	# XBoard sends Control-C characters, so these must be caught
 		pass			#   Otherwise Python would quit.
 	if l:
-		log.write(l + '\n')
-		log.flush()
+		if log:
+			log.write(l + '\n')
+			log.flush()
 		if l == 'xboard':
 			print('feature myname="%s" done=1' % nm)
 		elif l == 'quit':
@@ -83,8 +92,9 @@ while True:
 				move(r)
 		elif l == '?':
 			print("move", r)
-			log.write("move %s\n" % r)
-			log.flush()
+			if log:
+				log.write("move %s\n" % r)
+				log.flush()
 		else:
 			if not d:
 				newgame()
