@@ -16,7 +16,7 @@ is favored like Turing's algorithm would.
 
 Pyturochamp.py does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
 
-### Running from a chess GUI
+### Running the engines from a chess GUI
 
 The recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
 
