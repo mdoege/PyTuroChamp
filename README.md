@@ -18,9 +18,7 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 
 ### Running from a chess GUI
 
-Make sure you always start from the standard chess starting position. There is no way to get the current board setup into the engines at the moment.
-
-This is the recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
+The recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
 
 It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)
 

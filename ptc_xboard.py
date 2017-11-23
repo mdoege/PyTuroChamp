@@ -68,6 +68,12 @@ def newgame():
 
 	d = c.Board()
 
+def fromfen(fen):
+	global d
+
+	d = c.Board(fen)
+	print(d)
+
 while True:
 	l = ''
 	try:
@@ -79,11 +85,14 @@ while True:
 			log.write(l + '\n')
 			log.flush()
 		if l == 'xboard':
-			print('feature myname="%s" done=1' % nm)
+			print('feature myname="%s" setboard=1 done=1' % nm)
 		elif l == 'quit':
 			sys.exit(0)
 		elif l == 'new':
 			newgame()
+		elif 'setboard' in l:
+			fen = l.split(' ', 1)[1]
+			fromfen(fen)
 		elif l == 'go' or l == 'force':
 			if not d:
 				newgame()
