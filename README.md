@@ -16,6 +16,18 @@ is favored like Turing's algorithm would.
 
 Pyturochamp.py does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
 
+### Running from a chess GUI
+
+Make sure you always start from the standard chess starting position. There is no way to get the current board setup into the engines at the moment.
+
+This is the recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
+
+It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)
+
+If you want to use one of the other engines besides pyturochamp.py, add "bare" or "newt" as additional command line parameters.
+
+![screenshot](https://github.com/mdoege/PyTuroChamp/raw/master/Screenshot_20171123_102423.png "Arena screenshot")
+
 ### Files
 
 |Filename | Description |
