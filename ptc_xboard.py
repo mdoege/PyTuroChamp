@@ -71,7 +71,10 @@ def newgame():
 def fromfen(fen):
 	global d
 
-	d = c.Board(fen)
+	try:
+		d = c.Board(fen)
+	except:
+		print("Bad FEN")
 	print(d)
 
 while True:
