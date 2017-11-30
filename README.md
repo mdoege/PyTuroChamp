@@ -18,6 +18,8 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 
 ### Running the engines from a chess GUI
 
+First, install the [python-chess](https://github.com/niklasf/python-chess) framework: `pip install python-chess`
+
 The recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
 
 It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)
