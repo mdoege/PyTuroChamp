@@ -18,7 +18,7 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 
 ### Running the engines from a chess GUI
 
-First, install the [python-chess](https://github.com/niklasf/python-chess) framework: `pip install python-chess`
+First, install the [python-chess](https://github.com/niklasf/python-chess) chess library: `pip install python-chess`
 
 The recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
 
