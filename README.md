@@ -48,7 +48,7 @@ Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make 
 Here is a sample terminal session which shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts:
 
 ```
-$ pacman -S pypy3
+$ sudo pacman -S pypy3
 
 $ pypy3 -m ensurepip --user
 
