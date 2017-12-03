@@ -41,6 +41,94 @@ If you want to use one of the other engines besides pyturochamp.py, add "bare" o
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
 
+### Improving performance by using PyPy
+
+Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about twice as fast.
+
+Here is a sample terminal session which shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts:
+
+```
+$ pacman -S pypy3
+
+$ pypy3 -m ensurepip --user
+
+$ ll .local/bin
+insgesamt 12
+-rwxr-xr-x 1 martin users 232  3. Dez 20:33 easy_install-3.5
+-rwxr-xr-x 1 martin users 204  3. Dez 20:33 pip3
+-rwxr-xr-x 1 martin users 204  3. Dez 20:33 pip3.5
+
+$ .local/bin/pip3 install python-chess --user
+
+$ .local/bin/pip3 list
+DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the [list] section) to disable this warning.
+cffi (1.11.1)
+greenlet (0.4.12)
+pip (9.0.1)
+python-chess (0.22.0)
+readline (6.2.4.1)
+setuptools (28.8.0)
+
+$ pypy3 ptc_xboard.py newt
+go
+#    ()
+move g2g3
+quit
+
+$ pypy3 pyturochamp.py
+r n b q k b n r
+p p p p p p p p
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+. . . . . . . .
+P P P P P P P P
+R N B Q K B N R
+0.0
+Your move? e2e4
+r n b q k b n r
+p p p p p p p p
+. . . . . . . .
+. . . . . . . .
+. . . . P . . .
+. . . . . . . .
+P P P P . P P P
+R N B Q K B N R
+0.0
+FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1
+(1/20) g8h6 -2.2 0.00
+(2/20) g8f6 -3.9 0.00
+(3/20) b8c6 -3.6 0.00
+(4/20) b8a6 -2.0 0.00
+(5/20) h7h6 -2.4 0.00
+(6/20) g7g6 -2.3 0.00
+(7/20) f7f6 -0.7 0.00
+(8/20) e7e6 -6.7 0.00
+(9/20) d7d6 -5.0 0.00
+(10/20) c7c6 -3.1 0.00
+(11/20) b7b6 -2.3 0.00
+(12/20) a7a6 -2.2 0.00
+(13/20) h7h5 -3.2 0.00
+(14/20) g7g5 -2.4 0.00
+(15/20) f7f5 -1.2 1.00
+(16/20) e7e5 -7.3 0.00
+(17/20) d7d5 -6.6 0.00
+(18/20) c7c5 -3.6 0.00
+(19/20) b7b5 -2.2 1.00
+(20/20) a7a5 -3.0 0.00
+# -7.30 ['e7e5']
+My move: 1. e7e5     ( calculation time spent: 0 m 6 s )
+r n b q k b n r
+p p p p . p p p
+. . . . . . . .
+. . . . p . . .
+. . . . P . . .
+. . . . . . . .
+P P P P . P P P
+R N B Q K B N R
+0.0
+Your move?
+```
 ### Prerequisites
 
 * Python 3
