@@ -52,7 +52,7 @@ $ sudo pacman -S pypy3
 
 $ pypy3 -m ensurepip --user
 
-$ ll .local/bin
+$ ls -l .local/bin
 insgesamt 12
 -rwxr-xr-x 1 martin users 232  3. Dez 20:33 easy_install-3.5
 -rwxr-xr-x 1 martin users 204  3. Dez 20:33 pip3
