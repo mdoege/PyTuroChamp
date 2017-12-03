@@ -61,7 +61,6 @@ insgesamt 12
 $ .local/bin/pip3 install python-chess --user
 
 $ .local/bin/pip3 list
-DEPRECATION: The default format will switch to columns in the future. You can use --format=(legacy|columns) (or define a format=(legacy|columns) in your pip.conf under the [list] section) to disable this warning.
 cffi (1.11.1)
 greenlet (0.4.12)
 pip (9.0.1)
