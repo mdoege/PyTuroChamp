@@ -130,7 +130,7 @@ Your move?
 ```
 ### Prerequisites
 
-* Python 3
+* Python 3 is recommended, but Python 2 should also work
 * [python-chess](https://github.com/niklasf/python-chess)
 
 ### References
