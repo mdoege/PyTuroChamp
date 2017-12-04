@@ -223,12 +223,14 @@ def getmove(b, silent = False, usebook = True):
 			if not PV:
 				win *= 2
 				aa, ab = t - win, t + win
-				print("# fail", it, win, flush = True)
+				print("# fail", it, win)
+				sys.stdout.flush()
 			else:
 				break
 			it += 1
 		aa, ab = t - win, t + win
-		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)), flush = True)	# negamax, so a positive score means the computer scores better
+		print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))	# negamax, so a positive score means the computer scores better
+		sys.stdout.flush()
 		if t < -500 or t > 500:	# found a checkmate
 			break
 	return t, PV
@@ -239,7 +241,10 @@ if __name__ == '__main__':
 			print(b)
 			print()
 			#print(getopen(b))
-			move = input("Your move? ")
+			if sys.version < '3':
+				move = raw_input("Your move? ")
+			else:
+				move = input("Your move? ")
 			if move == "quit":
 				sys.exit(0)
 			try:

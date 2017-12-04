@@ -7,7 +7,7 @@
 from pst import pst
 
 import chess as c
-import math, time
+import sys, math, time
 
 # computer plays as Black by default
 
@@ -145,7 +145,10 @@ if __name__ == '__main__':
 		while True:
 			print(b)
 			print(getval(b))
-			move = input("Your move? ")
+			if sys.version < '3':
+				move = raw_input("Your move? ")
+			else:
+				move = input("Your move? ")
 			try:
 				try:
 					b.push_san(move)

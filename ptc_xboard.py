@@ -7,6 +7,8 @@
 
 #    Optional debug flags:  -debug -nameOfDebugFile debug.txt -engineDebugOutput 2
 
+from __future__ import print_function
+
 import sys, datetime
 import chess as c
 import chess.pgn
@@ -80,7 +82,10 @@ def fromfen(fen):
 while True:
 	l = ''
 	try:
-		l = input()
+		if sys.version < '3':
+			l = raw_input()
+		else:
+			l = input()
 	except KeyboardInterrupt:	# XBoard sends Control-C characters, so these must be caught
 		pass			#   Otherwise Python would quit.
 	if l:
