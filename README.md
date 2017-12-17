@@ -41,6 +41,8 @@ If you want to use one of the other engines besides pyturochamp.py, add "bare" o
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
 
+In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
+
 ### Improving performance by using PyPy
 
 Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about twice as fast.
