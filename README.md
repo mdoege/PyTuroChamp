@@ -37,7 +37,7 @@ If you want to use one of the other engines besides pyturochamp.py, add "bare" o
 | newt.pt | Like Bare, this one ditches the heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book. |
 | ptc, bare, newt | Shells script to run PTC/Bare/Newt from a chess GUI, e.g. [KDE Knights](https://www.kde.org/applications/games/knights/) (works very well) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
 | ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
-| ptc_xboard.py | XBoard interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. |
+| ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. |
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
 

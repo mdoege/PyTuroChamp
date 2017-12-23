@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# XBoard interface to PyTuroChamp
+# XBoard/UCI interface to PyTuroChamp
 
 # Start with:
 # xboard -fcp "python3 xboard.py"
@@ -15,6 +15,8 @@ import chess.pgn
 
 abc = "abcdefgh"
 nn  = "12345678"
+
+is_uci = False
 
 if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
 	import pyturochamp as p
@@ -43,7 +45,10 @@ r = ''
 def move(r):
 	rm = r[0]
 	d.push_uci(rm)
-	print("move", rm)
+	if is_uci:
+		print("bestmove", rm)
+	else:
+		print("move", rm)
 	if log:
 		log.write("move %s\n" % rm)
 		log.flush()
@@ -87,7 +92,8 @@ while True:
 		else:
 			l = input()
 	except KeyboardInterrupt:	# XBoard sends Control-C characters, so these must be caught
-		pass			#   Otherwise Python would quit.
+		if not is_uci:
+			pass		#   Otherwise Python would quit.
 	if l:
 		if log:
 			log.write(l + '\n')
@@ -98,10 +104,24 @@ while True:
 			sys.exit(0)
 		elif l == 'new':
 			newgame()
+		elif l == 'uci':
+			is_uci = True
+			print("uciok")
+		elif l == 'ucinewgame':
+			newgame()
+		elif 'position startpos moves' in l:
+			mm = l.split()[3:]
+			newgame()
+			for mo in mm:
+				d.push_uci(mo)
+		elif l == 'isready':
+			newgame()
+			print("id name", nm)
+			print("readyok")
 		elif 'setboard' in l:
 			fen = l.split(' ', 1)[1]
 			fromfen(fen)
-		elif l == 'go' or l == 'force':
+		elif l[:2] == 'go' or l == 'force':
 			if not d:
 				newgame()
 			t, r = p.getmove(d, silent = True)
