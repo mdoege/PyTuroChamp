@@ -47,7 +47,7 @@ In the icons directory, there are several logos in BMP format for various chess 
 
 Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about twice as fast.
 
-Here is a sample terminal session which shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts:
+Below is a sample terminal session that shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts. (Note that the "--local" command line switch is used here to install pip and python-chess into .local/bin/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary.)
 
 ```
 $ sudo pacman -S pypy3
