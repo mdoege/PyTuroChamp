@@ -1,3 +1,5 @@
+![logo](https://github.com/mdoege/PyTuroChamp/raw/master/icons/out.png "logo bar")
+
 ## PyTuroChamp
 
 A family of toy chess engines inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
