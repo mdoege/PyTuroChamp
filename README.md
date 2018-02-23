@@ -146,4 +146,4 @@ Your move?
 ### License
 
 * Public Domain
-* Opening book: GPL
+* The opening book and the piece-square tables from [Sunfish](https://github.com/thomasahle/sunfish) are licensed under the GPL.
