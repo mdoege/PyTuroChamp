@@ -82,7 +82,7 @@ def fromfen(fen):
 		d = c.Board(fen)
 	except:
 		print("Bad FEN")
-	print(d)
+	#print(d)
 
 while True:
 	l = ''
@@ -114,6 +114,13 @@ while True:
 			newgame()
 			for mo in mm:
 				d.push_uci(mo)
+		elif 'position fen' in l:
+			ff = l.split()[2:8]
+			fromfen(' '.join(ff))
+			mm = l.split()[9:]
+			for mo in mm:
+				d.push_uci(mo)
+			#print(d)
 		elif l == 'isready':
 			newgame()
 			print("id name", nm)
