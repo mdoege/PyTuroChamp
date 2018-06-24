@@ -121,6 +121,12 @@ while True:
 			for mo in mm:
 				d.push_uci(mo)
 			#print(d)
+		elif 'setoption name maxplies value' in l:
+			p.MAXPLIES = int(l.split()[4])
+			print("maxplies:", p.MAXPLIES)
+		elif 'setoption name pstab value' in l:
+			p.PSTAB = int(l.split()[4])
+			print("pstab:", p.PSTAB)
 		elif l == 'isready':
 			newgame()
 			print("id name", nm)
