@@ -106,6 +106,12 @@ while True:
 			newgame()
 		elif l == 'uci':
 			is_uci = True
+			print("id name PyTuroChamp")
+			print("id author Martin C. Doege")
+			print("option name maxplies type spin default 3 min 0 max 1024")
+			print("option name qplies type spin default 7 min 0 max 1024")
+			print("option name pstab type spin default 5 min 0 max 1024")
+
 			print("uciok")
 		elif l == 'ucinewgame':
 			newgame()
@@ -124,6 +130,9 @@ while True:
 		elif 'setoption name maxplies value' in l:
 			p.MAXPLIES = int(l.split()[4])
 			print("maxplies:", p.MAXPLIES)
+		elif 'setoption name qplies value' in l:
+			p.QPLIES = int(l.split()[4])
+			print("qplies:", p.QPLIES)
 		elif 'setoption name pstab value' in l:
 			p.PSTAB = int(l.split()[4])
 			print("pstab:", p.PSTAB)
