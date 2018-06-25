@@ -106,7 +106,7 @@ while True:
 			newgame()
 		elif l == 'uci':
 			is_uci = True
-			print("id name PyTuroChamp")
+			print("id name", nm)
 			print("id author Martin C. Doege")
 			print("option name maxplies type spin default 3 min 0 max 1024")
 			print("option name qplies type spin default 7 min 0 max 1024")
