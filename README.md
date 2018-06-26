@@ -16,7 +16,21 @@ is favored like Turing's algorithm would.
 
 **PTC-Host** lets you easily host games between the engines directly from Python, without the need for a chess GUI.
 
-Pyturochamp.py does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept, so maybe reproducibility is not important.
+Please also take a look at the section below about PyPy if you need better performance.
+
+### Differences between PyTuroChamp and Turing's algorithm
+
+Pyturochamp.py does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept and basis for the reader's own experimentation, so reproducibility is not the most important consideration. (Also, some of Turing's exampple game calculations were plain wrong.)
+
+Here are some differences between PyTuroChamp (PTC) and Turing's paper machine (TPM):
+
+The bonus for castling has been increased in PTC. TPM never wants to castle, even when castling is considered (e.g. by Stockfish) the best move by far. Engines that do not castle are usually defeated quickly, so the bonus was increased.
+
+A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. I assume that Turing, had he implemented his TPM on a computer, would have noticed these problems quickly and implemented something analogous to a PST. (The fact that TPM as given in the paper plays 1. e3 whereas Turing in his example game has it play 1. e4 may be considered a justification for the need for a PST.)
+
+Search depth is different: In his TPM, Turing used a 2-ply brute force search plus selective search (quiescence search). In PTC, a 4-ply brute force search plus a more simple and restrictive selective search are used. However, the influence of small deviations in search depth do not seem to make a big difference in playing strength, so any differences in play are probably fairly subtle.
+
+Move ordering is also used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so you might say move ordering is implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
 
 ### Running the engines from a chess GUI
 
@@ -49,7 +63,7 @@ In the icons directory, there are several logos in BMP format for various chess 
 
 ### Improving performance by using PyPy
 
-Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about twice as fast.
+Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about two or three times as fast, so it is generally recommended to use PyPy.
 
 Below is a sample terminal session that shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts. (Note that the "--local" command line switch is used here to install pip and python-chess into .local/bin/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary.)
 
