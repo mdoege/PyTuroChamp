@@ -8,10 +8,13 @@ from queue import Empty, Full
 def worker():
 	while True:
 		try:
-			b, x, lastpos, compc, cr0 = urlq.get()
+			b, x, lastpos, compc, cr0, MAXPLIES, QPLIES, PSTAB = urlq.get()
 		except:
 			pass
 		else:
+			ptc.MAXPLIES = MAXPLIES
+			ptc.QPLIES = QPLIES
+			ptc.PSTAB = PSTAB
 			if b.is_castling(x):		# are we castling now?
 				castle = 2 * ptc.pm()	# Turing uses 1
 			else:

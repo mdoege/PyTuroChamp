@@ -55,7 +55,7 @@ def getmove(b, silent = False, usebook = False):
 		#	print(len(inlist), len(ll), nummov)
 		if len(inlist):
 			ptc_worker.urlq.put_nowait(
-				(b.copy(), inlist.pop(), lastpos, COMPC, cr0))
+				(b.copy(), inlist.pop(), lastpos, COMPC, cr0, MAXPLIES, QPLIES, PSTAB))
 		try:
 			ll.append(ptc_worker.urlr.get_nowait())
 		except Empty:
