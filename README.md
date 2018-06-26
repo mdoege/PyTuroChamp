@@ -42,6 +42,8 @@ If you want to use one of the other engines besides pyturochamp.py, add "bare" o
 | ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. |
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
+| pyturochamp_multi.py | Experimental multi-core version of PyTuroChamp |
+| ptc_worker.py | Helper file for pyturochamp_multi.py |
 
 In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
 
