@@ -23,6 +23,11 @@ if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
 	lf = "PyTuroChamp-log.txt"
 	mf = "PyTuroChamp.pgn"
 	nm = "PyTuroChamp"
+elif sys.argv[1] == 'multi':
+	import pyturochamp_multi as p
+	lf = "PyTuroChamp-log.txt"
+	mf = "PyTuroChamp.pgn"
+	nm = "PyTuroChamp Multi-Core"
 elif sys.argv[1] == 'bare':
 	import bare as p
 	lf = "Bare-log.txt"
@@ -58,7 +63,7 @@ def pgn():
 	game = chess.pgn.Game.from_board(d)
 	now = datetime.datetime.now()
 	game.headers["Date"] = now.strftime("%Y.%m.%d")
-	if p.pm() > 0:
+	if p.COMPC == c.WHITE:
 		game.headers["White"] = nm
 		game.headers["Black"] = "User"
 	else:
