@@ -16,7 +16,7 @@ PLAYC = c.WHITE
 
 MAXPLIES = 3	# maximum search depth
 QPLIES    = MAXPLIES + 4
-PSTAB     = 5	# influence of piece-square table on moves, 0 = none
+PSTAB     = 2	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
 

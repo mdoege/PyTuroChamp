@@ -3,14 +3,16 @@
 # Compare moves from PyTuroChamp with desired results
 
 import chess as c
-#import pyturochamp as p
-import bare as p
+import pyturochamp as p
+#import bare as p
 #import newt as p
 #import heu2 as p
 #import test as p
 
 t = [
-     ("r2qkbnr/ppp2ppp/3p4/4N3/2BnP1b1/2N5/PPPP1PPP/R1BQ1RK1 b kq - 0 6",  'd6e5', 'Seekadettenmatt'),
+     ("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "e2e4", "Opening"),
+   #  ("rnb1kbnr/ppp2ppp/8/4p3/3P1q2/2N2N2/PPP3PP/R1BQKB1R b KQkq - 0 6", 'f4g4', 'Dame'),
+   #  ("r2qkbnr/ppp2ppp/3p4/4N3/2BnP1b1/2N5/PPPP1PPP/R1BQ1RK1 b kq - 0 6",  'd6e5', 'Seekadettenmatt'),
   #   ("r2q1rk1/ppp1bppp/4p3/3p1b2/1n1PnP2/2NBPN2/PPP3PP/R2QBRK1 w - - 8 10",  'f3e5', 'Right knight'),
 
      #("rnb1kbnr/ppp1pppp/8/2Nq4/3p4/5N2/PPPPPPPP/R1BQKB1R b KQkq - 3 4",  'd5c5', 'Get your knights'),

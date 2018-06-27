@@ -115,7 +115,7 @@ while True:
 			print("id author Martin C. Doege")
 			print("option name maxplies type spin default 3 min 0 max 1024")
 			print("option name qplies type spin default 7 min 0 max 1024")
-			print("option name pstab type spin default 5 min 0 max 1024")
+			print("option name pstab type spin default 2 min 0 max 1024")
 
 			print("uciok")
 		elif l == 'ucinewgame':
