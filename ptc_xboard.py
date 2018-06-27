@@ -140,7 +140,7 @@ while True:
 			print("qplies:", p.QPLIES)
 		elif 'setoption name pstab value' in l:
 			if 'Bare' in nm or 'Newt' in nm:
-				p.PSTAB = int(l.split()[4]) / 10	# convert to pawn units for Bare and Newt
+				p.PSTAB = int(l.split()[4]) / 10.	# convert to pawn units for Bare and Newt
 				print("pstab:", p.PSTAB)
 			else:
 				p.PSTAB = int(l.split()[4])
