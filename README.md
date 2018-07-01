@@ -16,7 +16,7 @@ is favored like Turing's algorithm would.
 
 **PTC-Host** lets you easily host games between the engines directly from Python, without the need for a chess GUI.
 
-Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp probably only works on Linux and that combining PyPy and multi-core may lead to wrong results.
+Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux. It is also possible to combine PyPy and multi-core.
 
 ### Differences between PyTuroChamp and Turing's algorithm
 
