@@ -16,7 +16,7 @@ is favored like Turing's algorithm would.
 
 **PTC-Host** lets you easily host games between the engines directly from Python, without the need for a chess GUI.
 
-Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux. It is also possible to combine PyPy and multi-core.
+Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.
 
 ### Differences between PyTuroChamp and Turing's algorithm
 
@@ -34,7 +34,7 @@ Move ordering is also used by the engine to speed up search. This was not specif
 
 First, install the [python-chess](https://github.com/niklasf/python-chess) chess library: `pip install python-chess`
 
-The recommended option on Linux or MacOS is to modify and use the included shell scripts (ptc, bare, newt).
+The recommended option on Linux or macOS is to modify and use the included shell scripts (ptc, bare, newt).
 
 It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)
 
@@ -51,7 +51,7 @@ If you want to use one of the other engines besides pyturochamp.py, add "bare" o
 | newt.pt | Like Bare, this one ditches the heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book. |
 | ptc, bare, newt | Shells script to run PTC/Bare/Newt from a chess GUI, e.g. [KDE Knights](https://www.kde.org/applications/games/knights/) (works very well) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
 | ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
-| ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. |
+| ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now. |
 | movetest.py | Test engine responses to board situations |
 | pst.py | Helper file with piece-square tables |
 | pyturochamp_multi.py | Experimental multi-core version of PyTuroChamp |

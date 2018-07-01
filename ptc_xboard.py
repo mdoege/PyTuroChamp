@@ -18,16 +18,16 @@ nn  = "12345678"
 
 is_uci = False
 
-if len(sys.argv) < 2 or sys.argv[1] == 'ptc':
-	import pyturochamp as p
-	lf = "PyTuroChamp-log.txt"
-	mf = "PyTuroChamp.pgn"
-	nm = "PyTuroChamp"
-elif sys.argv[1] == 'multi':
+if len(sys.argv) < 2 or sys.argv[1] == 'multi':
 	import pyturochamp_multi as p
 	lf = "PyTuroChamp-log.txt"
 	mf = "PyTuroChamp.pgn"
 	nm = "PyTuroChamp Multi-Core"
+elif sys.argv[1] == 'ptc':
+	import pyturochamp as p
+	lf = "PyTuroChamp-log.txt"
+	mf = "PyTuroChamp.pgn"
+	nm = "PyTuroChamp"
 elif sys.argv[1] == 'bare':
 	import bare as p
 	lf = "Bare-log.txt"
