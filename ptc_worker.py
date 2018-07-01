@@ -15,6 +15,9 @@ def worker():
 			ptc.MAXPLIES = MAXPLIES
 			ptc.QPLIES = QPLIES
 			ptc.PSTAB = PSTAB
+			if compc == c.WHITE:
+				ptc.COMPC = c.WHITE
+				ptc.PLAYC = c.BLACK
 			if b.is_castling(x):		# are we castling now?
 				castle = ptc.pm()
 			else:
