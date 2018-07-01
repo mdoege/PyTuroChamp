@@ -229,7 +229,7 @@ def getmove(b, silent = False, usebook = False):
 
 	for n, x in enumerate(b.legal_moves):
 		if b.is_castling(x):		# are we castling now?
-			castle = 2 * pm()	# Turing uses 1
+			castle = pm()
 		else:
 			castle = 0
 		b.push(x)

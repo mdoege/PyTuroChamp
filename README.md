@@ -24,8 +24,6 @@ Pyturochamp.py does not actually reproduce the results of either the Turing pape
 
 Here are some differences between PyTuroChamp (PTC) and Turing's paper machine (TPM):
 
-The bonus for castling has been increased in PTC. TPM never wants to castle, even when castling is considered (e.g. by Stockfish) the best move by far. Engines that do not castle are usually defeated quickly, so the bonus was increased.
-
 A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. I assume that Turing, had he implemented his TPM on a computer, would have noticed these problems quickly and implemented something analogous to a PST. (The fact that TPM as given in the paper plays 1. e3 whereas Turing in his example game has it play 1. e4 may be considered a justification for the need for a PST.)
 
 Search depth is different: In his TPM, Turing used a 2-ply brute force search plus selective search (quiescence search). In PTC, a 4-ply brute force search plus a more simple and restrictive selective search are used. However, the influence of small deviations in search depth do not seem to make a big difference in playing strength, so any differences in play are probably fairly subtle.

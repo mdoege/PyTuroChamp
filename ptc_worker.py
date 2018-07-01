@@ -16,7 +16,7 @@ def worker():
 			ptc.QPLIES = QPLIES
 			ptc.PSTAB = PSTAB
 			if b.is_castling(x):		# are we castling now?
-				castle = 2 * ptc.pm()	# Turing uses 1
+				castle = ptc.pm()
 			else:
 				castle = 0
 			b.push(x)

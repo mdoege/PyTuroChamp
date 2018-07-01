@@ -10,7 +10,8 @@ import pyturochamp as p
 #import test as p
 
 t = [
-     ("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "e2e4", "Opening"),
+  #  ("rn1qk2r/pp4pp/2p1pp2/3n2B1/P2Pp2P/2P3N1/2P2PP1/R2QK2R w KQkq - 0 12", "g5d2", "keine Rochade"),
+  #   ("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "e2e4", "Opening"),
    #  ("rnb1kbnr/ppp2ppp/8/4p3/3P1q2/2N2N2/PPP3PP/R1BQKB1R b KQkq - 0 6", 'f4g4', 'Dame'),
    #  ("r2qkbnr/ppp2ppp/3p4/4N3/2BnP1b1/2N5/PPPP1PPP/R1BQ1RK1 b kq - 0 6",  'd6e5', 'Seekadettenmatt'),
   #   ("r2q1rk1/ppp1bppp/4p3/3p1b2/1n1PnP2/2NBPN2/PPP3PP/R2QBRK1 w - - 8 10",  'f3e5', 'Right knight'),
@@ -25,7 +26,7 @@ t = [
  #("5rkr/p5p1/1b1N2q1/3Pp2p/4N1b1/5B2/PPP1QP1P/RK1R4 w - - 1 29", 'f3g4', 'Newt-Bare first blunder'),
  #("5rkr/p5p1/1b1N2q1/3Pp2p/4N3/3R1b2/PPP1QP1P/RK6 w - - 0 30", 'e2e1', 'Newt-Bare 2nd blunder'),
  #("7k/1P3ppp/8/8/8/8/2K5/8 w - - 0 1", 'b7b8q', 'pawn promotion'),
- #("r1bqk1nr/pppp1ppp/1bn1p3/8/2BP4/4PN2/PPP2PPP/RNBQK2R w KQkq - 1 5", 'e1g1', 'castling'),
+ ("r1bqk1nr/pppp1ppp/1bn1p3/8/2BP4/4PN2/PPP2PPP/RNBQK2R w KQkq - 1 5", 'e1g1', 'castling'),
  #("5rk1/2p1bppp/Q7/1p2n3/5n2/2Pq3b/PP1P1PPP/RNBB1RK1 b - - 0 14", 'h3g2', 'HAL 9000 vs Poole'),
 ]
 
