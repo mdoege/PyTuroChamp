@@ -146,7 +146,8 @@ while True:
 				p.PSTAB = int(l.split()[4])
 				print("pstab:", p.PSTAB)
 		elif l == 'isready':
-			newgame()
+			if not d:
+				newgame()
 			print("id name", nm)
 			print("readyok")
 		elif 'setboard' in l:
