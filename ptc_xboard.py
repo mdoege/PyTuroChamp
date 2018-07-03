@@ -116,6 +116,9 @@ while True:
 			print("option name maxplies type spin default 3 min 0 max 1024")
 			print("option name qplies type spin default 7 min 0 max 1024")
 			print("option name pstab type spin default 2 min 0 max 1024")
+			print("option name MoveError type spin default 0 min 0 max 1024")
+			print("option name BlunderError type spin default 0 min 0 max 1024")
+			print("option name BlunderPercent type spin default 0 min 0 max 1024")
 
 			print("uciok")
 		elif l == 'ucinewgame':
@@ -145,6 +148,15 @@ while True:
 			else:
 				p.PSTAB = int(l.split()[4])
 				print("pstab:", p.PSTAB)
+		elif 'setoption name MoveError value' in l:
+			p.MoveError = int(l.split()[4])
+			print("MoveError:", p.MoveError)
+		elif 'setoption name BlunderError value' in l:
+			p.BlunderError = int(l.split()[4])
+			print("BlunderError:", p.BlunderError)
+		elif 'setoption name BlunderPercent value' in l:
+			p.BlunderPercent = int(l.split()[4])
+			print("BlunderPercent:", p.BlunderPercent)
 		elif l == 'isready':
 			if not d:
 				newgame()

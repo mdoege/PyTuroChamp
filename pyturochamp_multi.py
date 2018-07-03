@@ -11,6 +11,7 @@ import pyturochamp as ptc
 import chess as c
 import sys, math, time
 from queue import Empty, Full
+from random import random, choice
 
 # computer plays as Black by default
 
@@ -21,9 +22,29 @@ MAXPLIES = 3	# maximum search depth
 QPLIES    = MAXPLIES + 4
 PSTAB     = 5	# influence of piece-square table on moves, 0 = none
 
+# Easy play / random play parameters
+MoveError = 0		# On every move, randomly select the best move or a move inferior by this value (in decipawns)
+BlunderError = 0	# If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
+			# Blunder Error overrides Move Error and should be > Move Error.
+BlunderPercent = 0	# Percent chance of blundering this move
+
 b = c.Board()
 
 ptc_worker.start()
+
+def getindex(ll):
+	"Select either the best move, or an almost equivalent move, or a blunder from the list of moves"
+	if random() < (BlunderPercent / 100.):
+		err = BlunderError / 10.
+	else:
+		err = MoveError / 10.
+	if err == 0:
+		return 0	# best move
+	else:
+		vals = [x[1] + x[2] for x in ll]
+		inds = zip(vals, range(len(ll)))
+		mm = [x for x in inds if (abs(x[0] - vals[0]) < err)]
+		return choice(mm)[1]
 
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
@@ -63,8 +84,9 @@ def getmove(b, silent = False, usebook = False):
 	ll.sort(key = lambda m: m[1] + m[2])
 	if COMPC == c.WHITE:
 		ll.reverse()
-	print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
-	return ll[0][1] + ll[0][2], [str(ll[0][0])]
+	i = getindex(ll)
+	print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+	return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
 if __name__ == '__main__':
 	while True:	# game loop
