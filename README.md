@@ -48,6 +48,15 @@ Arena (Linux):
 
 ![screenshot](https://github.com/mdoege/PyTuroChamp/raw/master/pic/Screenshot_20171123_102423.png "Arena configuration")
 
+### UCI parameters
+
+* maxplies: Brute-force search depth in plies
+* qplies: Quiescence search depth in plies
+* pstab: Piece-square table factor; 0 = no influence of PST
+* MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
+* BlunderPercent: Chance of a blunder in percent
+* BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move
+
 ### Files
 
 |Filename | Description |
