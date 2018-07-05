@@ -26,8 +26,6 @@ Here are some differences between PyTuroChamp (PTC) and Turing's paper machine (
 
 A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. I assume that Turing, had he implemented his TPM on a computer, would have noticed these problems quickly and implemented something analogous to a PST. (The fact that TPM as given in the paper plays 1. e3 whereas Turing in his example game has it play 1. e4 may be considered a justification for the need for a PST.)
 
-Search depth is different: In his TPM, Turing used a 2-ply brute force search plus selective search (quiescence search). In PTC, a 4-ply brute force search plus a more simple and restrictive selective search are used. However, the influence of small deviations in search depth do not seem to make a big difference in playing strength, so any differences in play are probably fairly subtle.
-
 Move ordering is also used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so you might say move ordering is implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
 
 ### Running the engines from a chess GUI
