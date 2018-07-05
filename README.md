@@ -84,15 +84,24 @@ In the icons directory, there are several logos in BMP format for various chess 
 
 Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about two or three times as fast, so it is generally recommended to use PyPy.
 
-Below is a sample terminal session that shows how to set up PyPy under **Arch Linux** and run the PyTuroChamp scripts. (Note that the "--local" command line switch is used here to install pip and python-chess into .local/bin/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary durin installs.)
+Below is a sample terminal session that shows how to set up PyPy under **Arch Linux** and run the PyTuroChamp scripts.
+
+Note that the "--local" command line switch is used here to install pip and python-chess into .local/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary during installation.
 
 ```
-$ sudo pacman -S pypy3  # install PyPy; this command depends on your distro
+# Install the Python 3 version of PyPy;
+#  this command works only on Arch
+#  and might be different on your Linux distro:
+$ sudo pacman -S pypy3
 
+# Install the pip package manager for PyPy:
 $ pypy3 -m ensurepip --user
 
+# Install python-chess:
 $ pypy3 -m pip install python-chess --user
 
+# Show packages installed under PyPy,
+#  pyton-chess should be there now:
 $ pypy3 -m pip list --user
 Package      Version
 ------------ -------
@@ -100,6 +109,7 @@ pip          10.0.1
 python-chess 0.23.8 
 setuptools   28.8.0 
 
+# Run one of the chess engines with PyPy:
 $ pypy3 ptc_xboard.py newt
 go
 #    ()
