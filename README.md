@@ -57,6 +57,12 @@ Arena (Linux):
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move
 
+Please note that for PTC and Bare, you should use odd numbers for maxplies and qplies (maxplies = 3 equals four plies; maxplies = 1 equals two plies). This is because PTC and Bare do not count the very first ply (i.e. the first own move considered).
+
+Newt on the other hand counts plies normally from the root position, so maxplies and qplies should be even numbers.
+
+Also note that the UCI default values are set for PTC and should be changed for Newt.
+
 ### Files
 
 |Filename | Description |
@@ -78,28 +84,21 @@ In the icons directory, there are several logos in BMP format for various chess 
 
 Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about two or three times as fast, so it is generally recommended to use PyPy.
 
-Below is a sample terminal session that shows how to set up PyPy under Arch Linux and run the PyTuroChamp scripts. (Note that the "--local" command line switch is used here to install pip and python-chess into .local/bin/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary.)
+Below is a sample terminal session that shows how to set up PyPy under **Arch Linux** and run the PyTuroChamp scripts. (Note that the "--local" command line switch is used here to install pip and python-chess into .local/bin/ in the user's home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary durin installs.)
 
 ```
-$ sudo pacman -S pypy3
+$ sudo pacman -S pypy3  # install PyPy; this command depends on your distro
 
 $ pypy3 -m ensurepip --user
 
-$ ls -l .local/bin
-insgesamt 12
--rwxr-xr-x 1 martin users 232  3. Dez 20:33 easy_install-3.5
--rwxr-xr-x 1 martin users 204  3. Dez 20:33 pip3
--rwxr-xr-x 1 martin users 204  3. Dez 20:33 pip3.5
+$ pypy3 -m pip install python-chess --user
 
-$ .local/bin/pip3 install python-chess --user
-
-$ .local/bin/pip3 list
-cffi (1.11.1)
-greenlet (0.4.12)
-pip (9.0.1)
-python-chess (0.22.0)
-readline (6.2.4.1)
-setuptools (28.8.0)
+$ pypy3 -m pip list --user
+Package      Version
+------------ -------
+pip          10.0.1 
+python-chess 0.23.8 
+setuptools   28.8.0 
 
 $ pypy3 ptc_xboard.py newt
 go
