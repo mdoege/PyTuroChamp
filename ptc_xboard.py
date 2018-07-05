@@ -18,32 +18,39 @@ nn  = "12345678"
 
 is_uci = False
 
-if len(sys.argv) < 2 or sys.argv[1] == 'multi':
-	import pyturochamp_multi as p
-	lf = "PyTuroChamp-log.txt"
-	mf = "PyTuroChamp.pgn"
-	nm = "PyTuroChamp Multi-Core"
-elif sys.argv[1] == 'ptc':
+if sys.argv[-1] == 'newt':
+	import newt as p
+	lf = "Newt-log.txt"
+	mf = "Newt.pgn"
+	nm = "Newt"
+elif sys.argv[-1] == 'ptc':
 	import pyturochamp as p
 	lf = "PyTuroChamp-log.txt"
 	mf = "PyTuroChamp.pgn"
 	nm = "PyTuroChamp"
-elif sys.argv[1] == 'bare':
+elif sys.argv[-1] == 'bare':
 	import bare as p
 	lf = "Bare-log.txt"
 	mf = "Bare.pgn"
 	nm = "Bare"
 else:
-	import newt as p
-	lf = "Newt-log.txt"
-	mf = "Newt.pgn"
-	nm = "Newt"
+	import pyturochamp_multi as p
+	lf = "PyTuroChamp-log.txt"
+	mf = "PyTuroChamp.pgn"
+	nm = "PyTuroChamp Multi-Core"
 
 try:
 	log = open(lf, 'w')
 except:
 	log = ''
 	print("# Could not create log file")
+
+def print2(x):
+	print(x)
+	if log:
+		log.write("< %s\n" % x)
+		log.flush()
+
 d = ''
 r = ''
 
@@ -51,12 +58,9 @@ def move(r):
 	rm = r[0]
 	d.push_uci(rm)
 	if is_uci:
-		print("bestmove", rm)
+		print2("bestmove %s" % rm)
 	else:
-		print("move", rm)
-	if log:
-		log.write("move %s\n" % rm)
-		log.flush()
+		print2("move %s" % rm)
 	pgn()
 
 def pgn():
@@ -73,7 +77,7 @@ def pgn():
 		with open(mf, 'w') as f:
 			f.write(str(game) + '\n\n\n')
 	except:
-		print("# Could not write PGN file")
+		print2("# Could not write PGN file")
 
 def newgame():
 	global d
@@ -86,7 +90,7 @@ def fromfen(fen):
 	try:
 		d = c.Board(fen)
 	except:
-		print("Bad FEN")
+		print2("Bad FEN")
 	#print(d)
 
 while True:
@@ -104,23 +108,23 @@ while True:
 			log.write(l + '\n')
 			log.flush()
 		if l == 'xboard':
-			print('feature myname="%s" setboard=1 done=1' % nm)
+			print2('feature myname="%s" setboard=1 done=1' % nm)
 		elif l == 'quit':
 			sys.exit(0)
 		elif l == 'new':
 			newgame()
 		elif l == 'uci':
 			is_uci = True
-			print("id name", nm)
-			print("id author Martin C. Doege")
-			print("option name maxplies type spin default 3 min 0 max 1024")
-			print("option name qplies type spin default 7 min 0 max 1024")
-			print("option name pstab type spin default 2 min 0 max 1024")
-			print("option name MoveError type spin default 0 min 0 max 1024")
-			print("option name BlunderError type spin default 0 min 0 max 1024")
-			print("option name BlunderPercent type spin default 0 min 0 max 1024")
+			print2("id name %s" % nm)
+			print2("id author Martin C. Doege")
+			print2("option name maxplies type spin default 1 min 0 max 1024")
+			print2("option name qplies type spin default 3 min 0 max 1024")
+			print2("option name pstab type spin default 2 min 0 max 1024")
+			print2("option name MoveError type spin default 0 min 0 max 1024")
+			print2("option name BlunderError type spin default 0 min 0 max 1024")
+			print2("option name BlunderPercent type spin default 0 min 0 max 1024")
 
-			print("uciok")
+			print2("uciok")
 		elif l == 'ucinewgame':
 			newgame()
 		elif 'position startpos moves' in l:
@@ -134,34 +138,34 @@ while True:
 			mm = l.split()[9:]
 			for mo in mm:
 				d.push_uci(mo)
-			#print(d)
+			#print2(d)
 		elif 'setoption name maxplies value' in l:
 			p.MAXPLIES = int(l.split()[4])
-			print("maxplies:", p.MAXPLIES)
+			print2("# maxplies: %u" % p.MAXPLIES)
 		elif 'setoption name qplies value' in l:
 			p.QPLIES = int(l.split()[4])
-			print("qplies:", p.QPLIES)
+			print2("# qplies: %u" % p.QPLIES)
 		elif 'setoption name pstab value' in l:
 			if 'Bare' in nm or 'Newt' in nm:
 				p.PSTAB = int(l.split()[4]) / 10.	# convert to pawn units for Bare and Newt
-				print("pstab:", p.PSTAB)
+				print2("# pstab: %u" % p.PSTAB)
 			else:
 				p.PSTAB = int(l.split()[4])
-				print("pstab:", p.PSTAB)
+				print2("# pstab: %u" % p.PSTAB)
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])
-			print("MoveError:", p.MoveError)
+			print2("# MoveError: %u" % p.MoveError)
 		elif 'setoption name BlunderError value' in l:
 			p.BlunderError = int(l.split()[4])
-			print("BlunderError:", p.BlunderError)
+			print2("# BlunderError: %u" % p.BlunderError)
 		elif 'setoption name BlunderPercent value' in l:
 			p.BlunderPercent = int(l.split()[4])
-			print("BlunderPercent:", p.BlunderPercent)
+			print2("# BlunderPercent: %u" % p.BlunderPercent)
 		elif l == 'isready':
 			if not d:
 				newgame()
-			print("id name", nm)
-			print("readyok")
+			print2("id name %s" % nm)
+			print2("readyok")
 		elif 'setboard' in l:
 			fen = l.split(' ', 1)[1]
 			fromfen(fen)
@@ -172,7 +176,7 @@ while True:
 			if r:
 				move(r)
 		elif l == '?':
-			print("move", r)
+			print2("move", r)
 			if log:
 				log.write("move %s\n" % r)
 				log.flush()
