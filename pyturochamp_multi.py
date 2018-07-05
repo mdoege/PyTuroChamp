@@ -18,9 +18,9 @@ from random import random, choice
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# maximum search depth
-QPLIES    = MAXPLIES + 4
-PSTAB     = 5	# influence of piece-square table on moves, 0 = none
+MAXPLIES = 1	# maximum search depth
+QPLIES    = MAXPLIES + 2
+PSTAB     = 2	# influence of piece-square table on moves, 0 = none
 
 # Easy play / random play parameters
 MoveError = 0		# On every move, randomly select the best move or a move inferior by this value (in decipawns)

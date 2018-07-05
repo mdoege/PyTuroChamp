@@ -15,8 +15,8 @@ from random import random, choice
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# maximum search depth
-QPLIES    = MAXPLIES + 4
+MAXPLIES = 1	# maximum search depth
+QPLIES    = MAXPLIES + 2
 PSTAB     = 2	# influence of piece-square table on moves, 0 = none
 
 # Easy play / random play parameters
@@ -145,17 +145,19 @@ def getval(b):
 
 def isdead(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
-	if p >= QPLIES or not len(list(b.legal_moves)):
+	lm = list(b.legal_moves)
+	if p >= QPLIES or not len(lm):
 		return True
-	if b.is_check():
-		return False
-	x = b.pop()
-	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
+	for x in lm:
+		if b.is_capture(x):
+			return False
 		b.push(x)
-		return False
-	else:
-		b.push(x)
-		return True
+		if b.is_check():
+			b.pop()
+			return False
+		else:
+			b.pop()
+	return True
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
