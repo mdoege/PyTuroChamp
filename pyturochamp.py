@@ -295,7 +295,7 @@ def getmove(b, silent = False, usebook = False):
 		ll.append((x, p, t))
 		b.pop()
 
-	ll.sort(key = lambda m: m[1] + m[2])
+	ll.sort(key = lambda m: m[1] + 1000 * m[2])
 	if COMPC == c.WHITE:
 		ll.reverse()
 	i = getindex(ll)
