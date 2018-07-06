@@ -121,7 +121,7 @@ def getpos(b):
 				ppv += .3
 	# black king
 	if b.is_check():
-		ppv += .25
+		ppv += .5
 	for y in b.legal_moves:
 		b.push(y)
 		if b.is_checkmate():
