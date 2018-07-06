@@ -90,7 +90,7 @@ def getpos(b):
 					ppv += 1
 				# twice defended
 				if ndef > 1:
-					ppv += .5
+					ppv += 1.5
 			# king safety
 			if m.piece_type == c.KING:
 				b2 = c.Board(b.fen())
