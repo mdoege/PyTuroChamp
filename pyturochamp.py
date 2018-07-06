@@ -18,6 +18,7 @@ PLAYC = c.WHITE
 MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 2
 PSTAB     = 2	# influence of piece-square table on moves, 0 = none
+PDEAD     = 1   # version of dead position eval
 
 # Easy play / random play parameters
 MoveError = 0		# On every move, randomly select the best move or a move inferior by this value (in decipawns)
@@ -143,8 +144,22 @@ def getval(b):
 	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
-def isdead(b, p):
-	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured?"
+def isdead1(b, p):
+	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? (old, more restrictive version)"
+	if p >= QPLIES or not len(list(b.legal_moves)):
+		return True
+	if b.is_check():
+		return False
+	x = b.pop()
+	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
+		b.push(x)
+		return False
+	else:
+		b.push(x)
+		return True
+
+def isdead2(b, p):
+	"Is the position dead? (quiescence) (new, less restrictive version)"
 	lm = list(b.legal_moves)
 	if p >= QPLIES or not len(lm):
 		return True
@@ -158,6 +173,13 @@ def isdead(b, p):
 		else:
 			b.pop()
 	return True
+
+def isdead(b, p):
+	"Is the position dead? (quiescence)"
+	if PDEAD == 1:
+		return isdead1(b, p)
+	else:
+		return isdead2(b, p)
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):

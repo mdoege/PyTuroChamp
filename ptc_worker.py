@@ -8,13 +8,14 @@ from queue import Empty, Full
 def worker():
 	while True:
 		try:
-			b, x, lastpos, compc, cr0, MAXPLIES, QPLIES, PSTAB = urlq.get()
+			b, x, lastpos, compc, cr0, MAXPLIES, QPLIES, PSTAB, PDEAD = urlq.get()
 		except:
 			pass
 		else:
 			ptc.MAXPLIES = MAXPLIES
 			ptc.QPLIES = QPLIES
 			ptc.PSTAB = PSTAB
+			ptc.PDEAD = PDEAD
 			if compc == c.WHITE:
 				ptc.COMPC = c.WHITE
 				ptc.PLAYC = c.BLACK
