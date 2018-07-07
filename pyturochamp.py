@@ -134,8 +134,8 @@ def getpos(b):
 	else:
 		return -ppv
 
-def getval(b):
-	"Get total piece value of board"
+def getval1(b):
+	"Get total piece value of board (White - Black, the usual method)"
 	return (
 		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
 	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
@@ -143,6 +143,28 @@ def getval(b):
 	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
 	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
+
+def getval2(b):
+	"Get total piece value of board (White / Black, Turing's preferred method)"
+	wv = (
+		len(b.pieces(c.PAWN, c.WHITE))
+	+	3 * len(b.pieces(c.KNIGHT, c.WHITE))
+	+	3.5 * len(b.pieces(c.BISHOP, c.WHITE))
+	+	5 * len(b.pieces(c.ROOK, c.WHITE))
+	+	10* len(b.pieces(c.QUEEN, c.WHITE))
+	)
+	bv = (
+		len(b.pieces(c.PAWN, c.BLACK))
+	+	3 * len(b.pieces(c.KNIGHT, c.BLACK))
+	+	3.5 * len(b.pieces(c.BISHOP, c.BLACK))
+	+	5 * len(b.pieces(c.ROOK, c.BLACK))
+	+	10* len(b.pieces(c.QUEEN, c.BLACK))
+	)
+	return wv / bv
+
+def getval(b):
+	"Get total piece value of board"
+	return getval1(b)
 
 def isdead1(b, p):
 	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? (old, more restrictive version)"
