@@ -76,6 +76,7 @@ Also note that the UCI default values are set for PTC and should be changed for 
 | pst.py | Helper file with piece-square tables |
 | pyturochamp_multi.py | Experimental multi-core version of PyTuroChamp |
 | ptc_worker.py | Helper file for pyturochamp_multi.py |
+| glennie.py | Compare White moves from TUROCHAMP vs. Glennie game to PyTuroChamp's moves and show differences (uses glennie.pgn) |
 
 In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
 
