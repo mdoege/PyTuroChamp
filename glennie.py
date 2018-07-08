@@ -12,6 +12,8 @@ game = chess.pgn.read_game(pgn)
 b = game.board()
 bad = 0
 
+print('pstab = %u, maxplies = %u, qplies = %u' % (p.PSTAB, p.MAXPLIES, p.QPLIES))
+
 for m in game.main_line():
 	if b.turn == c.WHITE:
 		t, r = p.getmove(b, usebook = False, silent = True)
