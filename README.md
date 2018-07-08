@@ -85,7 +85,9 @@ Arena (Linux):
 * maxplies: Brute-force search depth in plies
 * qplies: Quiescence search depth in plies
 * pstab: Piece-square table factor; 0 = no influence of PST
-* pdead: Select function for dead position evaluation (1 = old and restrictive, 2 = new and less restrictive)
+* pdead: Select function for dead position evaluation
+    - 1 = more Turing-like and selective; it is only considered whether the capturing piece can itself be captured
+    - 2 = less selective; any capture by the other side counts
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move
