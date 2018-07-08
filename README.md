@@ -52,15 +52,11 @@ Turing's idea to evaluate material by dividing White's value by Black's value (i
 
 According to Stockfish analysis, the "W-B" move is also the only winning move for White, while the "W/B" move leads to a drawn position. So at least in this game, "W/B" is inferior to "W-B". (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP's moves by Turing and Glennie.)
 
-### Differences between PyTuroChamp and Turing's algorithm
+### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
-Pyturochamp.py does not actually reproduce the results of either the Turing paper or the [Chessbase implementation](http://en.chessbase.com/post/reconstructing-turing-s-paper-machine) for Fritz. But then again Turing's paper was meant as a proof-of-concept and basis for the reader's own experimentation, so reproducibility is not the most important consideration. (Also, some of Turing's exampple game calculations were plain wrong.)
+A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
 
-Here are some differences between PyTuroChamp (PTC) and Turing's paper machine (TPM):
-
-A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. I assume that Turing, had he implemented his TPM on a computer, would have noticed these problems quickly and implemented something analogous to a PST. (The fact that TPM as given in the paper plays 1. e3 whereas Turing in his example game has it play 1. e4 may be considered a justification for the need for a PST.)
-
-Move ordering is also used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so you might say move ordering is implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
+Move ordering is also used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
 
 ### Running the engines from a chess GUI
 
