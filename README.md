@@ -84,6 +84,7 @@ Arena (Linux):
 * pdead: Select function for dead position evaluation
     - 1 = more Turing-like and selective; it is only considered whether the capturing piece can itself be captured
     - 2 = less selective; any capture by the other side counts
+* matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material.
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move

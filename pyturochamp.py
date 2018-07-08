@@ -19,6 +19,7 @@ MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 2
 PSTAB     = 0	# influence of piece-square table on moves, 0 = none
 PDEAD     = 1   # version of dead position eval
+MATETEST  = False	# if True, include mate and draw detection in the material eval
 
 # Easy play / random play parameters
 MoveError = 0		# On every move, randomly select the best move or a move inferior by this value (in decipawns)
@@ -164,6 +165,16 @@ def getval2(b):
 
 def getval(b):
 	"Get total piece value of board"
+	# test for checkmate or draw
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			return -1000
+		if res == '1-0':
+			return 1000
+		if res == '1/2-1/2':
+			return 0
+
 	return getval1(b)
 
 def isdead1(b, p):

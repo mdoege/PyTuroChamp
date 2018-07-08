@@ -22,6 +22,7 @@ MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 2
 PSTAB     = 0	# influence of piece-square table on moves, 0 = none
 PDEAD     = 1   # version of dead position eval
+MATETEST  = False	# if True, include mate and draw detection in the material eval
 
 # Easy play / random play parameters
 MoveError = 0		# On every move, randomly select the best move or a move inferior by this value (in decipawns)
@@ -77,7 +78,7 @@ def getmove(b, silent = False, usebook = False):
 		#	print(len(inlist), len(ll), nummov)
 		if len(inlist):
 			ptc_worker.urlq.put_nowait(
-				(b.copy(), inlist.pop(), lastpos, COMPC, cr0, MAXPLIES, QPLIES, PSTAB, PDEAD))
+				(b.copy(), inlist.pop(), lastpos, COMPC, cr0, MAXPLIES, QPLIES, PSTAB, PDEAD, MATETEST))
 		try:
 			ll.append(ptc_worker.urlr.get_nowait())
 		except Empty:

@@ -121,6 +121,7 @@ while True:
 			print2("option name qplies type spin default 3 min 0 max 1024")
 			print2("option name pstab type spin default 0 min 0 max 1024")
 			print2("option name pdead type spin default 1 min 1 max 2")
+			print2("option name matetest type check default false")
 
 			print2("option name MoveError type spin default 0 min 0 max 1024")
 			print2("option name BlunderError type spin default 0 min 0 max 1024")
@@ -157,6 +158,12 @@ while True:
 		elif 'setoption name pdead value' in l:
 			p.PDEAD = int(l.split()[4])
 			print2("# pdead: %u" % p.PDEAD)
+		elif 'setoption name matetest value' in l:
+			if l.split()[4] == "true":
+				p.MATETEST = True
+			else:
+				p.MATETEST = False
+			print2("# matetest: %s" % p.MATETEST)
 
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])
