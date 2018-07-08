@@ -4,11 +4,15 @@
 
 A family of toy chess engines inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
 
-**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
+**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
 
  1. e3
 
-is favored like Turing's algorithm would.
+is favored like Turing's algorithm would. Whereas with PSTAB = 2,
+
+ 1. e4
+
+is played as in the TUROCHAMP&mdash;Glennie game.
 
 **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
 

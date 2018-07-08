@@ -10,7 +10,8 @@ import pyturochamp as p
 #import test as p
 
 t = [
- ('rnbqkbnr/ppp2ppp/8/3pp3/8/2N1P3/PPPP1PPP/R1BQKBNR w KQkq - 0 3', 'g1h3', 'CB TUROCHAMP'),
+ ('8/8/1KN5/8/3P4/3p4/P2k4/8 w - - 0 1', 'c6b4', 'CB Turing'),
+ #('rnbqkbnr/ppp2ppp/8/3pp3/8/2N1P3/PPPP1PPP/R1BQKBNR w KQkq - 0 3', 'g1h3', 'CB TUROCHAMP'),
   #  ("rn1qk2r/pp4pp/2p1pp2/3n2B1/P2Pp2P/2P3N1/2P2PP1/R2QK2R w KQkq - 0 12", "g5d2", "keine Rochade"),
   #   ("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1", "e2e4", "Opening"),
    #  ("rnb1kbnr/ppp2ppp/8/4p3/3P1q2/2N2N2/PPP3PP/R1BQKB1R b KQkq - 0 6", 'f4g4', 'Dame'),

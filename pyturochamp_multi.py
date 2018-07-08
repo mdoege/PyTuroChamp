@@ -20,7 +20,7 @@ PLAYC = c.WHITE
 
 MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 2
-PSTAB     = 2	# influence of piece-square table on moves, 0 = none
+PSTAB     = 0	# influence of piece-square table on moves, 0 = none
 PDEAD     = 1   # version of dead position eval
 
 # Easy play / random play parameters

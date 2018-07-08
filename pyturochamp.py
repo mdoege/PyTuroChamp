@@ -17,7 +17,7 @@ PLAYC = c.WHITE
 
 MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 2
-PSTAB     = 2	# influence of piece-square table on moves, 0 = none
+PSTAB     = 0	# influence of piece-square table on moves, 0 = none
 PDEAD     = 1   # version of dead position eval
 
 # Easy play / random play parameters
@@ -321,7 +321,7 @@ def getmove(b, silent = False, usebook = False):
 	if COMPC == c.WHITE:
 		ll.reverse()
 	i = getindex(ll)
-	print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+	#print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
 	return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
 if __name__ == '__main__':

@@ -119,7 +119,7 @@ while True:
 			print2("id author Martin C. Doege")
 			print2("option name maxplies type spin default 1 min 0 max 1024")
 			print2("option name qplies type spin default 3 min 0 max 1024")
-			print2("option name pstab type spin default 2 min 0 max 1024")
+			print2("option name pstab type spin default 0 min 0 max 1024")
 			print2("option name pdead type spin default 1 min 1 max 2")
 
 			print2("option name MoveError type spin default 0 min 0 max 1024")
