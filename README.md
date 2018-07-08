@@ -44,9 +44,9 @@ pstab = 0, maxplies = 1, qplies = 7
 27 g4g3 g4g5
 ===> 12 moves differ
 ```
-This is roughly in line with the [ChessBase Turing Engine](https://en.chessbase.com/post/reconstructing-turing-s-paper-machine), which produces a similar number of mismatches.
+This is similar to the [ChessBase Turing Engine](https://en.chessbase.com/post/reconstructing-turing-s-paper-machine), which produces 11 mismatches (in moves 1, 5, 15, 17, 18, 19, 20, 22, 23, 27, and 29), although the CB and PTC moves are seldom the same.
 
-It also agrees with Turing's text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).
+These best-fit parameters also agree with Turing's text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).
 
 Turing's idea to evaluate material by dividing White's value by Black's value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where "W/B" plays h4h5 and "W-B" plays a6c4.
 
