@@ -84,6 +84,32 @@ Also note that the UCI default values are set for PTC and should be changed for 
 
 In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
 
+### Comparison to the TUROCHAMP&mdash;Glennie game
+
+The script glennie.py allows comparison of White's moves from the TUROCHAMP&mdash;Glennie game with PyTuroChamp's moves. Changing the parameters in pyturochamp.py will yield different results.
+
+The best match seems to be PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
+```
+$ pypy3 glennie.py
+pstab = 0, maxplies = 1, qplies = 7
+1 e2e4 e2e3
+4 g1f3 d4e5
+6 d4d5 a2a3
+10 f1b5 d2e3
+15 h1g1 e1g1
+17 a6b5 a6c4
+19 b5c6 e2c4
+22 c1d2 e2d2
+23 g5g4 b2b3
+25 d5b3 b2b3
+26 b3c4 d1g1
+27 g4g3 g4g5
+===> 12 moves differ
+```
+This is roughly in line with the [ChessBase Turing Engine](https://en.chessbase.com/post/reconstructing-turing-s-paper-machine), which produces a similar number of mismatches.
+
+It also agrees with Turing's text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).
+
 ### Improving performance by using PyPy
 
 Running the scripts with [PyPy3](http://pypy.org/) instead of python3 will make the engines run about two or three times as fast, so it is generally recommended to use PyPy.
