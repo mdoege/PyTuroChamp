@@ -93,8 +93,6 @@ Please note that for PTC and Bare, you should use odd numbers for maxplies and q
 
 Newt on the other hand counts plies normally from the root position, so maxplies and qplies should be even numbers.
 
-Also note that the UCI default values are set for PTC and should be changed for Newt.
-
 ### Files
 
 |Filename | Description |
