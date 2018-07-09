@@ -117,15 +117,23 @@ while True:
 			is_uci = True
 			print2("id name %s" % nm)
 			print2("id author Martin C. Doege")
-			print2("option name maxplies type spin default 1 min 0 max 1024")
-			print2("option name qplies type spin default 3 min 0 max 1024")
-			print2("option name pstab type spin default 0 min 0 max 1024")
-			print2("option name pdead type spin default 1 min 1 max 2")
-			print2("option name matetest type check default false")
+			if 'PyTuroChamp' in nm:
+				print2("option name maxplies type spin default 1 min 0 max 1024")
+				print2("option name qplies type spin default 3 min 0 max 1024")
+				print2("option name pstab type spin default 0 min 0 max 1024")
+				print2("option name pdead type spin default 1 min 1 max 2")
+				print2("option name matetest type check default false")
 
-			print2("option name MoveError type spin default 0 min 0 max 1024")
-			print2("option name BlunderError type spin default 0 min 0 max 1024")
-			print2("option name BlunderPercent type spin default 0 min 0 max 1024")
+				print2("option name MoveError type spin default 0 min 0 max 1024")
+				print2("option name BlunderError type spin default 0 min 0 max 1024")
+				print2("option name BlunderPercent type spin default 0 min 0 max 1024")
+			if nm == 'Bare':
+				print2("option name maxplies type spin default 3 min 0 max 1024")
+				print2("option name pstab type spin default 5 min 0 max 1024")
+			if nm == 'Newt':
+				print2("option name depth type spin default 2 min 0 max 1024")
+				print2("option name qplies type spin default 4 min 0 max 1024")
+				print2("option name pstab type spin default 1 min 0 max 1024")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -145,6 +153,9 @@ while True:
 		elif 'setoption name maxplies value' in l:
 			p.MAXPLIES = int(l.split()[4])
 			print2("# maxplies: %u" % p.MAXPLIES)
+		elif 'setoption name depth value' in l:
+			p.DEPTH = int(l.split()[4])
+			print2("# depth: %u" % p.DEPTH)
 		elif 'setoption name qplies value' in l:
 			p.QPLIES = int(l.split()[4])
 			print2("# qplies: %u" % p.QPLIES)
