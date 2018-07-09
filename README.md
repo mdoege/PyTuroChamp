@@ -78,7 +78,7 @@ Arena (Linux):
 
 ### UCI parameters
 
-* maxplies: Brute-force search depth in plies
+* maxplies (PTC, Bare)/depth (Newt): Brute-force search depth in plies
 * qplies: Quiescence search depth in plies
 * pstab: Piece-square table factor; 0 = no influence of PST
 * pdead: Select function for dead position evaluation
