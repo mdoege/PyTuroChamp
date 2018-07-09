@@ -145,11 +145,24 @@ while True:
 				d.push_uci(mo)
 		elif 'position fen' in l:
 			ff = l.split()[2:8]
-			fromfen(' '.join(ff))
 			mm = l.split()[9:]
-			for mo in mm:
-				d.push_uci(mo)
-			#print2(d)
+			ff = ' '.join(ff)
+			if d:
+				old = d.copy()
+				fromfen(ff)
+				# Test if new position continues the current game.
+				# In that case, do not discard the current game but append the new moves.
+				if old.fen() == ff:
+					for mo in mm:
+						old.push_uci(mo)
+					d = old.copy()
+				else:
+					for mo in mm:
+						d.push_uci(mo)
+			else:
+				fromfen(ff)
+				for mo in mm:
+					d.push_uci(mo)
 		elif 'setoption name maxplies value' in l:
 			p.MAXPLIES = int(l.split()[4])
 			print2("# maxplies: %u" % p.MAXPLIES)

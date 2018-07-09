@@ -187,7 +187,7 @@ def getopen(b):
 				if sm1:
 					sm1 = str(b.parse_san(sm1))
 			except:
-				#print("Illegal book move", sm1)
+				#print("# Illegal book move", sm1)
 				sm1 = []
 			if sm1 and sm1 not in sm:
 				sm.append(sm1)
