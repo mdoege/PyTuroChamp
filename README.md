@@ -16,9 +16,9 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
 
-**Newt** also ditches the old heuristics and adds newer techniques like PV-based iterative deepening and an opening book. It is comparatively strong and fast.
+**Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (with unlike a normal opening book contains both good and bad openings). It should me stronger and faster than the other two engines, or at least offer more variety during the opening.
 
-**PTC-Host** lets you easily host games between the engines directly from Python, without the need for a chess GUI.
+**PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
 Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.
 
@@ -100,8 +100,8 @@ Also note that the UCI default values are set for PTC and should be changed for 
 |Filename | Description |
 |---|---|
 | pyturochamp.py | The chess engine with Turing's heuristics. Plays more human-like, except for weird but typical moves like a2a4 and h2h4. |
-| bare.py | Bare bones version, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
-| newt.pt | Like Bare, this one ditches the heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book. |
+| bare.py | Bare bones version of PyTuroChamp, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
+| newt.pt | Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game. |
 | ptc, bare, newt | Shells script to run PTC/Bare/Newt from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
 | ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
 | ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now. |
