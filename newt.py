@@ -16,8 +16,8 @@ if sys.path[0]:
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-DEPTH  = 4	# maximum search depth
-QPLIES = 8	# additional maximum quiescence search plies
+DEPTH  = 2	# maximum search depth
+QPLIES = 4	# additional maximum quiescence search plies
 PSTAB  = .1	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()

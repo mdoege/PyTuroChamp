@@ -14,7 +14,7 @@ import sys, math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 4	# inital maximum search depth
+MAXPLIES = 2	# maximum search depth
 PSTAB    = .5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
