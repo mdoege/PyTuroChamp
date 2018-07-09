@@ -95,6 +95,8 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 
 Also note that the UCI default values are set for PTC and should be changed for Newt.
 
+Newt's opening book will only work if it has access to the entire game so far from the first move. So if your GUI uses "position startpos moves ..." and sends the entire game during each move, it will work. If the GUI uses "position fen", the previous moves in the game are not sent, and therefore the opening book will not work.
+
 ### Files
 
 |Filename | Description |
