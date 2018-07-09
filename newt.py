@@ -187,11 +187,11 @@ def getopen(b):
 				if sm1:
 					sm1 = str(b.parse_san(sm1))
 			except:
-				print("Illegal book move", sm1)
+				#print("Illegal book move", sm1)
 				sm1 = []
 			if sm1 and sm1 not in sm:
 				sm.append(sm1)
-	print('# %s %s  (%s)' % (id[2], id[0], id[1]))
+	#print('# %s %s  (%s)' % (id[2], id[0], id[1]))
 	return sm
 
 def getmove(b, silent = False, usebook = True):
@@ -208,10 +208,13 @@ def getmove(b, silent = False, usebook = True):
 	if not silent:
 		print("FEN:", b.fen())
 
-	if usebook:
-		opening = getopen(b)
-		if opening:
-			return 0, [choice(opening)]
+	try:
+		if usebook:
+			opening = getopen(b)
+			if opening:
+				return 0, [choice(opening)]
+	except:
+		pass
 
 	win = .25	# initial aspiration window bounds (https://chessprogramming.wikispaces.com/Aspiration+Windows)
 	aa, ab = -1e6, 1e6	# initial alpha and beta
