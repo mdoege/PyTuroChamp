@@ -230,7 +230,7 @@ def getmove(b, silent = False, usebook = True):
 			it += 1
 		aa, ab = t - win, t + win
 		#print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))	# negamax, so a positive score means the computer scores better
-		sys.stdout.flush()
+		#sys.stdout.flush()
 		if t < -500 or t > 500:	# found a checkmate
 			break
 	return t, PV
