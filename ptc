@@ -2,5 +2,5 @@
 
 cd /home/martin/git/PyTuroChamp
 
-python3 ptc_xboard.py 
+pypy3 ptc_xboard.py ptc
 

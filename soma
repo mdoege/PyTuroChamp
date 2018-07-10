@@ -2,5 +2,5 @@
 
 cd /home/martin/git/PyTuroChamp
 
-pypy3 ptc_xboard.py newt
+pypy3 ptc_xboard.py soma
 

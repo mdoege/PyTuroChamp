@@ -2,7 +2,7 @@
 
 ## PyTuroChamp
 
-A family of toy chess engines inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
+A family of chess engines inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
 
 **PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
 
@@ -17,6 +17,8 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
 
 **Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth and offers more variety during the opening.
+
+**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. SOMA is a much weaker engine than the other three.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
@@ -99,8 +101,9 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 |---|---|
 | pyturochamp.py | The chess engine with Turing's heuristics. Plays more human-like, except for weird but typical moves like a2a4 and h2h4. |
 | bare.py | Bare bones version of PyTuroChamp, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
-| newt.pt | Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game. |
-| ptc, bare, newt | Shells script to run PTC/Bare/Newt from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
+| newt.py | Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game. |
+| soma.py | The Smith One-Move Analyzer singple-ply engine |
+| ptc, bare, newt, soma | Shells script to run PTC, Bare, Newt or SOMA from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
 | ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
 | ptc_xboard.py | Combined XBoard and UCI interface module for PTC/Bare/Newt. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now. |
 | movetest.py | Test engine responses to board situations |
