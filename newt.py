@@ -80,9 +80,6 @@ def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for player whose turn it is"
 	global moves
 
-	# This way is quite a bit faster than a simple "list(b.legal_moves)",
-	# because the LegalMoveGenerator's __len__ is not called, which would
-	# generate the moves *twice*. Thanks, SnakeViz team!
 	moves = [q for q in b.legal_moves]
 
 	if ply <= 0 and isdead(b, ply):
