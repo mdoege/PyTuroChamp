@@ -218,6 +218,7 @@ def getmove(b, silent = False, usebook = True):
 
 	win = .25	# initial aspiration window bounds (https://chessprogramming.wikispaces.com/Aspiration+Windows)
 	aa, ab = -1e6, 1e6	# initial alpha and beta
+	PV = []
 	for MAXPLIES in range(1, DEPTH + 1):
 		it = 0
 		while it < 100:
