@@ -53,16 +53,16 @@ def swapval(x, y, z):
 		else:
 			return -sumval(0, y, z) + start
 
-def getswap(b):
+def getswap(b, compcolor, playcolor):
 	"(iii) Get swap-off value"
 	svl = []
 	for i in b.piece_map().keys():
 		m = b.piece_at(i)
 		my, his = [], []
-		if m and m.color == COMPC:
-			for ax in b.attackers(PLAYC, i):
+		if m and m.color == compcolor:
+			for ax in b.attackers(playcolor, i):
 				his.append(piece(b.piece_at(ax).piece_type))
-			for ay in b.attackers(COMPC, i):
+			for ay in b.attackers(compcolor, i):
 				my.append(piece(b.piece_at(ay).piece_type))
 		own = piece(m.piece_type)
 		print('# ', c.SQUARE_NAMES[i], own, my, his)
@@ -76,20 +76,14 @@ def getswap(b):
 def gettotalswap(b):
 	"Get total swap value for board"
 	swapvalue = 0
-	COMPC = c.WHITE
-	PLAYC = c.BLACK
-
-	#b = c.Board('8/1k6/3b2n1/4N3/2pP3P/1Q4P1/2P3K1/8 b - - 0 1')
-	wp = getswap(b)
+	wp = getswap(b, COMPC, PLAYC)
 	wp.sort()
 
 	if len(wp):
 		swapvalue -= wp.pop()
 		swapvalue -= 5 * len(wp)
 
-	COMPC = c.BLACK
-	PLAYC = c.WHITE
-	bp = getswap(b)
+	bp = getswap(b, PLAYC, COMPC)
 	bp.sort()
 	if len(bp) == 1:
 		swapvalue += 5
@@ -148,7 +142,6 @@ def getmove(b, silent = False, usebook = False):
 		print('# ', "FEN:", b.fen())
 
 	nl = len(list(b.legal_moves))
-	cr0 = b.has_castling_rights(COMPC)
 	lastpos = getval(b) + getsquare(b) + gettotalswap(b)
 
 	for n, x in enumerate(b.legal_moves):
@@ -160,19 +153,13 @@ def getmove(b, silent = False, usebook = False):
 		b.pop()
 
 	ll.sort(key = lambda m: m[1])
-	if COMPC == c.WHITE:
-		ll.reverse()
 	maxval = max([y for x, y in ll])
 	ll = [(x, y) for x, y in ll if y == maxval]
 	print('# ', maxval)
 	print('# ', ll)
 	move = choice(ll)
 	print('# ', move)
-	#print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
 	return move[1], [str(move[0])]
-
-
-#print(getmove(b))
 
 
 if __name__ == '__main__':
