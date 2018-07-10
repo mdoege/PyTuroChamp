@@ -38,6 +38,11 @@ elif sys.argv[-1] == 'soma':
 	lf = "SOMA-log.txt"
 	mf = "SOMA.pgn"
 	nm = "SOMA"
+elif sys.argv[-1] == 'rmove':
+	import rmove as p
+	lf = "RMove-log.txt"
+	mf = "RMove.pgn"
+	nm = "Random Mover"
 else:
 	import pyturochamp_multi as p
 	lf = "PyTuroChamp-log.txt"
