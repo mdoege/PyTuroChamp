@@ -18,7 +18,7 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 **Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth and offers more variety during the opening.
 
-**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. SOMA is a much weaker engine than the other three.
+**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a weaker engine than the other three, it uses very little CPU time to compute its moves.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
