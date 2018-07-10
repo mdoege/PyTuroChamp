@@ -33,6 +33,11 @@ elif sys.argv[-1] == 'bare':
 	lf = "Bare-log.txt"
 	mf = "Bare.pgn"
 	nm = "Bare"
+elif sys.argv[-1] == 'soma':
+	import soma as p
+	lf = "SOMA-log.txt"
+	mf = "SOMA.pgn"
+	nm = "SOMA"
 else:
 	import pyturochamp_multi as p
 	lf = "PyTuroChamp-log.txt"
