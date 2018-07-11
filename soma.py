@@ -65,10 +65,10 @@ def getswap(b, compcolor, playcolor):
 			for ay in b.attackers(compcolor, i):
 				my.append(piece(b.piece_at(ay).piece_type))
 		own = piece(m.piece_type)
-		print('# ', c.SQUARE_NAMES[i], own, my, his)
+		#print('# ', c.SQUARE_NAMES[i], own, my, his)
 		#print(swapval(own, my, his))
 		sv = max(swapval(own, my, his), 0)
-		print('# ', sv)
+		#print('# ', sv)
 		if sv > 0:
 			svl.append(sv)
 	return svl
@@ -92,7 +92,7 @@ def gettotalswap(b):
 		swapvalue += bp.pop()
 		swapvalue += 5 * len(bp)
 
-	print('# ', swapvalue)
+	#print('# ', swapvalue)
 	return swapvalue
 
 def getsquare(b):
@@ -150,6 +150,31 @@ def psquares(u):
 			u.pop()
 	return sq
 
+def attacked(b):
+	"Get material value of own pieces under attack"
+	attacked = 0
+	for i in b.piece_map().keys():
+		m = b.piece_at(i)
+		if m and m.color == COMPC:
+			if b.attackers(PLAYC, i):
+				attacked += piece(m.piece_type)
+	return attacked
+
+def getpin(b):
+	"Get squares with pinned pieces, as we do not want to move those"
+	sqp = []
+	nowval = attacked(b)
+	for i in b.piece_map().keys():
+		m = b.piece_at(i)
+		if m and m.color == COMPC:
+			u = b.copy()
+			u.remove_piece_at(i)
+			pinval = attacked(u)
+			if pinval > nowval:
+				sqp.append(i)
+	#print('# ', [c.SQUARE_NAMES[x] for x in sqp])
+	return sqp
+
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
 	global COMPC, PLAYC, MAXPLIES
@@ -172,30 +197,35 @@ def getmove(b, silent = False, usebook = False):
 	lastpos = getval(b) + getsquare(b) + gettotalswap(b)
 
 	psq = psquares(b.copy())
+	pins = getpin(b)
 
 	for n, x in enumerate(b.legal_moves):
-		if b.is_castling(x):
+		if b.is_castling(x):		# Is this move a castle move?
 			cb = 10
 		else:
 			cb = 0
-		if x.to_square in psq:
+		if x.to_square in psq:		# Does this move go to a square threatened by a pawn advance?
 			pawn = -.1
 		else:
 			pawn = 0
+		if x.from_square in pins:	# Is this move moving a pinned piece?
+			pin = -1
+		else:
+			pin = 0
 		b.push(x)
-		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn
+		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn + pin
 		if not silent:
 			print('# ', "(%u/%u) %s %.1f" % (n + 1, nl, x, p))
 		ll.append((x, p))
 		b.pop()
-	print('# ', [c.SQUARE_NAMES[x] for x in psq])
+	#print('# ', [c.SQUARE_NAMES[x] for x in psq])
 	ll.sort(key = lambda m: m[1])
 	maxval = max([y for x, y in ll])
 	ll = [(x, y) for x, y in ll if y == maxval]
-	print('# ', maxval)
-	print('# ', ll)
+	#print('# ', maxval)
+	#print('# ', ll)
 	move = choice(ll)
-	print('# ', move)
+	#print('# ', move)
 	return move[1], [str(move[0])]
 
 
