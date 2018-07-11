@@ -23,6 +23,7 @@ MATETEST  = False	# if True, include mate and draw detection in the material eva
 
 b = c.Board()
 PV = []		# array for primary variation
+NODES = 0
 
 def getpos(b):
 	"Get positional-play value for a board for both players"
@@ -83,10 +84,10 @@ def isdead(b, p):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for player whose turn it is"
-	global moves
+	global moves, NODES
 
 	moves = [q for q in b.legal_moves]
-
+	NODES += 1
 	if ply <= 0 and isdead(b, ply):
 		return getneg(b), [str(q) for q in b.move_stack]
 	o = order(b, ply)
@@ -198,7 +199,7 @@ def getopen(b):
 
 def getmove(b, silent = False, usebook = True):
 	"Get value and primary variation for board"
-	global COMPC, PLAYC, MAXPLIES, PV
+	global COMPC, PLAYC, MAXPLIES, PV, NODES
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -217,10 +218,11 @@ def getmove(b, silent = False, usebook = True):
 				return 0, [choice(opening)]
 	except:
 		pass
-
+	NODES = 0
 	win = .25	# initial aspiration window bounds (https://chessprogramming.wikispaces.com/Aspiration+Windows)
 	aa, ab = -1e6, 1e6	# initial alpha and beta
 	PV = []
+	start = time.time()
 	for MAXPLIES in range(1, DEPTH + 1):
 		it = 0
 		while it < 100:
@@ -235,6 +237,9 @@ def getmove(b, silent = False, usebook = True):
 				break
 			it += 1
 		aa, ab = t - win, t + win
+		print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
+			1000 * (time.time() - start), NODES, ' '.join(PV)))
+		sys.stdout.flush()
 		#print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))	# negamax, so a positive score means the computer scores better
 		#sys.stdout.flush()
 		if t < -500 or t > 500:	# found a checkmate
