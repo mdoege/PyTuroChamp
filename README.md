@@ -36,6 +36,7 @@ The best match seems to be PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
 ```
 $ pypy3 glennie.py
 pstab = 0, maxplies = 1, qplies = 7
+# orig PTC
 1 e2e4 e2e3
 4 g1f3 d4e5
 6 d4d5 a2a3
@@ -62,8 +63,11 @@ According to Stockfish analysis, the "W-B" move is also the only winning move fo
 
 A similiar comparison can be done to the SOMA game recorded in *New Scientist* (November 9, 1961; page 369) using somatest.py.
 
-Taking into account the random move selection feature of SOMA, the best-matched game includes eight different moves. (Soma.py's own moves also vary due to randomness.) However, the SOMA algorithm as described in the article leaves out some details, so a few differences are to be expected.
+Taking into account the random move selection feature of SOMA, the best-matched game from soma.py includes eight moves that differ from those given in the *New Scientist* article. (Soma.py's own moves also vary due to randomness of course.)
+
+However, the description of the SOMA algorithm in *New Scientist* leaves out some details, so a few differences are to be expected. Also, SOMA's moves in the 1961 article were computed by the article's author, not a computer, so errors in computation are a possibility.
 ```
+# orig soma.py
 2 d2d4 d1g4
 3 b1c3 g1f3
 7 c1d2 d1h5
