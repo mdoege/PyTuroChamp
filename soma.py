@@ -213,7 +213,7 @@ def getmove(b, silent = False, usebook = False):
 		else:
 			pin = 0
 		b.push(x)
-		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn + pin
+		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn ###### + pin
 		if not silent:
 			print('# ', "(%u/%u) %s %.1f" % (n + 1, nl, x, p))
 		ll.append((x, p))
