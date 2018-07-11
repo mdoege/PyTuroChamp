@@ -137,6 +137,18 @@ def getval(b):
 	+	90 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
+def psquares(u):
+	"Get squares attacked by advancing enemy pawns"
+	u.turn = not u.turn
+	sq = []
+	for h in u.legal_moves:
+		pt = u.piece_type_at(h.from_square)
+		if pt == c.PAWN:
+			u.push(h)
+			for att in u.attacks(h.to_square):
+				sq.append(att)
+			u.pop()
+	return sq
 
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
@@ -159,14 +171,24 @@ def getmove(b, silent = False, usebook = False):
 	nl = len(list(b.legal_moves))
 	lastpos = getval(b) + getsquare(b) + gettotalswap(b)
 
+	psq = psquares(b.copy())
+
 	for n, x in enumerate(b.legal_moves):
+		if b.is_castling(x):
+			cb = 10
+		else:
+			cb = 0
+		if x.to_square in psq:
+			pawn = -.1
+		else:
+			pawn = 0
 		b.push(x)
-		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos
+		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn
 		if not silent:
 			print('# ', "(%u/%u) %s %.1f" % (n + 1, nl, x, p))
 		ll.append((x, p))
 		b.pop()
-
+	print('# ', [c.SQUARE_NAMES[x] for x in psq])
 	ll.sort(key = lambda m: m[1])
 	maxval = max([y for x, y in ll])
 	ll = [(x, y) for x, y in ll if y == maxval]
