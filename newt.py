@@ -19,6 +19,7 @@ PLAYC = c.WHITE
 DEPTH  = 2	# maximum search depth
 QPLIES = 4	# additional maximum quiescence search plies
 PSTAB  = .1	# influence of piece-square table on moves, 0 = none
+MATETEST  = False	# if True, include mate and draw detection in the material eval
 
 b = c.Board()
 PV = []		# array for primary variation
@@ -56,6 +57,10 @@ def getval(b):
 
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '1/2-1/2':
+			return 0
 	if b.turn:
 		return getval(b) + getpos(b)
 	else:

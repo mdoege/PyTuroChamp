@@ -144,6 +144,7 @@ while True:
 				print2("option name depth type spin default 2 min 0 max 1024")
 				print2("option name qplies type spin default 4 min 0 max 1024")
 				print2("option name pstab type spin default 1 min 0 max 1024")
+				print2("option name matetest type check default false")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
