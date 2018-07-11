@@ -104,13 +104,28 @@ def getsquare(b):
 		if m and m.color == COMPC:
 			a = b.attacks(i)
 			for s in a:
-				if i in b.attackers(PLAYC, i):
+				if kingsq in b.attackers(PLAYC, s):
 					score += 3
 				elif s in (c.D4, c.D5, c.E4, c.E5):
 					score += 2
 				else:
 					score += 1
 	return score
+
+def getsquare2(b):
+	"(ii) Get value of attacked squares (alternate version)"
+	score = 0
+	kingsq = b.king(PLAYC)
+	for i in range(64):
+		if b.attackers(COMPC, i):
+			if kingsq in b.attackers(PLAYC, i):
+				score += 3
+			elif i in (c.D4, c.D5, c.E4, c.E5):
+				score += 2
+			else:
+				score += 1
+	return score
+
 
 def getval(b):
 	"(i) Get total material value of board (White - Black, the usual method)"
