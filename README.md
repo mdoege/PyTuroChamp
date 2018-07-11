@@ -26,7 +26,9 @@ In terms of Elo points, SOMA is about 150 Elo stronger than the Random Mover, wh
 
 Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.
 
-### Comparison to the TUROCHAMP&mdash;Glennie game
+### Comparisons to historical games
+
+#### TUROCHAMP&mdash;Glennie (1952)
 
 The script glennie.py allows comparison of White's moves from the TUROCHAMP&mdash;Glennie game with PyTuroChamp's moves. Changing the parameters in pyturochamp.py will yield different results.
 
@@ -55,6 +57,22 @@ These best-fit parameters also agree with Turing's text who specified a brute-fo
 Turing's idea to evaluate material by dividing White's value by Black's value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where "W/B" plays h4h5 and "W-B" plays a6c4.
 
 According to Stockfish analysis, the "W-B" move is also the only winning move for White, while the "W/B" move leads to a drawn position. So at least in this game, "W/B" is inferior to "W-B". (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP's moves by Turing and Glennie.)
+
+#### SOMA&mdash;Machiavelli (1961)
+
+A similiar comparison can be done to the SOMA game recorded in *New Scientist* (November 9, 1961; page 369) using somatest.py.
+
+Taking into account the random move selection feature of SOMA, the best-matched game includes eight different moves. (Soma.py's own moves also vary due to randomness.) However, the SOMA algorithm as described in the article leaves out some details, so a few differences are to be expected.
+```
+2 d2d4 d1g4
+3 b1c3 g1f3
+7 c1d2 d1h5
+10 f1e2 f2f3
+13 f3e4 e2a6
+18 e2f3 e2d3
+24 d5b5 d5d8
+27 e4f5 a5c3
+```
 
 ### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
