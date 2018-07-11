@@ -1,8 +1,8 @@
 ![logo](https://github.com/mdoege/PyTuroChamp/raw/master/icons/out.png "logo bar")
 
-## PyTuroChamp
+## PyTuroChamp/SOMA
 
-A family of chess engines inspired by Alan Turing's 1948 [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp)
+Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950) and John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), and some related engines
 
 **PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
 
@@ -112,6 +112,7 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 | pyturochamp_multi.py | Experimental multi-core version of PyTuroChamp |
 | ptc_worker.py | Helper file for pyturochamp_multi.py |
 | glennie.py | Compare White moves from TUROCHAMP vs. Glennie game to PyTuroChamp's moves and show differences (uses glennie.pgn) |
+| somatest.py | Compare White moves from SOMA vs. Machiavelli game to soma.py's moves and show differences (uses soma-mac.pgn) |
 
 In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
 
