@@ -1,0 +1,159 @@
+[Event "?"]
+[Site "?"]
+[Date "1961.??.??"]
+[Round "?"]
+[White "SOMA"]
+[Black "Machiavelli"]
+[Result "1/2-1/2"]
+[Annotator "Stockfish 280618 64 POPCNT"]
+
+1.e3 
+    {+0.37}
+1...e5 
+    {+0.34}
+2.d4 
+    {+0.17}
+2...Nc6 
+    {+0.78}
+3.Nc3 
+    {+0.32}
+3...d5 
+    {+0.18}
+4.Nf3 
+    {-0.58}
+4...e4 
+    {-0.65}
+5.Ne5 D 
+    {-0.80}
+5...Bb4?! = 
+    {+0.28 / -0.80}
+    ( 5...Nxe5 6.dxe5 Ne7 7.f3 exf3 8.Qxf3 Be6 9.Bd3 Ng6 10.Qh5 Qc8 11.h3 
+    c6 12.Ne2 Qc7 13.Nd4 Qxe5 14.Qxe5 Nxe5 15.O-O Nxd3 16.cxd3 Bd6 17.Bd2 
+    )
+6.Nxc6 
+    {+0.19}
+6...bxc6 
+    {+0.20}
+7.Bd2 D 
+    {+0.08}
+7...Nf6?! += D 
+    {+1.20 / +0.08}
+    ( 7...Bd6 8.Na4 Qg5 9.b3 Nf6 10.c4 a5 11.c5 Be7 12.Bc3 Ba6 13.h4 Qf5 
+    14.Bxa6 Rxa6 15.Qe2 Ra7 16.O-O-O O-O 17.Kb2 Rb8 18.Rdf1 Qg6 19.g3 Ng4 
+    = )
+8.a3?! = 
+    {-0.22 / +1.20}
+    ( 8.Nxe4 a5 9.Nxf6+ Qxf6 10.Bxb4 axb4 11.Qf3 Qd6 12.Bd3 O-O 13.Qf4 Ba6
+    14.Qxd6 cxd6 15.Kd2 Rfb8 16.Bxa6 Rxa6 17.Rhg1 += )
+8...Bd6 
+    {-0.52}
+9.h4 
+    {-0.94}
+9...Bg4 
+    {-0.66}
+10.Be2 
+    {-0.56}
+10...Qd7 
+    {-0.65}
+11.O-O D 
+    {-1.27}
+11...O-O-O?! = 
+    {+0.00 / -1.27}
+    ( 11...O-O 12.Na4 Qf5 13.Bxg4 Nxg4 14.g3 Rae8 15.c4 Re6 16.c5 Be7 17.
+    f3 exf3 18.Rxf3 Qd3 19.Nc3 Rf6 20.Rxf6 Nxf6 21.Kg2 Rb8 22.Qe2 Qxe2+ 
+    23.Nxe2 Rxb2 )
+12.f3 D 
+    {-0.36}
+12...Bf5? += 
+    {+1.36 / -0.36}
+    ( 12...exf3 13.Bxf3 Rhe8 14.b4 Bxf3 15.Qxf3 h5 16.Rab1 Qg4 17.Be1 a6 
+    18.Na4 Qe4 19.Qxe4 Rxe4 20.Rf3 Kb8 21.Nc5 Bxc5 22.bxc5+ Ka7 = )
+13.fxe4 
+    {+1.54}
+13...Bxe4 D 
+    {+1.78}
+14.Ba6+?! += 
+    {+0.74 / +1.78}
+    ( 14.Nxe4 dxe4 15.h5 c5 16.c3 Kb7 17.Qc2 h6 18.b4 c4 19.Qa2 Qe6 20.
+    Qxc4 Bg3 21.Qb5+ Ka8 22.a4 Rb8 23.Qc4 Nd5 24.a5 +/- )
+14...Kb8 
+    {+1.32}
+15.Nxe4 
+    {+1.19}
+15...Nxe4 D 
+    {+1.23}
+16.Qe2? D 
+    {-0.87 / +1.23}
+    ( 16.Ba5 Qe7 17.c3 Ka8 18.Qa4 Qe8 19.c4 Rb8 20.Qc2 g5 21.cxd5 gxh4 22.
+    Qxc6+ Qxc6 23.dxc6 Rxb2 24.Bd3 Ng5 25.Rfb1 Rxb1+ 26.Rxb1 Re8 27.e4 Ne6
+    28.e5 Bxa3 += )
+16...Qe6? += D 
+    {+1.04 / -0.87}
+    ( 16...g5 17.h5 Ng3 18.Qf3 g4 19.Qxf7 Nxf1 20.Rxf1 Rhf8 21.Qxd7 Rxd7 
+    22.Be2 Rxf1+ 23.Kxf1 Rf7+ 24.Kg1 g3 25.Bf3 Kc8 26.Kf1 Kd7 27.Ke2 Rf5 
+    28.Kd3 Ke6 )
+17.Ba5? 
+    {-0.57 / +1.04}
+    ( 17.c4 dxc4 18.Be1 Ng3 19.Bxg3 Bxg3 20.Rf3 Bxh4 21.Bxc4 Qh6 22.Bxf7 
+    Bg5 23.Raf1 Rdf8 24.Rh3 Qd6 25.Qc4 Ka8 26.Qc3 h6 27.Rhf3 Rb8 28.Bc4 +=
+    )
+17...Ng3 D 
+    {+0.00}
+18.Qf3? -/+ 
+    {-1.79 / +0.00}
+    ( 18.Qd3 Ka8 19.Qb3 Rb8 20.Qa4 Rxb2 21.Qxc6+ Kb8 22.Bb4 Rxb4 23.axb4 
+    Ne2+ 24.Kh1 Ng3+ = )
+18...Nxf1 
+    {-1.83}
+19.Rxf1 
+    {-1.87}
+19...f6 
+    {-1.35}
+20.Rd1 
+    {-1.93}
+20...Qe4 
+    {-1.00}
+21.Qxe4 
+    {-1.80}
+21...dxe4 D 
+    {-1.68}
+22.d5? -+ 
+    {-3.23 / -1.68}
+    ( 22.Kf2 c5 23.Bc3 Be7 24.d5 f5 25.b4 cxb4 26.Bxb4 Bxb4 27.axb4 g5 28.
+    h5 Rhf8 29.c4 Rf6 30.b5 Rh6 31.Rh1 g4 32.Ke2 Rf6 33.Rb1 -/+ )
+22...cxd5 D 
+    {-3.20}
+23.Rxd5?! -+ D 
+    {-4.44 / -3.20}
+    ( 23.Kf2 Be5 24.Bb4 c6 25.b3 Rd7 26.Be2 h5 27.g4 hxg4 28.Bxg4 Rf7 29.
+    Be6 Rc7 30.Rh1 Kb7 31.a4 -+ )
+23...Be5?? += 
+    {+1.12 / -4.44}
+    ( 23...Bh2+ 24.Kxh2 Rxd5 25.Bc3 Rd1 26.Bb5 Kb7 27.b4 Rc8 28.Bd4 Rd8 
+    29.Kg3 Rd2 30.Ba4 f5 31.Bb3 g6 32.Bc3 Re2 33.Bd4 Kc6 34.c4 Ra8 35.b5+ 
+    Kd6 -+ )
+24.Rb5+ 
+    {+1.08}
+24...Ka8 
+    {+1.25}
+25.Bb7+ 
+    {+1.29}
+25...Kb8 
+    {+1.28}
+26.Bxe4+ 
+    {+1.55}
+26...Kc8 
+    {+1.57}
+27.Bf5+ 
+    {+1.66}
+27...Rd7 
+    {+1.73}
+28.Bxd7+ 
+    {+1.10}
+28...Kxd7 
+    {+1.12}
+    ( 28...Kxd7 { 19:+1.12} 29.Kf2 Kc6 30.Rb3 h5 31.Bc3 Re8 32.Bxe5 Rxe5 
+    33.Rb4 Rc5 34.c3 Kd6 35.Ke2 g5 36.Rd4+ Ke6 37.Kd3 Re5 38.Rc4 Kd6 39.
+    Ra4 a5 40.Rd4+ Ke7 41.b3 )
+1/2-1/2
+
