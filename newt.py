@@ -264,17 +264,23 @@ def getmove(b, silent = False, usebook = True):
 		if t > 1:
 			ab = t  + .5
 	setendtime()
-
+	PV = []
 	for MAXPLIES in range(1, DEPTH):
-		t, PV = searchmax(b.copy(), MAXPLIES, aa, ab)
-		PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+		while time.time() < endtime and NODES < MAXNODES:
+			t, PV = searchmax(b.copy(), MAXPLIES, aa, ab)
+			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+			if PV:
+				break
+			else:
+				ab += 10
+				#print("# ab",)
 		# if search is succesful and complete, then update PV:
 		if PV and time.time() < endtime and NODES < MAXNODES:
 			oldpv = PV
 			print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
 				1000 * (time.time() - start), NODES, ' '.join(PV)))
 			sys.stdout.flush()
-		if t < -500 or t > 500:	# found a checkmate
+		if PV and (t < -500 or t > 500):	# found a checkmate
 			break
 	return t, oldpv
 
