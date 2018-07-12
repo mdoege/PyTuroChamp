@@ -10,6 +10,8 @@ from random import random, choice
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
+MATETEST  = False	# if True, include mate and draw detection in the material eval
+
 
 b = c.Board()
 
@@ -129,6 +131,11 @@ def getsquare2(b):
 
 def getval(b):
 	"(i) Get total material value of board (White - Black, the usual method)"
+	# test for a draw
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '1/2-1/2':
+			return 0
 	return (
 		10 * (len(b.pieces(c.PAWN, c.WHITE))     - len(b.pieces(c.PAWN, c.BLACK)))
 	+	30 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))

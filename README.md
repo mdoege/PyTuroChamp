@@ -1,6 +1,6 @@
 ![logo](https://github.com/mdoege/PyTuroChamp/raw/master/icons/out.png "logo bar")
 
-## PyTuroChamp/SOMA
+## PyTuroChamp and SOMA
 
 Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950) and John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), and some related engines
 
@@ -112,7 +112,7 @@ Arena (Linux):
 * pdead: Select function for dead position evaluation
     - 1 = more Turing-like and selective; it is only considered whether the capturing piece can itself be captured
     - 2 = less selective; any capture by the other side counts
-* matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material.
+* matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move

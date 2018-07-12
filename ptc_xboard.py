@@ -160,6 +160,8 @@ while True:
 				print2("option name pstab type spin default 1 min 0 max 1024")
 				print2("option name maxnodes type spin default 1000000 min 0 max 1000000000")
 				print2("option name matetest type check default false")
+			if nm == 'SOMA':
+				print2("option name matetest type check default false")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
