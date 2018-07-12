@@ -29,6 +29,7 @@ NODES = 0
 
 wtime, btime, movestogo, movetime = -1, -1, -1, -1	# time management variables
 endtime = time.time() + 1e8
+searchok = True
 
 def getpos(b):
 	"Get positional-play value for a board for both players"
@@ -89,7 +90,7 @@ def isdead(b, p):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for player whose turn it is"
-	global moves, NODES
+	global moves, NODES, searchok
 
 	moves = [q for q in b.legal_moves]
 	NODES += 1
@@ -105,6 +106,7 @@ def searchmax(b, ply, alpha, beta):
 		if (time.time() < endtime and NODES < MAXNODES) or MAXPLIES == 1:
 			t, vv = searchmax(b, ply - 1, -beta, -alpha)
 		else:
+			searchok = False
 			return alpha, v
 		t = -t
 		b.pop()
@@ -225,7 +227,7 @@ def setendtime():
 
 def getmove(b, silent = False, usebook = True):
 	"Get value and primary variation for board"
-	global COMPC, PLAYC, MAXPLIES, PV, NODES
+	global COMPC, PLAYC, MAXPLIES, PV, NODES, searchok
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -249,13 +251,13 @@ def getmove(b, silent = False, usebook = True):
 	PV = []
 	start = time.time()
 
-	# null move pruning (http://home.hccnet.nl/h.g.muller/null.html)
 	lastboard = b.copy()
 	try:
 		lastboard.pop()		# check previous position if available
 	except:
 		pass
 
+	# null move pruning (http://home.hccnet.nl/h.g.muller/null.html)
 	if not b.is_check() and not lastboard.is_check():
 		d = b.copy()
 		d.turn = not d.turn
@@ -263,25 +265,25 @@ def getmove(b, silent = False, usebook = True):
 		t = -t
 		if t > 1:
 			ab = t  + .5
-	setendtime()
+	setendtime()	# set end time for computation based on time control
 	PV = []
-	for MAXPLIES in range(1, DEPTH):
+	for MAXPLIES in range(1, DEPTH):	# iterative deepening loop
 		while time.time() < endtime and NODES < MAXNODES:
+			searchok = True
 			t, PV = searchmax(b.copy(), MAXPLIES, aa, ab)
 			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
 			if PV:
-				break
+				break		# search has been successful
 			else:
-				ab += 10
-				#print("# ab",)
+				ab += 10	# increase Beta if search fails and try again
 		# if search is succesful and complete, then update PV:
-		if PV and time.time() < endtime and NODES < MAXNODES:
+		if searchok:
 			oldpv = PV
 			print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
 				1000 * (time.time() - start), NODES, ' '.join(PV)))
 			sys.stdout.flush()
-		if PV and (t < -500 or t > 500):	# found a checkmate
-			break
+			if PV and (t < -500 or t > 500):	# found a checkmate
+				break
 	return t, oldpv
 
 if __name__ == '__main__':
