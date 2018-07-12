@@ -16,9 +16,9 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
 
-**Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth and offers more variety during the opening.
+**Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.
 
-**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a weaker engine than the other three, it uses very little CPU time to compute its moves.
+**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a weaker engine than the other three, it requires far less than a second to compute a move.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
@@ -104,7 +104,9 @@ Arena (Linux):
 
 ### UCI parameters
 
-* maxplies (PTC, Bare)/depth (Newt): Brute-force search depth in plies
+* maxplies (PTC, Bare): Brute-force search depth in plies
+* depth (Newt): Maximum brute-force search depth in plies. This can be set quite high, because it will never be reached: for Blitz games, time management will prevent it, while for longer time controls, maxnodes sets an upper limit for computation.
+* maxnodes (Newt): How many nodes to search at most. Mainly useful for non-Blitz games to limit computation effort.
 * qplies: Quiescence search depth in plies
 * pstab: Piece-square table factor; 0 = no influence of PST
 * pdead: Select function for dead position evaluation

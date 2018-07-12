@@ -16,14 +16,19 @@ if sys.path[0]:
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-DEPTH  = 2	# maximum search depth
-QPLIES = 4	# additional maximum quiescence search plies
+DEPTH  = 14	# maximum search depth (with not be reached due to either time controls or MAXNODES)
+QPLIES = 6	# additional maximum quiescence search plies
 PSTAB  = .1	# influence of piece-square table on moves, 0 = none
 MATETEST  = False	# if True, include mate and draw detection in the material eval
+MAXNODES = 1e6	# stop search when MAXNODES nodes are reached,
+		#   to avoid crashing the machine on longer time controls
 
 b = c.Board()
 PV = []		# array for primary variation
 NODES = 0
+
+wtime, btime, movestogo, movetime = -1, -1, -1, -1	# time management variables
+endtime = time.time() + 1e8
 
 def getpos(b):
 	"Get positional-play value for a board for both players"
@@ -97,7 +102,10 @@ def searchmax(b, ply, alpha, beta):
 	v = PV
 	for x in o:
 		b.push(x)
-		t, vv = searchmax(b, ply - 1, -beta, -alpha)
+		if (time.time() < endtime and NODES < MAXNODES) or MAXPLIES == 1:
+			t, vv = searchmax(b, ply - 1, -beta, -alpha)
+		else:
+			return alpha, v
 		t = -t
 		b.pop()
 		if t >= beta:
@@ -197,6 +205,24 @@ def getopen(b):
 	#print('# %s %s  (%s)' % (id[2], id[0], id[1]))
 	return sm
 
+def setendtime():
+	"Set system time to finish move computation at"
+	global endtime, movestogo
+
+	if movetime > 0:
+		endtime = time.time() + movetime / 1000.
+		return
+	if wtime < 0 and btime < 0:
+	#	endtime = time.time() + 3		# 3 seconds default move time
+		return
+	if movestogo < 0:
+		movestogo = 60
+	if COMPC == c.WHITE:
+		thetime = wtime / 1000.
+	else:
+		thetime = btime / 1000.
+	endtime = time.time() + thetime / (movestogo + 3)
+
 def getmove(b, silent = False, usebook = True):
 	"Get value and primary variation for board"
 	global COMPC, PLAYC, MAXPLIES, PV, NODES
@@ -219,32 +245,38 @@ def getmove(b, silent = False, usebook = True):
 	except:
 		pass
 	NODES = 0
-	win = .25	# initial aspiration window bounds (https://chessprogramming.wikispaces.com/Aspiration+Windows)
 	aa, ab = -1e6, 1e6	# initial alpha and beta
 	PV = []
 	start = time.time()
-	for MAXPLIES in range(1, DEPTH + 1):
-		it = 0
-		while it < 100:
-			t, PV = searchmax(b, MAXPLIES, aa, ab)
-			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
-			if not PV:
-				win *= 2
-				aa, ab = t - win, t + win
-				#print("# fail", it, win)
-				#sys.stdout.flush()
-			else:
-				break
-			it += 1
-		aa, ab = t - win, t + win
-		print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
-			1000 * (time.time() - start), NODES, ' '.join(PV)))
-		sys.stdout.flush()
-		#print('# %u %.2f %s' % (MAXPLIES, t, str(PV)))	# negamax, so a positive score means the computer scores better
-		#sys.stdout.flush()
+
+	# null move pruning (http://home.hccnet.nl/h.g.muller/null.html)
+	lastboard = b.copy()
+	try:
+		lastboard.pop()		# check previous position if available
+	except:
+		pass
+
+	if not b.is_check() and not lastboard.is_check():
+		d = b.copy()
+		d.turn = not d.turn
+		t, PV = searchmax(d, 2, -1e6, 1e6)
+		t = -t
+		if t > 1:
+			ab = t  + .5
+	setendtime()
+
+	for MAXPLIES in range(1, DEPTH):
+		t, PV = searchmax(b.copy(), MAXPLIES, aa, ab)
+		PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
+		# if search is succesful and complete, then update PV:
+		if PV and time.time() < endtime and NODES < MAXNODES:
+			oldpv = PV
+			print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
+				1000 * (time.time() - start), NODES, ' '.join(PV)))
+			sys.stdout.flush()
 		if t < -500 or t > 500:	# found a checkmate
 			break
-	return t, PV
+	return t, oldpv
 
 if __name__ == '__main__':
 	while True:	# game loop

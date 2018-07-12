@@ -103,6 +103,20 @@ def fromfen(fen):
 		print2("Bad FEN")
 	#print(d)
 
+def set_newt_time(line):
+	xx = line.split()
+	for x in range(len(xx)):
+		if xx[x] == 'wtime':
+			p.wtime = int(xx[x + 1])
+		if xx[x] == 'btime':
+			p.btime = int(xx[x + 1])
+		if xx[x] == 'movestogo':
+			p.movestogo = int(xx[x + 1])
+		if xx[x] == 'movetime':
+			p.movetime = int(xx[x + 1])
+		if xx[x] == 'nodes':
+			p.MAXNODES = int(xx[x + 1])
+
 while True:
 	l = ''
 	try:
@@ -141,9 +155,10 @@ while True:
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
 			if nm == 'Newt':
-				print2("option name depth type spin default 2 min 0 max 1024")
-				print2("option name qplies type spin default 4 min 0 max 1024")
+				print2("option name depth type spin default 14 min 0 max 1024")
+				print2("option name qplies type spin default 6 min 0 max 1024")
 				print2("option name pstab type spin default 1 min 0 max 1024")
+				print2("option name maxnodes type spin default 1000000 min 0 max 1000000000")
 				print2("option name matetest type check default false")
 
 			print2("uciok")
@@ -193,6 +208,9 @@ while True:
 		elif 'setoption name pdead value' in l:
 			p.PDEAD = int(l.split()[4])
 			print2("# pdead: %u" % p.PDEAD)
+		elif 'setoption name maxnodes value' in l:
+			p.MAXNODES = int(l.split()[4])
+			print2("# maxnodes: %u" % p.MAXNODES)
 		elif 'setoption name matetest value' in l:
 			if l.split()[4] == "true":
 				p.MATETEST = True
@@ -220,6 +238,10 @@ while True:
 		elif l[:2] == 'go' or l == 'force':
 			if not d:
 				newgame()
+
+			if nm == 'Newt':	# Newt has time management
+				set_newt_time(l)
+
 			t, r = p.getmove(d, silent = True)
 			if r:
 				move(r)
