@@ -216,13 +216,18 @@ def getmove(b, silent = False, usebook = False):
 		else:
 			pawn = 0
 		if x.from_square in pins:	# Is this move moving a pinned piece?
-			pin = -1
+			pin = -.1
 		else:
 			pin = 0
 		b.push(x)
-		p = getval(b) + getsquare(b) + gettotalswap(b) - lastpos + cb + pawn ###### + pin
+		if COMPC == c.BLACK:
+			posval = - getval(b)
+		else:
+			posval =   getval(b)
+		p = posval + getsquare(b) + .9 * gettotalswap(b) - lastpos + cb + pawn + pin
 		if not silent:
 			print('# ', "(%u/%u) %s %.1f" % (n + 1, nl, x, p))
+			print('# ', getval(b) , getsquare(b) ,  gettotalswap(b) ,  lastpos ,  cb , pawn , pin )
 		ll.append((x, p))
 		b.pop()
 	#print('# ', [c.SQUARE_NAMES[x] for x in psq])
