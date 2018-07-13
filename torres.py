@@ -9,7 +9,9 @@ from random import random, choice
 
 b = c.Board('K7/1R6/8/8/8/8/8/7k b - - 0 1')
 
-
+# pick a random position for the Black King on the first six ranks
+b.remove_piece_at(7)
+b.set_piece_at(choice(range(6 * 8)), c.Piece(c. KING, c.BLACK))
 
 rookdir = 1
 
@@ -25,8 +27,6 @@ def getmove(b, silent = False, usebook = False):
 
 	# play random legal moves as Black to allow self play
 	if b.turn == c.BLACK:
-		COMPC = c.WHITE
-		PLAYC = c.BLACK
 		bmove = choice(b.legal_moves)
 		return 0, [str(bmove)]
 
