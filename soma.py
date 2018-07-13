@@ -187,6 +187,7 @@ def getmove(b, silent = False, usebook = False):
 	global COMPC, PLAYC, MAXPLIES
 
 	ll = []
+	start = time.time()
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -228,15 +229,17 @@ def getmove(b, silent = False, usebook = False):
 		if not silent:
 			print('# ', "(%u/%u) %s %.1f" % (n + 1, nl, x, p))
 			print('# ', getval(b) , getsquare(b) ,  gettotalswap(b) ,  lastpos ,  cb , pawn , pin )
-		ll.append((x, p))
+		ll.append((x, p, posval))
 		b.pop()
 	#print('# ', [c.SQUARE_NAMES[x] for x in psq])
 	ll.sort(key = lambda m: m[1])
-	maxval = max([y for x, y in ll])
-	ll = [(x, y) for x, y in ll if y == maxval]
+	maxval = max([y for x, y, z in ll])
+	ll = [(x, y, z) for x, y, z in ll if y == maxval]
 	#print('# ', maxval)
 	#print('# ', ll)
 	move = choice(ll)
+	print('info depth %d score cp %d time %d nodes %d' % (1, 10 * move[2], 1000 * (time.time() - start), nl))
+	sys.stdout.flush()
 	#print('# ', move)
 	return move[1], [str(move[0])]
 
