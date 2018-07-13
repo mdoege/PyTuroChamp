@@ -22,8 +22,6 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
-In terms of Elo points, SOMA is about 150 Elo stronger than the Random Mover, while Newt on default settings is about 400 Elo stronger than SOMA.
-
 Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.
 
 ### Comparisons to historical games
