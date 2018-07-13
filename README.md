@@ -18,7 +18,11 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 **Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.
 
-**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and unrelated to TUROCHAMP. It only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a weaker engine than the other three, it requires far less than a second to compute a move.
+**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and works very differently to TUROCHAMP.
+
+SOMA was created by British biologist John Maynard Smith as a challenger to *Machiavelli*, which itself had been developed around the same time as TUROCHAMP. A game (with human-computed moves) between TUROCHAMP and *Machiavelli* was intended but never took place, but SOMA is very similar to *Machiavelli* in terms of its algorithm and playing strength, so it can be pitted against PyTuroChamp.
+
+SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other three, it requires far less than a second to compute a move.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
@@ -238,6 +242,7 @@ Your move?
 ### References
 
 * Turing, Alan (1952): [*Digital computers applied to games*](https://docs.google.com/file/d/0B0xb4crOvCgTNmEtRXFBQUIxQWs/edit)
+* Smith, John M. and Michie, Donald (1961): [Machines that play games](https://books.google.de/books?id=lo7r0zX_T0sC&lpg=PA369&dq=Machines+that+play+games.+1961,+New+Scientist,+12&pg=PA367&redir_esc=y#v=onepage&q&f=false)
 * [Chess Programming Wiki](https://chessprogramming.wikispaces.com/)
 * Muller, H.G.: [*Micro-Max, a 133-line Chess Source*](http://home.hccnet.nl/h.g.muller/max-src2.html)
 
