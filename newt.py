@@ -248,7 +248,7 @@ def getmove(b, silent = False, usebook = True):
 		pass
 	NODES = 0
 	aa, ab = -1e6, 1e6	# initial alpha and beta
-	PV = []
+
 	start = time.time()
 
 	lastboard = b.copy()
@@ -261,30 +261,30 @@ def getmove(b, silent = False, usebook = True):
 	if not b.is_check() and not lastboard.is_check():
 		d = b.copy()
 		d.turn = not d.turn
-		t, PV = searchmax(d, 2, -1e6, 1e6)
+		t, enemyPV = searchmax(d, 2, -1e6, 1e6)
 		t = -t
 		if t > 1:
 			ab = t  + .5
 	setendtime()	# set end time for computation based on time control
-	PV = []
+
 	for MAXPLIES in range(1, DEPTH):	# iterative deepening loop
 		while time.time() < endtime and NODES < MAXNODES:
 			searchok = True
-			t, PV = searchmax(b.copy(), MAXPLIES, aa, ab)
-			PV = PV[len(b.move_stack):]	# separate principal variation from moves already played
-			if PV:
+			t, newPV = searchmax(b.copy(), MAXPLIES, aa, ab)
+			newPV = newPV[len(b.move_stack):]	# separate principal variation from moves already played
+			if newPV:
 				break		# search has been successful
 			else:
 				ab += 10	# increase Beta if search fails and try again
 		# if search is succesful and complete, then update PV:
 		if searchok:
-			oldpv = PV
+			PV = newPV
 			print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES, 100 * t,
 				1000 * (time.time() - start), NODES, ' '.join(PV)))
 			sys.stdout.flush()
 			if PV and (t < -500 or t > 500):	# found a checkmate
 				break
-	return t, oldpv
+	return t, PV
 
 if __name__ == '__main__':
 	while True:	# game loop
