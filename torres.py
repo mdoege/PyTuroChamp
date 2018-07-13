@@ -7,7 +7,7 @@ import sys, math, time
 from random import random, choice
 
 
-b = c.Board('K7/R7/8/8/8/8/8/7k b - - 0 1')
+b = c.Board('K7/1R6/8/8/8/8/8/7k b - - 0 1')
 
 
 
@@ -44,31 +44,31 @@ def getmove(b, silent = False, usebook = False):
 
 	if wr in b.attacks(bk):
 		if wrx < 4:
-			return wmove(wrx, wry, 7, wry, 'move rook right')
+			return wmove(wrx, wry, 7, wry, 'move Rook right')
 		else:
-			return wmove(wrx, wry, 0, wry, 'move rook left')
+			return wmove(wrx, wry, 0, wry, 'move Rook left')
 	else:
 		if wry - bky > 1:
-			return wmove(wrx, wry, wrx, wry - 1, 'move rook down')
+			return wmove(wrx, wry, wrx, wry - 1, 'move Rook down')
 		else:
 			vd = wky - bky
 			hd = abs(wkx - bkx)
 			if vd > 2:
-				return wmove(wkx, wky, wkx, wky - 1, 'move king down')
+				return wmove(wkx, wky, wkx, wky - 1, 'move King down')
 			else:
 				if hd == 0:
-					return wmove(wrx, wry, wrx, wry - 1, 'move rook down')
+					return wmove(wrx, wry, wrx, wry - 1, 'move Rook down')
 				elif hd % 2 == 0:
 					if wkx < bkx:
-						return wmove(wkx, wky, wkx + 1, wky, 'white king towards king')
+						return wmove(wkx, wky, wkx + 1, wky, 'move King towards King')
 					else:
-						return wmove(wkx, wky, wkx - 1, wky, 'white king towards king')
+						return wmove(wkx, wky, wkx - 1, wky, 'move King towards King')
 				else:
 					if wrx == 0:
 						rookdir = 1
 					if wrx == 7:
 						rookdir = -1
-					return wmove(wrx, wry, wrx + rookdir, wry, 'move rook horizontally')
+					return wmove(wrx, wry, wrx + rookdir, wry, 'move Rook horizontally')
 
 if __name__ == '__main__':
 	while True:	# game loop
