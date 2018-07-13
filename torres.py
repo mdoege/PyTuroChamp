@@ -14,6 +14,8 @@ b.remove_piece_at(7)
 b.set_piece_at(choice(range(6 * 8)), c.Piece(c. KING, c.BLACK))
 
 rookdir = 1
+COMPC = c.WHITE
+PLAYC = c.BLACK
 
 def wmove(x1, y1, x2, y2, reason):
 	"Get White move"
@@ -27,7 +29,7 @@ def getmove(b, silent = False, usebook = False):
 
 	# play random legal moves as Black to allow self play
 	if b.turn == c.BLACK:
-		bmove = choice(b.legal_moves)
+		bmove = choice(list(b.legal_moves))
 		return 0, [str(bmove)]
 
 	for i in b.piece_map().keys():
