@@ -2,7 +2,7 @@
 
 ## PyTuroChamp, SOMA, and *El Ajedrecista*
 
-Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950) and John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), and some related engines
+Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
 **PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
 
@@ -24,7 +24,9 @@ SOMA was created by British biologist John Maynard Smith as a challenger to *Mac
 
 SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other three, it requires far less than a second to compute a move.
 
-***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a white king and a rook to checkmate the black king moved by a human opponent.
+***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White king and a rook to checkmate the Black king moved by a human opponent.
+
+The starting position should be set up with White's king and rook on A8 and B7, respectively, while the Black king can be positioned anywhere on the first six ranks.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
