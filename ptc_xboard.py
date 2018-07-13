@@ -38,6 +38,11 @@ elif sys.argv[-1] == 'soma':
 	lf = "SOMA-log.txt"
 	mf = "SOMA.pgn"
 	nm = "SOMA"
+elif sys.argv[-1] == 'torres':
+	import torres as p
+	lf = "Torres-log.txt"
+	mf = "Torres.pgn"
+	nm = "El Ajedrecista"
 elif sys.argv[-1] == 'rmove':
 	import rmove as p
 	lf = "RMove-log.txt"
