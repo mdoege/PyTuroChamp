@@ -24,9 +24,9 @@ SOMA was created by British biologist John Maynard Smith as a challenger to *Mac
 
 SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other three, it requires far less than a second to compute a move.
 
-***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White king and a rook to checkmate the Black king moved by a human opponent.
+***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
 
-The starting position should be set up with White's king and rook on A8 and B7, respectively, while the Black king can be positioned anywhere on the first six ranks.
+The starting position should be set up with White's King and Rook on A8 and B7, respectively, while the Black King can be positioned anywhere on the first six ranks.
 
 **PTC-Host** lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.
 
@@ -135,8 +135,8 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 | bare.py | Bare bones version of PyTuroChamp, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
 | newt.py | Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game. |
 | soma.py | The Smith One-Move Analyzer single-ply analyzer engine |
-| torres.py | *El Ajedrecista*, an automaton that checkmates Black with a rook |
-| rmove.py | A random mover, primarily here as an adversary that SOMA can actually defeat |
+| torres.py | *El Ajedrecista*, an automaton that checkmates Black with a Rook |
+| rmove.py | A random mover |
 | ptc, bare, newt, soma, rmove | Shells script to run PTC, Bare, Newt, SOMA or RMove from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
 | ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
 | ptc_xboard.py | Combined XBoard and UCI interface module for all engines. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now, but also allows selecting a different engine via a command line parameter (newt, ptc, bare, soma, torres, and rmove). |
