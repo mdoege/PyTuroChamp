@@ -177,6 +177,8 @@ while True:
 			for mo in mm:
 				d.push_uci(mo)
 		elif 'position fen' in l:
+			if l.split()[6] == 'moves':	# Shredder FEN
+				l = ' '.join(l.split()[:6] + ['0', '1'] + l.split()[6:])
 			ff = l.split()[2:8]
 			mm = l.split()[9:]
 			ff = ' '.join(ff)
