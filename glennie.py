@@ -12,6 +12,12 @@ game = chess.pgn.read_game(pgn)
 b = game.board()
 bad = 0
 
+p.MAXPLIES = 1	# equals 2 plies
+p.QPLIES = 7
+p.PSTAB = 0
+p.PDEAD = 1
+p.MATETEST = False
+
 print('pstab = %u, maxplies = %u, qplies = %u' % (p.PSTAB, p.MAXPLIES, p.QPLIES))
 
 for m in game.main_line():
