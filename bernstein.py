@@ -174,10 +174,12 @@ def get_pmt(b):
 	my_swap = getswap(b, b.turn, not b.turn)	# (b), limited to one defensive move per piece
 	defend = []
 	for x in m:
+		b.push(x)
 		if ( x.from_square in my_swap and
-		  len(list(b.attackers(not b.turn, x.to_square))) == 0 and x.from_square not in defend ):
+		  len(list(b.attackers(b.turn, x.to_square))) == 0 and x.from_square not in defend ):
 			defend.append(x.from_square)
 			pmt.append(x)
+		b.pop()
 	enemy_swap = getswap(b, not b.turn, b.turn, onlyzero = True)	# (c)
 	for x in m:
 		if x.to_square in enemy_swap:
