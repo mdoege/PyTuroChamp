@@ -1,6 +1,6 @@
 ![logo](https://github.com/mdoege/PyTuroChamp/raw/master/icons/out.png "logo bar")
 
-## PyTuroChamp, SOMA, and *El Ajedrecista*
+## PyTuroChamp, SOMA, Bernstein, and *El Ajedrecista*
 
 Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
@@ -24,7 +24,7 @@ SOMA was created by British biologist John Maynard Smith as a challenger to *Mac
 
 SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other ones, it requires far less than a second to compute a move.
 
-**The Bernstein Chess Program'' was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky in 1957 and ran on an IBM 704. The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program. On an IBM 704, one of the last vacuum tube computers, it searched four plies minimax in around 8 minutes, considering the seven most plausible moves from each position and evaluated material, mobility, area control and king defense.
+**The Bernstein Chess Program** was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky in 1957 and ran on an IBM 704. The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program. On an IBM 704, one of the last vacuum tube computers, it searched four plies minimax in around 8 minutes, considering the seven most plausible moves from each position and evaluated material, mobility, area control and king defense.
 
 ***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
 
