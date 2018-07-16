@@ -15,6 +15,8 @@ PLAYC = c.WHITE
 MAXPLIES = 3	# 4 plies
 PSTAB    = 0	# influence of piece-square table on moves, 0 = none
 PMTLEN   = 7	# size of Plausible Move Table
+PMTSTART = 0	# first ply where the PMT is used,
+		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
 MATETEST = False
 
 b = c.Board()
@@ -273,7 +275,7 @@ def searchmax(b, ply, alpha, beta):
 	mypmt = get_pmt(b)
 
 	for x in o:
-		if str(x) not in mypmt:
+		if ply + 1 >= PMTSTART and str(x) not in mypmt:
 			continue
 		b.push(x)
 		t, vv = searchmax(b, ply + 1, -beta, -alpha)
@@ -336,7 +338,7 @@ def getmove(b, silent = False, usebook = False):
 
 	pmt = get_pmt(b)
 	for n, x in enumerate(b.legal_moves):
-		if str(x) not in pmt:
+		if PMTSTART == 0 and str(x) not in pmt:
 			continue
 		print()
 		print('# ', str(x))

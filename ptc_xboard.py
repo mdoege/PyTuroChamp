@@ -175,6 +175,7 @@ while True:
 			if nm == 'Bernstein':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pmtlen type spin default 7 min 1 max 1024")
+				print2("option name pmtstart type spin default 0 min 0 max 1024")
 				print2("option name matetest type check default false")
 
 			print2("uciok")
@@ -238,6 +239,9 @@ while True:
 		elif 'setoption name pmtlen value' in l:
 			p.PMTLEN = int(l.split()[4])
 			print2("# pmtlen: %u" % p.PMTLEN)
+		elif 'setoption name pmtstart value' in l:
+			p.PMTSTART = int(l.split()[4])
+			print2("# pmtstart: %u" % p.PMTSTART)
 
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])
