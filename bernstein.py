@@ -175,7 +175,7 @@ def get_pmt(b):
 	defend = []
 	for x in m:
 		if ( x.from_square in my_swap and
-		  len(list(b.attackers(not b.turn, x.to_square))) < len(list(b.attackers(b.turn, x.to_square))) and x.from_square not in defend ):
+		  len(list(b.attackers(not b.turn, x.to_square))) == 0 and x.from_square not in defend ):
 			defend.append(x.from_square)
 			pmt.append(x)
 	enemy_swap = getswap(b, not b.turn, b.turn, onlyzero = True)	# (c)
