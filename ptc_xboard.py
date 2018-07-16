@@ -43,6 +43,11 @@ elif sys.argv[-1] == 'torres':
 	lf = "Torres-log.txt"
 	mf = "Torres.pgn"
 	nm = "El Ajedrecista"
+elif sys.argv[-1] == 'bern':
+	import bernstein as p
+	lf = "Bernstein-log.txt"
+	mf = "Bernstein.pgn"
+	nm = "Bernstein"
 elif sys.argv[-1] == 'rmove':
 	import rmove as p
 	lf = "RMove-log.txt"
@@ -167,6 +172,10 @@ while True:
 				print2("option name matetest type check default false")
 			if nm == 'SOMA':
 				print2("option name matetest type check default false")
+			if nm == 'Bernstein':
+				print2("option name maxplies type spin default 3 min 0 max 1024")
+				print2("option name pmtlen type spin default 7 min 1 max 1024")
+				print2("option name matetest type check default false")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -226,6 +235,9 @@ while True:
 			else:
 				p.MATETEST = False
 			print2("# matetest: %s" % p.MATETEST)
+		elif 'setoption name pmtlen value' in l:
+			p.PMTLEN = int(l.split()[4])
+			print2("# pmtlen: %u" % p.PMTLEN)
 
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])

@@ -2,7 +2,7 @@
 
 ## PyTuroChamp, SOMA, and *El Ajedrecista*
 
-Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
+Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
 **PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
 
@@ -22,7 +22,9 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 SOMA was created by British biologist John Maynard Smith as a challenger to *Machiavelli*, which itself had been developed around the same time as TUROCHAMP. A game (with human-computed moves) between TUROCHAMP and *Machiavelli* was intended but never took place, but SOMA is very similar to *Machiavelli* in terms of its algorithm and playing strength, so it can be pitted against PyTuroChamp.
 
-SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other three, it requires far less than a second to compute a move.
+SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other ones, it requires far less than a second to compute a move.
+
+**The Bernstein Chess Program'' was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky in 1957 and ran on an IBM 704. The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program. On an IBM 704, one of the last vacuum tube computers, it searched four plies minimax in around 8 minutes, considering the seven most plausible moves from each position and evaluated material, mobility, area control and king defense.
 
 ***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
 
@@ -121,6 +123,7 @@ Arena (Linux):
     - 1 = more Turing-like and selective; it is only considered whether the capturing piece can itself be captured
     - 2 = less selective; any capture by the other side counts
 * matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
+* pmtlen (Bernstein): Length of the Plausible Move Table
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move
@@ -131,23 +134,37 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 
 ### Files
 
+#### Engines
+
 |Filename | Description |
 |---|---|
 | pyturochamp.py | The chess engine with Turing's heuristics. Plays more human-like, except for weird but typical moves like a2a4 and h2h4. |
 | bare.py | Bare bones version of PyTuroChamp, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took [62 moves to checkmate it](https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn) (with ponder off). |
 | newt.py | Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game. |
 | soma.py | The Smith One-Move Analyzer single-ply analyzer engine |
+| bernstein.py | The Bernstein Chess Program |
 | torres.py | *El Ajedrecista*, an automaton that checkmates Black with a Rook |
 | rmove.py | A random mover |
-| ptc, bare, newt, soma, rmove | Shells script to run PTC, Bare, Newt, SOMA or RMove from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
-| ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
-| ptc_xboard.py | Combined XBoard and UCI interface module for all engines. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now, but also allows selecting a different engine via a command line parameter (newt, ptc, bare, soma, torres, and rmove). |
-| movetest.py | Test engine responses to board situations |
-| pst.py | Helper file with piece-square tables |
 | pyturochamp_multi.py | Experimental multi-core version of PyTuroChamp |
+
+#### Helper scripts
+
+|Filename | Description |
+|---|---|
+| ptc, bare, newt, soma, bern, rmove | Shells script to run PTC, Bare, Newt, SOMA or RMove from a chess GUI, e.g. [Cute Chess](https://github.com/cutechess/cutechess) , [KDE Knights](https://www.kde.org/applications/games/knights/) or [XBoard](https://www.gnu.org/software/xboard/). (Change the directory path inside first.)
+| ptc-host.py | Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)
+| ptc_xboard.py | Combined XBoard and UCI interface module for all engines. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now, but also allows selecting a different engine via a command line parameter (newt, ptc, bare, soma, bern, torres, and rmove). |
+| pst.py | Helper file with piece-square tables |
 | ptc_worker.py | Helper file for pyturochamp_multi.py |
+
+#### Test scripts
+
+|Filename | Description |
+|---|---|
+| movetest.py | Test engine responses to board situations |
 | glennie.py | Compare White moves from TUROCHAMP vs. Glennie game to PyTuroChamp's moves and show differences (uses glennie.pgn) |
 | somatest.py | Compare White moves from SOMA vs. Machiavelli game to soma.py's moves and show differences (uses soma-mac.pgn) |
+| berntest.py | Compare White moves to the IBM 704 vs Human game (uses bernstein_ibm704.pgn)
 
 In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
 
