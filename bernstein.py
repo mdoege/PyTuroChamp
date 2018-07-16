@@ -2,8 +2,6 @@
 
 # The Bernstein chess engine (1958)
 
-from pst import pst
-
 import chess as c
 import sys, math, time
 
@@ -13,7 +11,6 @@ COMPC = c.BLACK
 PLAYC = c.WHITE
 
 MAXPLIES = 3	# 4 plies
-PSTAB    = 0	# influence of piece-square table on moves, 0 = none
 PMTLEN   = 7	# size of Plausible Move Table
 PMTSTART = 0	# first ply where the PMT is used,
 		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
