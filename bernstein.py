@@ -134,8 +134,11 @@ def getswap(b, compcolor, playcolor, onlyzero = False):
 			for ay in b.attackers(compcolor, i):
 				my.append(piece(b.piece_at(ay).piece_type))
 		own = piece(m.piece_type)
-		sv = max(swapval(own, my, his), 0)
-		if (onlyzero and sv == 0) or sv > 0:
+		sv = swapval(own, my, his)
+		if onlyzero and len(his) and len(my) and sv == 0:
+			svl.append(i)
+		sv = max(sv, 0)
+		if not onlyzero and sv > 0:
 			svl.append(i)
 	return svl
 
