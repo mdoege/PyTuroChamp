@@ -270,7 +270,11 @@ def searchmax(b, ply, alpha, beta):
 		if not o:
 			return getneg(b), [str(q) for q in b.move_stack]
 	v = PV
+	mypmt = get_pmt(b)
+
 	for x in o:
+		if str(x) not in mypmt:
+			continue
 		b.push(x)
 		t, vv = searchmax(b, ply + 1, -beta, -alpha)
 		t = -t
@@ -342,9 +346,8 @@ def getmove(b, silent = False, usebook = False):
 		t, PV = searchmax(u, 0, -1e6, 1e6)
 		t = -t
 		PV = PV[len(b.move_stack) - 1:]
-		if not silent:
-			print("# (%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
-			print('# ', PV)
+		print("# (%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
+		print('# ', PV)
 		ll.append((x, p, t, PV))
 		b.pop()
 
@@ -352,8 +355,6 @@ def getmove(b, silent = False, usebook = False):
 	ll.reverse()
 	print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1, 100 * ll[0][2],
 		1000 * (time.time() - start), NODES, ' '.join(ll[0][3])))
-	print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
-	print('# ', 50 * '*')
 	return ll[0][1] + ll[0][2], [str(ll[0][0])]
 
 if __name__ == '__main__':
