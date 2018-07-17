@@ -4,7 +4,7 @@
 
 Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
-**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0,
+**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0, MAXPLIES = 1, and QPLIES < 3,
 
  1. e3
 
@@ -38,58 +38,6 @@ The starting position should be set up with White's King and Rook on A8 and B7, 
 
 Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.
 
-### Comparisons to historical games
-
-#### TUROCHAMP&mdash;Glennie (1952)
-
-The script glennie.py allows comparison of White's moves from the TUROCHAMP&mdash;Glennie game with PyTuroChamp's moves. Changing the parameters in pyturochamp.py will yield different results.
-
-The best match seems to be PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
-```
-$ pypy3 glennie.py
-pstab = 0, maxplies = 1, qplies = 7
-# orig PTC
-1 e2e4 e2e3
-4 g1f3 d4e5
-6 d4d5 a2a3
-10 f1b5 d2e3
-15 h1g1 e1g1
-17 a6b5 a6c4
-19 b5c6 e2c4
-22 c1d2 e2d2
-23 g5g4 b2b3
-25 d5b3 b2b3
-26 b3c4 d1g1
-27 g4g3 g4g5
-===> 12 moves differ
-```
-This is similar to the [ChessBase Turing Engine](https://en.chessbase.com/post/reconstructing-turing-s-paper-machine), which produces 11 mismatches (in moves 1, 5, 15, 17, 18, 19, 20, 22, 23, 27, and 29), although the CB and PTC moves are seldom the same.
-
-These best-fit parameters also agree with Turing's text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).
-
-Turing's idea to evaluate material by dividing White's value by Black's value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where "W/B" plays h4h5 and "W-B" plays a6c4.
-
-According to Stockfish analysis, the "W-B" move is also the only winning move for White, while the "W/B" move leads to a drawn position. So at least in this game, "W/B" is inferior to "W-B". (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP's moves by Turing and Glennie.)
-
-#### SOMA&mdash;Machiavelli (1961)
-
-A similiar comparison can be done to the SOMA game recorded in *New Scientist* (November 9, 1961; page 369) using somatest.py.
-
-Taking into account the random move selection feature of SOMA, the best-matched game from soma.py includes eight moves that differ from those given in the *New Scientist* article. (Soma.py's own moves also vary due to randomness of course.)
-
-However, the description of the SOMA algorithm in *New Scientist* leaves out some details, so a few differences are to be expected. Also, SOMA's moves in the 1961 article were computed by the article's author, not a computer, so errors in computation are a possibility.
-```
-# orig soma.py
-2 d2d4 d1g4
-3 b1c3 g1f3
-7 c1d2 d1h5
-10 f1e2 f2f3
-13 f3e4 e2a6
-18 e2f3 e2d3
-24 d5b5 d5d8
-27 e4f5 a5c3
-```
-
 ### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
 A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
@@ -121,9 +69,6 @@ Arena (Linux):
 * maxnodes (Newt): How many nodes to search at most. Mainly useful for non-Blitz games to limit computation effort.
 * qplies: Quiescence search depth in plies
 * pstab: Piece-square table factor; 0 = no influence of PST
-* pdead: Select function for dead position evaluation
-    - 1 = more Turing-like and selective; it is only considered whether the capturing piece can itself be captured
-    - 2 = less selective; any capture by the other side counts
 * matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
 * pmtlen (Bernstein): Length of the Plausible Move Table
 * pmtstart (Bernstein): First ply where the PMT is used, so e.g. PMTSTART = 2 means that the PMT will not be used during the first two plies.
@@ -202,64 +147,60 @@ setuptools   28.8.0
 
 # Run one of the chess engines with PyPy:
 $ pypy3 ptc_xboard.py newt
-go
-#    ()
-move g2g3
-quit
+```
 
-$ pypy3 pyturochamp.py
-r n b q k b n r
-p p p p p p p p
-. . . . . . . .
-. . . . . . . .
-. . . . . . . .
-. . . . . . . .
-P P P P P P P P
-R N B Q K B N R
-0.0
-Your move? e2e4
-r n b q k b n r
-p p p p p p p p
-. . . . . . . .
-. . . . . . . .
-. . . . P . . .
-. . . . . . . .
-P P P P . P P P
-R N B Q K B N R
-0.0
-FEN: rnbqkbnr/pppppppp/8/8/4P3/8/PPPP1PPP/RNBQKBNR b KQkq - 0 1
-(1/20) g8h6 -2.2 0.00
-(2/20) g8f6 -3.9 0.00
-(3/20) b8c6 -3.6 0.00
-(4/20) b8a6 -2.0 0.00
-(5/20) h7h6 -2.4 0.00
-(6/20) g7g6 -2.3 0.00
-(7/20) f7f6 -0.7 0.00
-(8/20) e7e6 -6.7 0.00
-(9/20) d7d6 -5.0 0.00
-(10/20) c7c6 -3.1 0.00
-(11/20) b7b6 -2.3 0.00
-(12/20) a7a6 -2.2 0.00
-(13/20) h7h5 -3.2 0.00
-(14/20) g7g5 -2.4 0.00
-(15/20) f7f5 -1.2 1.00
-(16/20) e7e5 -7.3 0.00
-(17/20) d7d5 -6.6 0.00
-(18/20) c7c5 -3.6 0.00
-(19/20) b7b5 -2.2 1.00
-(20/20) a7a5 -3.0 0.00
-# -7.30 ['e7e5']
-My move: 1. e7e5     ( calculation time spent: 0 m 6 s )
-r n b q k b n r
-p p p p . p p p
-. . . . . . . .
-. . . . p . . .
-. . . . P . . .
-. . . . . . . .
-P P P P . P P P
-R N B Q K B N R
-0.0
-Your move?
+### Comparison to historical games
+
+Note that the focus of the project has shifted more towards playability rather than perfectly recreating the old games, so the discussion below may only apply to earlier engine versions.
+
+#### TUROCHAMP&mdash;Glennie (1952)
+
+The script glennie.py allows comparison of White's moves from the TUROCHAMP&mdash;Glennie game with PyTuroChamp's moves. Changing the parameters in pyturochamp.py will yield different results.
+
+The best match seems to be PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
+```
+$ pypy3 glennie.py
+pstab = 0, maxplies = 1, qplies = 7
+# orig PTC
+1 e2e4 e2e3
+4 g1f3 d4e5
+6 d4d5 a2a3
+10 f1b5 d2e3
+15 h1g1 e1g1
+17 a6b5 a6c4
+19 b5c6 e2c4
+22 c1d2 e2d2
+23 g5g4 b2b3
+25 d5b3 b2b3
+26 b3c4 d1g1
+27 g4g3 g4g5
+===> 12 moves differ
+```
+This is similar to the [ChessBase Turing Engine](https://en.chessbase.com/post/reconstructing-turing-s-paper-machine), which produces 11 mismatches (in moves 1, 5, 15, 17, 18, 19, 20, 22, 23, 27, and 29), although the CB and PTC moves are seldom the same.
+
+These best-fit parameters also agree with Turing's text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).
+
+Turing's idea to evaluate material by dividing White's value by Black's value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where "W/B" plays h4h5 and "W-B" plays a6c4.
+
+According to Stockfish analysis, the "W-B" move is also the only winning move for White, while the "W/B" move leads to a drawn position. So at least in this game, "W/B" is inferior to "W-B". (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP's moves by Turing and Glennie.)
+
+#### SOMA&mdash;Machiavelli (1961)
+
+A similiar comparison can be done to the SOMA game recorded in *New Scientist* (November 9, 1961; page 369) using somatest.py.
+
+Taking into account the random move selection feature of SOMA, the best-matched game from soma.py includes eight moves that differ from those given in the *New Scientist* article. (Soma.py's own moves also vary due to randomness of course.)
+
+However, the description of the SOMA algorithm in *New Scientist* leaves out some details, so a few differences are to be expected. Also, SOMA's moves in the 1961 article were computed by the article's author, not a computer, so errors in computation are a possibility.
+```
+# orig soma.py
+2 d2d4 d1g4
+3 b1c3 g1f3
+7 c1d2 d1h5
+10 f1e2 f2f3
+13 f3e4 e2a6
+18 e2f3 e2d3
+24 d5b5 d5d8
+27 e4f5 a5c3
 ```
 ### Prerequisites
 

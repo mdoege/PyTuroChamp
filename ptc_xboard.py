@@ -153,9 +153,8 @@ while True:
 			print2("id author Martin C. Doege")
 			if 'PyTuroChamp' in nm:
 				print2("option name maxplies type spin default 1 min 0 max 1024")
-				print2("option name qplies type spin default 3 min 0 max 1024")
+				print2("option name qplies type spin default 7 min 0 max 1024")
 				print2("option name pstab type spin default 0 min 0 max 1024")
-				print2("option name pdead type spin default 1 min 1 max 2")
 				print2("option name matetest type check default false")
 
 				print2("option name MoveError type spin default 0 min 0 max 1024")
@@ -224,9 +223,6 @@ while True:
 			else:
 				p.PSTAB = int(l.split()[4])
 				print2("# pstab: %u" % p.PSTAB)
-		elif 'setoption name pdead value' in l:
-			p.PDEAD = int(l.split()[4])
-			print2("# pdead: %u" % p.PDEAD)
 		elif 'setoption name maxnodes value' in l:
 			p.MAXNODES = int(l.split()[4])
 			print2("# maxnodes: %u" % p.MAXNODES)
