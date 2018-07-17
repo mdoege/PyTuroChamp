@@ -37,30 +37,27 @@ def getpos(b):
 	ws, bs = 0, 0
 	for i in range(64):
 		m = b.piece_at(i)
-		if not m:
-			if len(list(b.attackers(c.WHITE, i))) > len(list(b.attackers(c.BLACK, i))):
-				ws += len(list(b.attackers(c.WHITE, i)))
-			if len(list(b.attackers(c.BLACK, i))) > len(list(b.attackers(c.WHITE, i))):
-				bs += len(list(b.attackers(c.BLACK, i)))
+		if len(list(b.attackers(c.WHITE, i))) and not len(list(b.attackers(c.BLACK, i))):
+			ws += len(list(b.attackers(c.WHITE, i)))
+		if len(list(b.attackers(c.BLACK, i))) and not len(list(b.attackers(c.WHITE, i))):
+			bs += len(list(b.attackers(c.BLACK, i)))
 
 	# 3. controlled squares around each King
 	wk, bk = 0, 0
 	wking, bking = b.king(c.WHITE), b.king(c.BLACK)
 	for i in range(64):
-		m = b.piece_at(i)
-		if not m:
-			if wking in b.attackers(c.WHITE, i):
-				if len(list(b.attackers(c.WHITE, i))) - 1 > len(list(b.attackers(c.BLACK, i))):
-					wk += len(list(b.attackers(c.WHITE, i)))
-			if bking in b.attackers(c.BLACK, i):
-				if len(list(b.attackers(c.BLACK, i))) - 1 > len(list(b.attackers(c.WHITE, i))):
-					bk += len(list(b.attackers(c.BLACK, i)))
+		if wking in b.attackers(c.WHITE, i):
+			if not len(list(b.attackers(c.BLACK, i))):
+				wk += 1
+		if bking in b.attackers(c.BLACK, i):
+			if not len(list(b.attackers(c.WHITE, i))):
+				bk += 1
 
 	if not b.turn:
-		posval = wm + ws + wk
+		posval = wm + ws + wk - bm - bs - bk
 	else:
-		posval = bm + bs + bk
-	#print('# ', wm, bm, ws, bs, wk, bk, '=', posval)
+		posval = bm + bs + bk - wm - ws - wk
+	#print('# ', wm, ws, wk, '  ', bm, bs, bk, '=', posval)
 	return posval	
 
 def getval(b):
@@ -80,9 +77,9 @@ def getneg(b):
 		if res == '1/2-1/2':
 			return 0
 	if b.turn == c.WHITE:
-		return getval(b)
+		return .001 * getpos(b) + getval(b)
 	else:
-		return -getval(b)
+		return .001 * getpos(b) - getval(b)
 
 def piece(t):
 	"Get piece value"
@@ -345,21 +342,20 @@ def getmove(b, silent = False, usebook = False):
 		print()
 		print('# ', str(x))
 		b.push(x)
-		p = getpos(b)
 		u = b.copy()
 		t, PV = searchmax(u, 0, -1e6, 1e6)
 		t = -t
 		PV = PV[len(b.move_stack) - 1:]
-		print("# (%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
+		print("# (%u/%u) %s %.2f" % (n + 1, nl, x, t))
 		print('# ', PV)
-		ll.append((x, p, t, PV))
+		ll.append((x, t, PV))
 		b.pop()
 
-	ll.sort(key = lambda m: m[1] + 1e6 * m[2])
+	ll.sort(key = lambda m: m[1])
 	ll.reverse()
-	print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1, 100 * ll[0][2],
-		1000 * (time.time() - start), NODES, ' '.join(ll[0][3])))
-	return ll[0][1] + ll[0][2], [str(ll[0][0])]
+	print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1, 100 * ll[0][1],
+		1000 * (time.time() - start), NODES, ' '.join(ll[0][2])))
+	return ll[0][1], [str(ll[0][0])]
 
 if __name__ == '__main__':
 	while True:	# game loop
