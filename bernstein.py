@@ -99,22 +99,20 @@ def sumval(a, b, c):
 		a -= y
 	return a
 
-def swapval(x, y, z):
+def swapval(y, z):
 	"Get swap-off value for a piece"
-	if len(z) == 0:
-		return 0
 	y.sort()
 	z.sort()
-	start = sumval(x, y, z)
+	v = 0
 	while True:
-		if len(z) > 0 and len(y) > 0:
-			z.pop(0)
-		else:
-			return -sumval(0, y, z) + start
-		if len(y) > 0 and len(z) > 0:
-			y.pop(0)
-		else:
-			return -sumval(0, y, z) + start
+		if len(y) > 0:
+			v += y.pop(0)
+		if len(y) == 0:
+			return v
+		if len(z) > 0:
+			v -= z.pop(0)
+		if len(z) == 0:
+			return v
 
 def getswap(b, compcolor, playcolor, onlyzero = False):
 	"(iii) Get swap-off value"
@@ -127,13 +125,15 @@ def getswap(b, compcolor, playcolor, onlyzero = False):
 				his.append(piece(b.piece_at(ax).piece_type))
 			for ay in b.attackers(compcolor, i):
 				my.append(piece(b.piece_at(ay).piece_type))
-		own = piece(m.piece_type)
-		sv = swapval(own, my, his)
-		if onlyzero and len(his) and len(my) and sv == 0:
-			svl.append(i)
-		sv = max(sv, 0)
-		if not onlyzero and sv > 0:
-			svl.append(i)
+		my = [piece(m.piece_type)] + my
+		if len(his):
+			sv = swapval(my, his)
+			#print(c.SQUARE_NAMES[i], sv)
+			if onlyzero and sv == 0:
+				svl.append(i)
+			sv = max(sv, 0)
+			if not onlyzero and sv > 0:
+				svl.append(i)
 	return svl
 
 def home_rank(b):
