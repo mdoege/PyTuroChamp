@@ -16,9 +16,8 @@ COMPC = c.BLACK
 PLAYC = c.WHITE
 
 MAXPLIES = 1	# maximum search depth
-QPLIES    = MAXPLIES + 2
+QPLIES    = MAXPLIES + 6
 PSTAB     = 0	# influence of piece-square table on moves, 0 = none
-PDEAD     = 1   # version of dead position eval
 MATETEST  = False	# if True, include mate and draw detection in the material eval
 
 # Easy play / random play parameters
@@ -177,49 +176,30 @@ def getval(b):
 
 	return getval1(b)
 
-def isdead1(b, p):
-	"Is the position dead? (quiescence) E.g., can the capturing piece be recaptured? (old, more restrictive version)"
-	if p >= QPLIES or not len(list(b.legal_moves)):
-		return True
-	if b.is_check():
-		return False
-	x = b.pop()
-	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
-		b.push(x)
-		return False
-	else:
-		b.push(x)
-		return True
-
-def isdead2(b, p):
-	"Is the position dead? (quiescence) (new, less restrictive version)"
-	lm = list(b.legal_moves)
-	if p >= QPLIES or not len(lm):
-		return True
-	for x in lm:
-		if b.is_capture(x):
-			return False
-		b.push(x)
-		if b.is_check():
-			b.pop()
-			return False
-		else:
-			b.pop()
-	return True
-
-def isdead(b, p):
+def isdead(b, ml, p):
 	"Is the position dead? (quiescence)"
-	if PDEAD == 1:
-		return isdead1(b, p)
-	else:
-		return isdead2(b, p)
+	if p >= QPLIES or not len(ml):
+		return True
+	d = True
+	for x in ml:
+		if b.is_capture(x):
+			d = False
+	return d
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply >= MAXPLIES and isdead(b, ply):
+	ml = order(b, ply)
+	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
-	for x in order(b, ply):
+	if ply >= MAXPLIES:
+		ml2 = []
+		for x in ml:
+			if b.is_capture(x):
+				ml2.append(x)
+	else:
+		ml2 = ml
+	for x in ml2:
 		b.push(x)
 		t = searchmin(b, ply + 1, alpha, beta)
 		b.pop()
@@ -231,9 +211,17 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
-	if ply >= MAXPLIES and isdead(b, ply):
+	ml = order(b, ply)
+	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
-	for x in order(b, ply):
+	if ply >= MAXPLIES:
+		ml2 = []
+		for x in ml:
+			if b.is_capture(x):
+				ml2.append(x)
+	else:
+		ml2 = ml
+	for x in ml2:
 		b.push(x)
 		t = searchmax(b, ply + 1, alpha, beta)
 		b.pop()
@@ -246,7 +234,7 @@ def searchmin(b, ply, alpha, beta):
 def order(b, ply):
 	"Move ordering"
 	if ply > 0:
-		return b.legal_moves
+		return list(b.legal_moves)
 	am, bm = [], []
 	for x in b.legal_moves:
 		if b.is_capture(x):
