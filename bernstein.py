@@ -53,10 +53,7 @@ def getpos(b):
 			if not len(list(b.attackers(c.WHITE, i))):
 				bk += 1
 
-	if not b.turn:
-		posval = wm + ws + wk - bm - bs - bk
-	else:
-		posval = bm + bs + bk - wm - ws - wk
+	posval = wm + ws + wk - bm - bs - bk
 	#print('# ', wm, ws, wk, '  ', bm, bs, bk, '=', posval)
 	return posval	
 
@@ -77,9 +74,9 @@ def getneg(b):
 		if res == '1/2-1/2':
 			return 0
 	if b.turn == c.WHITE:
-		return .001 * getpos(b) + getval(b)
+		return   .001 * getpos(b) + getval(b)
 	else:
-		return .001 * getpos(b) - getval(b)
+		return - .001 * getpos(b) - getval(b)
 
 def piece(t):
 	"Get piece value"
