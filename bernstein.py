@@ -91,50 +91,59 @@ def piece(t):
 	if t == c.KING:
 		return 100
 
-def sumval(a, b, c):
-	"Get sum of own minus enemy piece values"
-	for x in b:
-		a += x
-	for y in c:
-		a -= y
-	return a
+def get_smallest_attacker(b, square, side):
+	"Get attacking piece with smallest value"
+	n = 1000
+	att = None
+	for a in b.attackers(side, square):
+		if piece(b.piece_type_at(a)) < n:
+			att = a
+			n = piece(b.piece_type_at(a))
+	return att
 
-def swapval(y, z):
-	"Get swap-off value for a piece"
-	y.sort()
-	z.sort()
-	v = 0
-	while True:
-		if len(y) > 0:
-			v += y.pop(0)
-		if len(y) == 0:
-			return v
-		if len(z) > 0:
-			v -= z.pop(0)
-		if len(z) == 0:
-			return v
+def getcap(b, x, y, side):
+	"Get capturing move from x to y"
+	u = b.copy()
+	u.turn = side
+	for l in u.legal_moves:
+		if l.from_square == x and l.to_square == y:
+			return l
+	return None
 
-def getswap(b, compcolor, playcolor, onlyzero = False):
+# https://chessprogramming.wikispaces.com/Static%20Exchange%20Evaluation
+def see(b, square, side):
+	"Static Exchange Evaluation"
+	value = 0
+	ex = False
+	ppp = get_smallest_attacker(b, square, side)
+	mov = None
+	if ppp:
+		mov = getcap(b, ppp, square, side)
+		ex = True
+	if mov:
+		piece_just_captured = piece(b.piece_type_at(square))
+		#print('# ', mov)
+		#print('# ', c.SQUARE_NAMES[ppp], c.SQUARE_NAMES[square])
+		if piece_just_captured:
+			b.push(mov)
+			value = max(0, piece_just_captured - see(b, square, not side)[0])
+			b.pop()
+	return value, ex
+
+def getswap(b, compcolor, playcolor):
 	"(iii) Get swap-off value"
 	svl = []
+	svn = 64 * [0]
 	for i in b.piece_map().keys():
 		m = b.piece_at(i)
-		my, his = [], []
 		if m and m.color == compcolor:
-			for ax in b.attackers(playcolor, i):
-				his.append(piece(b.piece_at(ax).piece_type))
-			for ay in b.attackers(compcolor, i):
-				my.append(piece(b.piece_at(ay).piece_type))
-		my = [piece(m.piece_type)] + my
-		if len(his):
-			sv = swapval(my, his)
-			#print(c.SQUARE_NAMES[i], sv)
-			if onlyzero and sv == 0:
+			sv, ex = see(b, i, playcolor)
+			#print('# ', c.SQUARE_NAMES[i], sv)
+			if sv > 0:
 				svl.append(i)
-			sv = max(sv, 0)
-			if not onlyzero and sv > 0:
-				svl.append(i)
-	return svl
+			if ex:
+				svn[i] += 1
+	return svl, svn
 
 def home_rank(b):
 	"Get home rank for side"
@@ -146,7 +155,7 @@ def home_rank(b):
 def get_pmt(b):
 	"Get Plausible Move Table (PMT) for board b"
 	pmt = []
-	m = b.legal_moves
+	m = list(b.legal_moves)
 	# 1. King in check?
 	if b.is_check():
 		pmt = [str(x) for x in m]
@@ -160,12 +169,12 @@ def get_pmt(b):
 		b.pop()
 
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
-	enemy_swap = getswap(b, not b.turn, b.turn)	# (a)
+	enemy_swap, ex = getswap(b, not b.turn, b.turn)	# (a)
 	for x in m:
 		if x.to_square in enemy_swap:
 			pmt.append(x)
 
-	my_swap = getswap(b, b.turn, not b.turn)	# (b), try to limit to one defensive move per piece
+	my_swap, ex = getswap(b, b.turn, not b.turn)	# (b), try to limit to one defensive move per piece
 	defend = 64 * [[-1000, None]]
 	for x in m:
 		b.push(x)
@@ -177,9 +186,9 @@ def get_pmt(b):
 		if defend[x.from_square][1]:
 			pmt.append(defend[x.from_square][1])
 
-	enemy_swap = getswap(b, not b.turn, b.turn, onlyzero = True)	# (c)
+	enemy_swap, ex = getswap(b, not b.turn, b.turn)	# (c)
 	for x in m:
-		if x.to_square in enemy_swap:
+		if x.to_square not in enemy_swap and ex[x.to_square]:
 			pmt.append(x)
 
 	# 3. Is castling possible?
