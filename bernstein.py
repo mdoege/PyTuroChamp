@@ -165,7 +165,7 @@ def get_pmt(b):
 		if x.to_square in enemy_swap:
 			pmt.append(x)
 
-	my_swap = getswap(b, b.turn, not b.turn)	# (b), limited to one defensive move per piece
+	my_swap = getswap(b, b.turn, not b.turn)	# (b), try to limit to one defensive move per piece
 	defend = []
 	for x in m:
 		b.push(x)
@@ -174,6 +174,14 @@ def get_pmt(b):
 			defend.append(x.from_square)
 			pmt.append(x)
 		b.pop()
+	# maybe no un-attacked target square has been found yet, so widen search
+	for x in m:
+		b.push(x)
+		if x.from_square in my_swap and x.from_square not in defend:
+			defend.append(x.from_square)
+			pmt.append(x)
+		b.pop()
+
 	enemy_swap = getswap(b, not b.turn, b.turn, onlyzero = True)	# (c)
 	for x in m:
 		if x.to_square in enemy_swap:
