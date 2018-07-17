@@ -59,7 +59,7 @@ def getpos(b):
 	if not b.turn:
 		posval = wm + ws + wk
 	else:
-		posval = -bm - bs - bk
+		posval = bm + bs + bk
 	#print('# ', wm, bm, ws, bs, wk, bk, '=', posval)
 	return posval	
 
