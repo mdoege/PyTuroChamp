@@ -57,26 +57,19 @@ def getpos(b):
 	#print('# ', wm, ws, wk, '  ', bm, bs, bk, '=', posval)
 	return posval	
 
-def getval(b):
-	"Get total piece value of board"
-	return (
-		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
-	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
-	+	3 * (len(b.pieces(c.BISHOP, c.WHITE))   - len(b.pieces(c.BISHOP, c.BLACK)))
-	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
-	+	9 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
-	)
-
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
 	if MATETEST:
 		res = b.result(claim_draw = True)
 		if res == '1/2-1/2':
 			return 0
-	if b.turn == c.WHITE:
-		return   .001 * getpos(b) + getval(b)
-	else:
-		return - .001 * getpos(b) - getval(b)
+	return .001 * getpos(b) +  (
+		     len(b.pieces(c.PAWN, b.turn))     - len(b.pieces(c.PAWN, not b.turn))
+	+	3 * (len(b.pieces(c.KNIGHT, b.turn))   - len(b.pieces(c.KNIGHT, not b.turn)))
+	+	3 * (len(b.pieces(c.BISHOP, b.turn))   - len(b.pieces(c.BISHOP, not b.turn)))
+	+	5 * (len(b.pieces(c.ROOK, b.turn))     - len(b.pieces(c.ROOK, not b.turn)))
+	+	9 * (len(b.pieces(c.QUEEN, b.turn))    - len(b.pieces(c.QUEEN, not b.turn)))
+	)
 
 def piece(t):
 	"Get piece value"
@@ -128,16 +121,19 @@ def see(b, square, side):
 			b.push(mov)
 			value = max(0, piece_just_captured - see(b, square, not side)[0])
 			b.pop()
+		else:
+			print('# swapfail', square, side)
 	return value, ex
 
 def getswap(b, compcolor, playcolor):
 	"(iii) Get swap-off value"
 	svl = []
 	svn = 64 * [0]
-	for i in b.piece_map().keys():
-		m = b.piece_at(i)
+	u = b.copy()
+	for i in u.piece_map().keys():
+		m = u.piece_at(i)
 		if m and m.color == compcolor:
-			sv, ex = see(b, i, playcolor)
+			sv, ex = see(u, i, playcolor)
 			#print('# ', c.SQUARE_NAMES[i], sv)
 			if sv > 0:
 				svl.append(i)
@@ -337,7 +333,7 @@ def getmove(b, silent = False, usebook = False):
 
 	if not silent:
 		print(b)
-		print(getval(b))
+		print(getneg(b))
 		print("FEN:", b.fen())
 
 	start = time.time()
@@ -370,7 +366,7 @@ if __name__ == '__main__':
 	while True:	# game loop
 		while True:
 			print(b)
-			print(getval(b))
+			print(getneg(b))
 			if sys.version < '3':
 				move = raw_input("Your move? ")
 			else:
