@@ -32,6 +32,8 @@ As seven moves are calculated in each of four plies, up to 7⁴+7³+7²+7 = 2,80
 
 ***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
 
+***El Ajedrecista* needs to play as White! (With Black, it will play random moves to enable self play.)**
+
 The starting position should be set up with White's King and Rook on A8 and B7, respectively, while the Black King can be positioned anywhere on the first six ranks:
 
 ![torres](https://github.com/mdoege/PyTuroChamp/raw/master/pic/torres_start.png "A valid Torres starting position")
