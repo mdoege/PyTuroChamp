@@ -110,6 +110,7 @@ def see(b, square, side):
 	ex = False
 	ppp = get_smallest_attacker(b, square, side)
 	mov = None
+	last = -1000
 	if ppp:
 		mov = getcap(b, ppp, square, side)
 		ex = True
@@ -119,27 +120,31 @@ def see(b, square, side):
 		#print('# ', c.SQUARE_NAMES[ppp], c.SQUARE_NAMES[square])
 		if piece_just_captured:
 			b.push(mov)
-			value = max(0, piece_just_captured - see(b, square, not side)[0])
+			last = piece_just_captured - see(b, square, not side)[0]
+			value = max(0, last)
 			b.pop()
 		else:
 			print('# swapfail', square, side)
-	return value, ex
+	return value, ex, last
 
 def getswap(b, compcolor, playcolor):
 	"(iii) Get swap-off value"
 	svl = []
+	svz = 64 * [0]
 	svn = 64 * [0]
 	u = b.copy()
 	for i in u.piece_map().keys():
 		m = u.piece_at(i)
 		if m and m.color == compcolor:
-			sv, ex = see(u, i, playcolor)
-			#print('# ', c.SQUARE_NAMES[i], sv)
+			sv, ex, last = see(u, i, playcolor)
+			#print('# ', c.SQUARE_NAMES[i], compcolor, sv, last)
 			if sv > 0:
 				svl.append(i)
+			if last == 0:
+				svz[i] = 1
 			if ex:
 				svn[i] += 1
-	return svl, svn
+	return svl, svn, svz
 
 def home_rank(b):
 	"Get home rank for side"
@@ -165,26 +170,26 @@ def get_pmt(b):
 		b.pop()
 
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
-	enemy_swap, ex = getswap(b, not b.turn, b.turn)	# (a)
+	enemy_swap, eex, ezero = getswap(b, not b.turn, b.turn)	# (a)
 	for x in m:
 		if x.to_square in enemy_swap:
 			pmt.append(x)
 
-	my_swap, ex = getswap(b, b.turn, not b.turn)	# (b), try to limit to one defensive move per piece
+	my_swap, mex, mzero = getswap(b, b.turn, not b.turn)	# (b), limited to one defensive move per piece
 	defend = 64 * [[-1000, None]]
 	for x in m:
 		b.push(x)
-		att = len(list(b.attackers(not b.turn, x.to_square))) - len(list(b.attackers(b.turn, x.to_square)))
+		att = len(list(b.attackers(not b.turn, x.to_square))) - 10 * len(list(b.attackers(b.turn, x.to_square)))
 		if ( x.from_square in my_swap and att > defend[x.from_square][0] ):
 			defend[x.from_square] = att, x
 		b.pop()
+
 	for x in m:
 		if defend[x.from_square][1]:
 			pmt.append(defend[x.from_square][1])
 
-	enemy_swap, ex = getswap(b, not b.turn, b.turn)	# (c)
-	for x in m:
-		if x.to_square not in enemy_swap and ex[x.to_square]:
+	for x in m:							# (c)
+		if x.to_square not in enemy_swap and ezero[x.to_square]:
 			pmt.append(x)
 
 	# 3. Is castling possible?
