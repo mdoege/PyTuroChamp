@@ -162,10 +162,15 @@ def get_pmt(b):
 		pmt = [str(x) for x in m]
 		return pmt
 
-	# Can check be given?
+	# Can check or checkmate be given?
 	for x in m:
 		b.push(x)
-		if b.is_check():
+		if b.is_checkmate():
+			pmt.append(x)
+		b.pop()
+	for x in m:
+		b.push(x)
+		if b.is_check() and x not in pmt:
 			pmt.append(x)
 		b.pop()
 
