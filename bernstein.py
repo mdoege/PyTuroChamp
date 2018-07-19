@@ -186,7 +186,9 @@ def get_pmt(b):
 
 	for x in m:
 		if defend[x.from_square][1]:
-			pmt.append(defend[x.from_square][1])
+			m2 = defend[x.from_square][1]
+			if m2 not in pmt:
+				pmt.append(m2)
 
 	for x in m:							# (c)
 		if x.to_square not in enemy_swap and ezero[x.to_square]:
