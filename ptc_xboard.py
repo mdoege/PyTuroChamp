@@ -175,7 +175,7 @@ while True:
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pmtlen type spin default 7 min 1 max 1024")
 				print2("option name pmtstart type spin default 0 min 0 max 1024")
-				print2("option name svfac type spin default 60 min 0 max 1024")
+				print2("option name svfac type spin default 0 min 0 max 1024")
 				print2("option name matetest type check default false")
 
 			print2("uciok")

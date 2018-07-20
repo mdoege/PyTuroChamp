@@ -14,7 +14,7 @@ MAXPLIES = 3	# 4 plies
 PMTLEN   = 7	# size of Plausible Move Table
 PMTSTART = 0	# first ply where the PMT is used,
 		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
-SVFAC    = 60	# influence of swap-off value on evaluation in percent
+SVFAC    = 0	# influence of swap-off value on evaluation in percent
 MATETEST = False
 
 b = c.Board()
