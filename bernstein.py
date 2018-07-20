@@ -14,6 +14,7 @@ MAXPLIES = 3	# 4 plies
 PMTLEN   = 7	# size of Plausible Move Table
 PMTSTART = 0	# first ply where the PMT is used,
 		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
+SVFAC    = 60	# influence of swap-off value on evaluation in percent
 MATETEST = False
 
 b = c.Board()
@@ -63,7 +64,12 @@ def getneg(b):
 		res = b.result(claim_draw = True)
 		if res == '1/2-1/2':
 			return 0
-	return .001 * getpos(b) +  (
+	tsv = 0
+	if SVFAC > 0:
+		svl, svn, svz, svv = getswap(b, not b.turn, b.turn)
+		for i in svl:
+			tsv += svv[i]
+	return .001 * getpos(b) + SVFAC / 100. * tsv + (
 		     len(b.pieces(c.PAWN, b.turn))     - len(b.pieces(c.PAWN, not b.turn))
 	+	3 * (len(b.pieces(c.KNIGHT, b.turn))   - len(b.pieces(c.KNIGHT, not b.turn)))
 	+	3 * (len(b.pieces(c.BISHOP, b.turn))   - len(b.pieces(c.BISHOP, not b.turn)))
@@ -132,6 +138,7 @@ def getswap(b, compcolor, playcolor):
 	svl = []
 	svz = 64 * [0]
 	svn = 64 * [0]
+	svv = 64 * [0]
 	u = b.copy()
 	for i in u.piece_map().keys():
 		m = u.piece_at(i)
@@ -140,11 +147,12 @@ def getswap(b, compcolor, playcolor):
 			#print('# ', c.SQUARE_NAMES[i], compcolor, sv, last)
 			if sv > 0:
 				svl.append(i)
+				svv[i] = sv
 			if last == 0:
 				svz[i] = 1
 			if ex:
 				svn[i] += 1
-	return svl, svn, svz
+	return svl, svn, svz, svv
 
 def home_rank(b):
 	"Get home rank for side"
@@ -175,12 +183,13 @@ def get_pmt(b):
 		b.pop()
 
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
-	enemy_swap, eex, ezero = getswap(b, not b.turn, b.turn)	# (a)
+	enemy_swap, eex, ezero, esv = getswap(b, not b.turn, b.turn)	# (a)
 	for x in m:
 		if x.to_square in enemy_swap:
 			pmt.append(x)
 
-	my_swap, mex, mzero = getswap(b, b.turn, not b.turn)	# (b)
+	my_swap, mex, mzero, msv = getswap(b, b.turn, not b.turn)	# (b)
+	defcount = 64 * [0]
 	# b1, find one retreating defensive move
 	defend = 64 * [[-1000, None]]
 	for x in m:
@@ -195,6 +204,7 @@ def get_pmt(b):
 			m2 = defend[x.from_square][1]
 			if m2 not in pmt:
 				pmt.append(m2)
+				defcount[x.from_square] += 1
 	# b2, find one attacking defensive move
 	defend = 64 * [[-1000, None]]
 	for x in m:
@@ -214,6 +224,13 @@ def get_pmt(b):
 			m2 = defend[x.from_square][1]
 			if m2 not in pmt:
 				pmt.append(m2)
+				defcount[x.from_square] += 1
+	# b3, if fewer than three defensive moves have been found so far, add others
+	for x in m:
+		if x.from_square in my_swap and defcount[x.from_square] <= 2:
+			if x not in pmt:
+				pmt.append(x)
+				defcount[x.from_square] += 1
 
 	for x in m:							# (c)
 		if x.to_square not in enemy_swap and ezero[x.to_square]:
@@ -238,7 +255,7 @@ def get_pmt(b):
 		if pt and (pt.piece_type == c.BISHOP or pt.piece_type == c.KNIGHT) and pt.color == b.turn:
 			mfrom.append(i)
 	for x in m:
-		if x.from_square in mfrom and c.square_rank(x.to_square) not in (1, 6):
+		if x.from_square in mfrom: # and len(list(b.attackers(not b.turn, x.to_square))) == 0:
 			pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?

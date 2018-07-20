@@ -175,6 +175,7 @@ while True:
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pmtlen type spin default 7 min 1 max 1024")
 				print2("option name pmtstart type spin default 0 min 0 max 1024")
+				print2("option name svfac type spin default 60 min 0 max 1024")
 				print2("option name matetest type check default false")
 
 			print2("uciok")
@@ -238,6 +239,9 @@ while True:
 		elif 'setoption name pmtstart value' in l:
 			p.PMTSTART = int(l.split()[4])
 			print2("# pmtstart: %u" % p.PMTSTART)
+		elif 'setoption name svfac value' in l:
+			p.SVFAC = int(l.split()[4])
+			print2("# svfac: %u" % p.SVFAC)
 
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])

@@ -76,6 +76,7 @@ Arena (Linux):
 * matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
 * pmtlen (Bernstein): Length of the Plausible Move Table
 * pmtstart (Bernstein): First ply where the PMT is used, so e.g. PMTSTART = 2 means that the PMT will not be used during the first two plies.
+* svfac (Bernstein): Influence of swap-off value on evaluation in percent. Higher values make the playing style more aggressive.
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
 * BlunderError: If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move
