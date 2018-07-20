@@ -281,13 +281,10 @@ def get_pmt(b):
 
 	# 6. Can open files be controlled?
 	sof = 8 * [True]
-	for f in range(8):
-		for r in range(8):
-			pt = b.piece_at(8 * r + f)
-			if pt:
-				t = pt.piece_type
-				if t == c.PAWN:
-					sof[f] = False
+	for i in b.piece_map().keys():
+		pt = b.piece_at(i)
+		if pt and pt.piece_type == c.PAWN:
+			sof[c.square_file(i)] = False
 	for x in m:
 		pt = b.piece_at(x.from_square)
 		if (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK) and sof[c.square_file(x.to_square)]:
