@@ -56,7 +56,10 @@ def getpos(b):
 
 	posval = wm + ws + wk - bm - bs - bk
 	#print('# ', wm, ws, wk, '  ', bm, bs, bk, '=', posval)
-	return posval	
+	if b.turn == c.WHITE:
+		return posval
+	else:
+		return -posval
 
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
