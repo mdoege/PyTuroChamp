@@ -191,6 +191,20 @@ def get_pmt(b):
 		if x.to_square in enemy_swap:
 			pmt.append(x)
 
+	# try to block the promotion square of an advanced enemy pawn
+	mindist, pr_square = 8, None
+	for i in b.piece_map().keys():
+		pt = b.piece_at(i)
+		if pt and pt.piece_type == c.PAWN and pt.color is not b.turn:
+			mm2 = abs(c.square_rank(i) - home_rank(b))
+			if mm2 < mindist:
+				mindist = mm2
+				pr_square = c.square(c.square_file(i), home_rank(b))
+	if pr_square and mindist < 4:
+		for x in m:
+			if x.to_square == pr_square and x not in pmt:
+				pmt.append(x)
+
 	my_swap, mex, mzero, msv = getswap(b, b.turn, not b.turn)	# (b)
 	defcount = 64 * [0]
 	# b1, find one retreating defensive move
