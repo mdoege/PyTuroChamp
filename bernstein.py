@@ -286,7 +286,7 @@ def get_pmt(b):
 			pt = b.piece_at(8 * r + f)
 			if pt:
 				t = pt.piece_type
-				if t != c.KING:
+				if t == c.PAWN:
 					sof[f] = False
 	for x in m:
 		pt = b.piece_at(x.from_square)
