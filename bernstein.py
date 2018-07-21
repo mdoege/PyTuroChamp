@@ -160,29 +160,6 @@ def home_rank(b):
 	else:
 		return 7 * 8
 
-def pmt_maxlen(pmt, l, m):
-	"Shrink PMT to l elements by reducing the number of moves allowed for each piece"
-	# successively try 5, 4, 3, and 2 moves per piece maximum:
-	for maxpiece in range(5, 1, -1):
-		pmt2 = []
-		sq = 64 * [0]
-		for x in pmt:
-			fs = x.from_square
-			if sq[fs] < maxpiece:
-				sq[fs] += 1
-				pmt2.append(x)
-		if len(pmt2) <= l:
-			break
-
-	# Add rule 8 moves here...
-	# 8. Can any piece be moved?
-	for x in m:
-		if x not in pmt2:
-			pmt2.append(x)
-
-	pmt2 = [str(x) for x in pmt2]
-	return pmt2[:l]
-
 def get_pmt(b):
 	"Get Plausible Move Table (PMT) for board b"
 	pmt = []
@@ -332,7 +309,13 @@ def get_pmt(b):
 	pawn.sort(key = lambda m: -m[1])
 	pmt += [pm for pm, x in pawn]
 
-	return pmt_maxlen(pmt, PMTLEN, m)
+	# 8. Can any piece be moved?
+	for x in m:
+		if x not in pmt:
+			pmt.append(x)
+
+	pmt = [str(x) for x in pmt]
+	return pmt[:PMTLEN]
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
