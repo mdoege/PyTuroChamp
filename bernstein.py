@@ -188,7 +188,7 @@ def get_pmt(b):
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
 	enemy_swap, eex, ezero, esv = getswap(b, not b.turn, b.turn)	# (a)
 	for x in m:
-		if x.to_square in enemy_swap:
+		if x.to_square in enemy_swap and x not in pmt:
 			pmt.append(x)
 
 	# try to block the promotion square of an advanced enemy pawn
@@ -244,13 +244,12 @@ def get_pmt(b):
 				defcount[x.from_square] += 1
 	# b3, if fewer than three defensive moves have been found so far, add others
 	for x in m:
-		if x.from_square in my_swap and defcount[x.from_square] <= 2:
-			if x not in pmt:
-				pmt.append(x)
-				defcount[x.from_square] += 1
+		if x.from_square in my_swap and defcount[x.from_square] <= 2 and x not in pmt:
+			pmt.append(x)
+			defcount[x.from_square] += 1
 
 	for x in m:							# (c)
-		if x.to_square not in enemy_swap and ezero[x.to_square]:
+		if x.to_square not in enemy_swap and ezero[x.to_square] and x not in pmt:
 			pmt.append(x)
 
 	# 3. Is castling possible?
@@ -272,7 +271,7 @@ def get_pmt(b):
 		if pt and (pt.piece_type == c.BISHOP or pt.piece_type == c.KNIGHT) and pt.color == b.turn:
 			mfrom.append(i)
 	for x in m:
-		if x.from_square in mfrom: # and len(list(b.attackers(not b.turn, x.to_square))) == 0:
+		if x.from_square in mfrom and x not in pmt:
 			pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?
@@ -290,7 +289,7 @@ def get_pmt(b):
 					if mp and mp.piece_type in chf and mp.color == b.turn:
 						ksq.append(i)
 	for x in m:
-		if b.piece_type_at(x.from_square) == c.PAWN and x.to_square in ksq:
+		if b.piece_type_at(x.from_square) == c.PAWN and x.to_square in ksq and x not in pmt:
 			pmt.append(x)
 
 	# 6. Can open files be controlled?
@@ -301,7 +300,7 @@ def get_pmt(b):
 			sof[c.square_file(i)] = False
 	for x in m:
 		pt = b.piece_at(x.from_square)
-		if (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK) and sof[c.square_file(x.to_square)]:
+		if (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK) and sof[c.square_file(x.to_square)] and x not in pmt:
 			pmt.append(x)
 
 	# 7. Can pawns be moved?
@@ -318,12 +317,7 @@ def get_pmt(b):
 	pmt += [str(x) for x in m]
 
 	pmt = [str(x) for x in pmt]
-	pmt2 = []
-	for x in pmt:
-		if x not in pmt2:
-			pmt2.append(x)
-
-	return pmt2[:PMTLEN]
+	return pmt[:PMTLEN]
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
