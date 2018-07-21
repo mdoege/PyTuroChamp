@@ -98,7 +98,7 @@ def get_smallest_attacker(b, square, side):
 	n = 1000
 	att = -1
 	for a in b.attackers(side, square):
-		if piece(b.piece_type_at(a)) < n:
+		if piece(b.piece_type_at(a)) < n and not b.is_pinned(side, a):
 			att = a
 			n = piece(b.piece_type_at(a))
 	return att
@@ -120,7 +120,6 @@ def see(b, square, side):
 	ppp = get_smallest_attacker(b, square, side)
 	mov = None
 	last = -1000
-	b.turn = side
 	if ppp > -1:
 		mov = getcap(b, ppp, square, side)
 		ex = True
@@ -250,7 +249,7 @@ def get_pmt(b):
 			defcount[x.from_square] += 1
 
 	for x in m:							# (c)
-		if x.to_square not in enemy_swap and eex[x.to_square] and x not in pmt:
+		if x.to_square not in enemy_swap and ezero[x.to_square] and x not in pmt:
 			pmt.append(x)
 
 	# 3. Is castling possible?
