@@ -179,7 +179,9 @@ def pmt_maxlen(pmt, l, m):
 	for x in m:
 		if x not in pmt2:
 			pmt2.append(x)
-	return pmt2
+
+	pmt2 = [str(x) for x in pmt2]
+	return pmt2[:l]
 
 def get_pmt(b):
 	"Get Plausible Move Table (PMT) for board b"
@@ -330,10 +332,7 @@ def get_pmt(b):
 	pawn.sort(key = lambda m: -m[1])
 	pmt += [pm for pm, x in pawn]
 
-	pmt = pmt_maxlen(pmt, PMTLEN, m)
-
-	pmt = [str(x) for x in pmt]
-	return pmt[:PMTLEN]
+	return pmt_maxlen(pmt, PMTLEN, m)
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
