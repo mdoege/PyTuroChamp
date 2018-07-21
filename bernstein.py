@@ -314,7 +314,9 @@ def get_pmt(b):
 	pmt += [pm for pm, x in pawn]
 
 	# 8. Can any piece be moved?
-	pmt += [str(x) for x in m]
+	for x in m:
+		if x not in pmt:
+			pmt.append(x)
 
 	pmt = [str(x) for x in pmt]
 	return pmt[:PMTLEN]
