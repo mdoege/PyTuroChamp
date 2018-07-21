@@ -15,7 +15,7 @@ PMTLEN   = 7	# size of Plausible Move Table
 PMTSTART = 0	# first ply where the PMT is used,
 		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
 SVFAC    = 0	# influence of swap-off value on evaluation in percent
-MATETEST = False
+MATETEST = True
 
 b = c.Board()
 PV = []		# array for primary variation
@@ -63,10 +63,6 @@ def getpos(b):
 
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
-	if MATETEST:
-		res = b.result(claim_draw = True)
-		if res == '1/2-1/2':
-			return 0
 	tsv = 0
 	if SVFAC > 0:
 		svl, svn, svz, svv = getswap(b, not b.turn, b.turn)
@@ -330,7 +326,7 @@ def searchmax(b, ply, alpha, beta):
 	if ply >= MAXPLIES:
 		###print([str(q) for q in b.move_stack])
 		return getneg(b), [str(q) for q in b.move_stack]
-	o = order(b, ply)
+	o = list(order(b, ply))
 	if ply >= MAXPLIES:
 		if not o:
 			return getneg(b), [str(q) for q in b.move_stack]
@@ -349,6 +345,10 @@ def searchmax(b, ply, alpha, beta):
 		if t > alpha:
 			alpha = t
 			v = vv
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '1/2-1/2':
+			return 0, v
 	return alpha, v
 
 def order(b, ply):
