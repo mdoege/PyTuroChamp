@@ -182,7 +182,7 @@ def get_pmt(b):
 		b.pop()
 	for x in m:
 		b.push(x)
-		if b.is_check() and x not in pmt:
+		if b.is_check() and len(list(b.attackers(b.turn, x.to_square))) == 0 and x not in pmt:
 			pmt.append(x)
 		b.pop()
 
