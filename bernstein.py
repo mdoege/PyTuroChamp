@@ -96,7 +96,7 @@ def piece(t):
 def get_smallest_attacker(b, square, side):
 	"Get attacking piece with smallest value"
 	n = 1000
-	att = None
+	att = -1
 	for a in b.attackers(side, square):
 		if piece(b.piece_type_at(a)) < n:
 			att = a
@@ -120,7 +120,7 @@ def see(b, square, side):
 	ppp = get_smallest_attacker(b, square, side)
 	mov = None
 	last = -1000
-	if ppp:
+	if ppp > -1:
 		mov = getcap(b, ppp, square, side)
 		ex = True
 	if mov:
