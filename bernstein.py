@@ -162,20 +162,19 @@ def home_rank(b):
 
 def pmt_maxlen(pmt, l, m):
 	"Shrink PMT to l elements by reducing the number of moves allowed for each piece"
-	# successively try 5, 4, 3, 2, and 1 moves per piece maximum:
-	for maxpiece in range(5, 0, -1):
-		#print(maxpiece)
+	# successively try 5, 4, 3, and 2 moves per piece maximum:
+	for maxpiece in range(5, 1, -1):
 		pmt2 = []
 		sq = 64 * [0]
 		for x in pmt:
 			fs = x.from_square
-			if sq[fs] <= maxpiece:
+			if sq[fs] < maxpiece:
 				sq[fs] += 1
 				pmt2.append(x)
 		if len(pmt2) <= l:
 			break
 
-	# add rule 8 moves here...
+	# Add rule 8 moves here...
 	# 8. Can any piece be moved?
 	for x in m:
 		if x not in pmt2:
