@@ -120,6 +120,7 @@ def see(b, square, side):
 	ppp = get_smallest_attacker(b, square, side)
 	mov = None
 	last = -1000
+	b.turn = side
 	if ppp > -1:
 		mov = getcap(b, ppp, square, side)
 		ex = True
