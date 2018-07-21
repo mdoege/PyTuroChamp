@@ -19,7 +19,8 @@ PLAYC = c.WHITE
 DEPTH  = 14	# maximum search depth (with not be reached due to either time controls or MAXNODES)
 QPLIES = 6	# additional maximum quiescence search plies
 PSTAB  = .1	# influence of piece-square table on moves, 0 = none
-MATETEST  = False	# if True, include mate and draw detection in the material eval
+USEBOOK = True	# use opening book
+MATETEST  = True	# if True, include mate and draw detection in the material eval
 MAXNODES = 1e6	# stop search when MAXNODES nodes are reached,
 		#   to avoid crashing the machine on longer time controls
 
@@ -64,10 +65,6 @@ def getval(b):
 
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
-	if MATETEST:
-		res = b.result(claim_draw = True)
-		if res == '1/2-1/2':
-			return 0
 	if b.turn:
 		return getval(b) + getpos(b)
 	else:
@@ -94,6 +91,10 @@ def searchmax(b, ply, alpha, beta):
 
 	moves = [q for q in b.legal_moves]
 	NODES += 1
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '1/2-1/2':
+			return 0, PV
 	if ply <= 0 and isdead(b, ply):
 		return getneg(b), [str(q) for q in b.move_stack]
 	o = order(b, ply)
@@ -240,7 +241,7 @@ def getmove(b, silent = False, usebook = True):
 		print("FEN:", b.fen())
 
 	try:
-		if usebook:
+		if usebook and USEBOOK:
 			opening = getopen(b)
 			if opening:
 				return 0, [choice(opening)]

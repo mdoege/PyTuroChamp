@@ -155,7 +155,7 @@ while True:
 				print2("option name maxplies type spin default 1 min 0 max 1024")
 				print2("option name qplies type spin default 7 min 0 max 1024")
 				print2("option name pstab type spin default 0 min 0 max 1024")
-				print2("option name matetest type check default false")
+				print2("option name matetest type check default true")
 
 				print2("option name MoveError type spin default 0 min 0 max 1024")
 				print2("option name BlunderError type spin default 0 min 0 max 1024")
@@ -168,9 +168,10 @@ while True:
 				print2("option name qplies type spin default 6 min 0 max 1024")
 				print2("option name pstab type spin default 1 min 0 max 1024")
 				print2("option name maxnodes type spin default 1000000 min 0 max 1000000000")
-				print2("option name matetest type check default false")
+				print2("option name usebook type check default true")
+				print2("option name matetest type check default true")
 			if nm == 'SOMA':
-				print2("option name matetest type check default false")
+				print2("option name matetest type check default true")
 			if nm == 'Bernstein':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pmtlen type spin default 7 min 1 max 1024")
@@ -233,6 +234,12 @@ while True:
 			else:
 				p.MATETEST = False
 			print2("# matetest: %s" % p.MATETEST)
+		elif 'setoption name usebook value' in l:
+			if l.split()[4] == "true":
+				p.USEBOOK = True
+			else:
+				p.USEBOOK = False
+			print2("# usebook: %s" % p.USEBOOK)
 		elif 'setoption name pmtlen value' in l:
 			p.PMTLEN = int(l.split()[4])
 			print2("# pmtlen: %u" % p.PMTLEN)

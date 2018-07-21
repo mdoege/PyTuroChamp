@@ -10,7 +10,7 @@ from random import random, choice
 COMPC = c.WHITE
 PLAYC = c.BLACK
 
-MATETEST  = False	# if True, include mate and draw detection in the material eval
+MATETEST  = True	# if True, include mate and draw detection in the material eval
 
 
 b = c.Board()
