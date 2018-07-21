@@ -245,7 +245,7 @@ def get_pmt(b):
 			defcount[x.from_square] += 1
 
 	for x in m:							# (c)
-		if x.to_square not in enemy_swap and ezero[x.to_square] and x not in pmt:
+		if x.to_square not in enemy_swap and eex[x.to_square] and ezero[x.to_square] and x not in pmt:
 			pmt.append(x)
 
 	# 3. Is castling possible?
