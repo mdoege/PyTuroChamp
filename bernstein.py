@@ -137,7 +137,7 @@ def get_pmt(b):
 			try:
 				mdiff = piece(b.piece_type_at(j)) - piece(b.piece_type_at(i))
 			except:
-				mdiff = 0
+				mdiff = 0	# en passant capture
 			b.push(x)
 			if mdiff > 0 or len(list(b.attackers(b.turn, j))) == 0:
 				#print("# 2a", x)
@@ -172,9 +172,17 @@ def get_pmt(b):
 	#   (2c)
 	for x in m:
 		if b.is_capture(x):
-			if x not in pmt:
+			i = x.from_square
+			j = x.to_square
+			try:
+				mdiff = piece(b.piece_type_at(j)) - piece(b.piece_type_at(i))
+			except:
+				mdiff = 0	# en passant capture
+			b.push(x)
+			if mdiff == 0:
 				#print("# 2c", x)
 				pmt.append(x)
+			b.pop()
 
 	# 3. Is castling possible?
 	caspos = False
