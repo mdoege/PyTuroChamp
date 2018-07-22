@@ -14,7 +14,6 @@ MAXPLIES = 3	# 4 plies
 PMTLEN   = 7	# size of Plausible Move Table
 PMTSTART = 0	# first ply where the PMT is used,
 		#    so e.g. PMTSTART = 2 means the PMT will not be used during the first two plies
-SVFAC    = 0	# influence of swap-off value on evaluation in percent
 MATETEST = True
 
 b = c.Board()
@@ -63,12 +62,7 @@ def getpos(b):
 
 def getneg(b):
 	"Board value in the Negamax framework, i.e. '+' means the side to move has the advantage"
-	tsv = 0
-	if SVFAC > 0:
-		svl, svn, svz, svv = getswap(b, not b.turn, b.turn)
-		for i in svl:
-			tsv += svv[i]
-	return .001 * getpos(b) + SVFAC / 100. * tsv + (
+	return .001 * getpos(b) + (
 		     len(b.pieces(c.PAWN, b.turn))     - len(b.pieces(c.PAWN, not b.turn))
 	+	3 * (len(b.pieces(c.KNIGHT, b.turn))   - len(b.pieces(c.KNIGHT, not b.turn)))
 	+	3 * (len(b.pieces(c.BISHOP, b.turn))   - len(b.pieces(c.BISHOP, not b.turn)))
@@ -88,70 +82,6 @@ def piece(t):
 		return 1
 	if t == c.KING:
 		return 100
-
-def get_smallest_attacker(b, square, side):
-	"Get attacking piece with smallest value"
-	n = 1000
-	att = -1
-	for a in b.attackers(side, square):
-		if piece(b.piece_type_at(a)) < n and not b.is_pinned(side, a):
-			att = a
-			n = piece(b.piece_type_at(a))
-	return att
-
-def getcap(b, x, y, side):
-	"Get capturing move from x to y"
-	u = b.copy()
-	u.turn = side
-	for l in u.legal_moves:
-		if l.from_square == x and l.to_square == y:
-			return l
-	return None
-
-# https://chessprogramming.wikispaces.com/Static%20Exchange%20Evaluation
-def see(b, square, side):
-	"Static Exchange Evaluation"
-	value = 0
-	ex = False
-	ppp = get_smallest_attacker(b, square, side)
-	mov = None
-	last = -1000
-	if ppp > -1:
-		mov = getcap(b, ppp, square, side)
-		ex = True
-	if mov:
-		piece_just_captured = piece(b.piece_type_at(square))
-		#print('# ', mov)
-		#print('# ', c.SQUARE_NAMES[ppp], c.SQUARE_NAMES[square])
-		if piece_just_captured:
-			b.push(mov)
-			last = piece_just_captured - see(b, square, not side)[0]
-			value = max(0, last)
-			b.pop()
-		else:
-			print('# swapfail', square, side)
-	return value, ex, last
-
-def getswap(b, compcolor, playcolor):
-	"(iii) Get swap-off value"
-	svl = []
-	svz = 64 * [0]
-	svn = 64 * [0]
-	svv = 64 * [0]
-	u = b.copy()
-	for i in u.piece_map().keys():
-		m = u.piece_at(i)
-		if m and m.color == compcolor:
-			sv, ex, last = see(u, i, playcolor)
-			#print('# ', c.SQUARE_NAMES[i], compcolor, sv, last)
-			if sv > 0:
-				svl.append(i)
-				svv[i] = sv
-			if last == 0:
-				svz[i] = 1
-			if ex:
-				svn[i] += 1
-	return svl, svn, svz, svv
 
 def home_rank(b):
 	"Get home rank for side"
@@ -178,14 +108,37 @@ def get_pmt(b):
 	for x in m:
 		b.push(x)
 		if b.is_check() and len(list(b.attackers(b.turn, x.to_square))) == 0 and x not in pmt:
+			#print("# check", x)
 			pmt.append(x)
 		b.pop()
 
+	# build attack and defense tables
+	mam, eam = 64 * [0], 64 * [0]
+	mdm, edm = 64 * [0], 64 * [0]
+	for i in b.piece_map().keys():
+		pt = b.piece_at(i)
+		if pt.color is not b.turn:
+			edm[i] = len(list(b.attackers(not b.turn, i)))
+			eam[i] = len(list(b.attackers(    b.turn, i)))
+		else:
+			mdm[i] = len(list(b.attackers(    b.turn, i)))
+			mam[i] = len(list(b.attackers(not b.turn, i)))
+	#print(list(zip(edm, c.SQUARE_NAMES)))
+	#print(list(zip(eam, c.SQUARE_NAMES)))
+	#print(list(zip(mdm, c.SQUARE_NAMES)))
+	#print(list(zip(mam, c.SQUARE_NAMES)))
+
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
-	enemy_swap, eex, ezero, esv = getswap(b, not b.turn, b.turn)	# (a)
+	#   (2a)
 	for x in m:
-		if x.to_square in enemy_swap and x not in pmt:
-			pmt.append(x)
+		if b.is_capture(x):
+			i = x.from_square
+			j = x.to_square
+			b.push(x)
+			if len(list(b.attackers(b.turn, j))) == 0:
+				#print("# 2a", x)
+				pmt.append(x)
+			b.pop()
 
 	# try to block the promotion square of an advanced enemy pawn
 	mindist, pr_square = 8, None
@@ -201,52 +154,23 @@ def get_pmt(b):
 			if x.to_square == pr_square and x not in pmt:
 				pmt.append(x)
 
-	my_swap, mex, mzero, msv = getswap(b, b.turn, not b.turn)	# (b)
-	defcount = 64 * [0]
-	# b1, find one retreating defensive move
-	defend = 64 * [[-1000, None]]
+	#   (2b)
 	for x in m:
-		b.push(x)
-		att = len(list(b.attackers(not b.turn, x.to_square))) - 10 * len(list(b.attackers(b.turn, x.to_square)))
-		if ( x.from_square in my_swap and att > defend[x.from_square][0] ):
-			defend[x.from_square] = att, x
-		b.pop()
+		i = x.from_square
+		j = x.to_square
+		if mam[i]:
+			b.push(x)
+			if len(list(b.attackers(b.turn, j))) == 0:
+				#print("# 2b", x)
+				pmt.append(x)
+			b.pop()
 
+	#   (2c)
 	for x in m:
-		if defend[x.from_square][1]:
-			m2 = defend[x.from_square][1]
-			if m2 not in pmt:
-				pmt.append(m2)
-				defcount[x.from_square] += 1
-	# b2, find one attacking defensive move
-	defend = 64 * [[-1000, None]]
-	for x in m:
-		b.push(x)
-		att2 = 0
-		for q in b.attacks(x.to_square):
-			m2 = b.piece_at(q)
-			if m2 and m2.color is b.turn:
-				att2 += 1
-		att = att2 - 10 * len(list(b.attackers(b.turn, x.to_square)))
-		if ( x.from_square in my_swap and att > defend[x.from_square][0] ):
-			defend[x.from_square] = att, x
-		b.pop()
-
-	for x in m:
-		if defend[x.from_square][1]:
-			m2 = defend[x.from_square][1]
-			if m2 not in pmt:
-				pmt.append(m2)
-				defcount[x.from_square] += 1
-	# b3, if fewer than three defensive moves have been found so far, add others
-	for x in m:
-		if x.from_square in my_swap and defcount[x.from_square] <= 2 and x not in pmt:
-			pmt.append(x)
-			defcount[x.from_square] += 1
-
-	for x in m:							# (c)
-		if x.to_square not in enemy_swap and eex[x.to_square] and ezero[x.to_square] and x not in pmt:
-			pmt.append(x)
+		if b.is_capture(x):
+			if x not in pmt:
+				#print("# 2c", x)
+				pmt.append(x)
 
 	# 3. Is castling possible?
 	caspos = False
@@ -267,7 +191,7 @@ def get_pmt(b):
 		if pt and (pt.piece_type == c.BISHOP or pt.piece_type == c.KNIGHT) and pt.color == b.turn:
 			mfrom.append(i)
 	for x in m:
-		if x.from_square in mfrom and x not in pmt:
+		if x.from_square in mfrom: # and len(list(b.attackers(not b.turn, x.to_square))) == 0:
 			pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?
@@ -285,7 +209,7 @@ def get_pmt(b):
 					if mp and mp.piece_type in chf and mp.color == b.turn:
 						ksq.append(i)
 	for x in m:
-		if b.piece_type_at(x.from_square) == c.PAWN and x.to_square in ksq and x not in pmt:
+		if b.piece_type_at(x.from_square) == c.PAWN and x.to_square in ksq:
 			pmt.append(x)
 
 	# 6. Can open files be controlled?
@@ -296,7 +220,7 @@ def get_pmt(b):
 			sof[c.square_file(i)] = False
 	for x in m:
 		pt = b.piece_at(x.from_square)
-		if (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK) and sof[c.square_file(x.to_square)] and x not in pmt:
+		if (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK) and sof[c.square_file(x.to_square)]:
 			pmt.append(x)
 
 	# 7. Can pawns be moved?
@@ -310,12 +234,15 @@ def get_pmt(b):
 	pmt += [pm for pm, x in pawn]
 
 	# 8. Can any piece be moved?
-	for x in m:
-		if x not in pmt:
-			pmt.append(x)
+	pmt += [str(x) for x in m]
 
 	pmt = [str(x) for x in pmt]
-	return pmt[:PMTLEN]
+	pmt2 = []
+	for x in pmt:
+		if x not in pmt2:
+			pmt2.append(x)
+
+	return pmt2[:PMTLEN]
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):

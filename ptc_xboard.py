@@ -246,9 +246,6 @@ while True:
 		elif 'setoption name pmtstart value' in l:
 			p.PMTSTART = int(l.split()[4])
 			print2("# pmtstart: %u" % p.PMTSTART)
-		elif 'setoption name svfac value' in l:
-			p.SVFAC = int(l.split()[4])
-			print2("# svfac: %u" % p.SVFAC)
 
 		elif 'setoption name MoveError value' in l:
 			p.MoveError = int(l.split()[4])
