@@ -134,8 +134,12 @@ def get_pmt(b):
 		if b.is_capture(x):
 			i = x.from_square
 			j = x.to_square
+			try:
+				mdiff = piece(b.piece_type_at(j)) - piece(b.piece_type_at(i))
+			except:
+				mdiff = 0
 			b.push(x)
-			if len(list(b.attackers(b.turn, j))) == 0:
+			if mdiff > 0 or len(list(b.attackers(b.turn, j))) == 0:
 				#print("# 2a", x)
 				pmt.append(x)
 			b.pop()
@@ -191,7 +195,7 @@ def get_pmt(b):
 		if pt and (pt.piece_type == c.BISHOP or pt.piece_type == c.KNIGHT) and pt.color == b.turn:
 			mfrom.append(i)
 	for x in m:
-		if x.from_square in mfrom: # and len(list(b.attackers(not b.turn, x.to_square))) == 0:
+		if x.from_square in mfrom and len(list(b.attackers(not b.turn, x.to_square))) == 0:
 			pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?
