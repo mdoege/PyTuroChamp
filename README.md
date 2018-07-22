@@ -1,4 +1,4 @@
-![logo](https://github.com/mdoege/PyTuroChamp/raw/master/icons/out.png "logo bar")
+![logo](https://github.com/mdoege/PyTuroChamp/raw/master/pic/ptc_banner.png "logo bar")
 
 ## PyTuroChamp, SOMA, Bernstein, and *El Ajedrecista*
 
