@@ -187,7 +187,7 @@ def get_pmt(b):
 		if pt and (pt.piece_type == c.BISHOP or pt.piece_type == c.KNIGHT) and pt.color == b.turn:
 			mfrom.append(i)
 	for x in m:
-		if x.from_square in mfrom and len(list(b.attackers(not b.turn, x.to_square))) == 0:
+		if x.from_square in mfrom:
 			pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?
