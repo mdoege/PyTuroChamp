@@ -95,12 +95,6 @@ def order(b, ply):
 	bm = [q[0] for q in am]
 	return bm
 
-def pm():
-	if COMPC == c.WHITE:
-		return 1
-	else:
-		return -1
-
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
 	global COMPC, PLAYC, MAXPLIES
