@@ -112,22 +112,6 @@ def get_pmt(b):
 			pmt.append(x)
 		b.pop()
 
-	# build attack and defense tables
-	mam, eam = 64 * [0], 64 * [0]
-	mdm, edm = 64 * [0], 64 * [0]
-	for i in b.piece_map().keys():
-		pt = b.piece_at(i)
-		if pt.color is not b.turn:
-			edm[i] = len(list(b.attackers(not b.turn, i)))
-			eam[i] = len(list(b.attackers(    b.turn, i)))
-		else:
-			mdm[i] = len(list(b.attackers(    b.turn, i)))
-			mam[i] = len(list(b.attackers(not b.turn, i)))
-	#print(list(zip(edm, c.SQUARE_NAMES)))
-	#print(list(zip(eam, c.SQUARE_NAMES)))
-	#print(list(zip(mdm, c.SQUARE_NAMES)))
-	#print(list(zip(mam, c.SQUARE_NAMES)))
-
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
 	#   (2a)
 	for x in m:
@@ -162,7 +146,7 @@ def get_pmt(b):
 	for x in m:
 		i = x.from_square
 		j = x.to_square
-		if mam[i]:
+		if len(list(b.attackers(not b.turn, i))):
 			b.push(x)
 			if len(list(b.attackers(b.turn, j))) == 0:
 				#print("# 2b", x)
