@@ -336,14 +336,14 @@ def getmove(b, silent = False, usebook = False):
 
 	pmt = get_pmt(b)
 	for n, x in enumerate(b.legal_moves):
-
 		b.push(x)
-		if b.is_checkmate():	# checkmate directly if possible
+		if b.is_checkmate():	# play checkmate directly if possible
 			b.pop()
 			return 1e6, [str(x)]
 		else:
 			b.pop()
 
+	for n, x in enumerate(b.legal_moves):
 		if PMTSTART == 0 and str(x) not in pmt:
 			continue
 		print()
