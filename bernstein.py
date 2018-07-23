@@ -188,7 +188,11 @@ def get_pmt(b):
 			mfrom.append(i)
 	for x in m:
 		if x.from_square in mfrom:
-			pmt.append(x)
+			if b.piece_type_at(x.from_square) == c.KNIGHT:
+				pmt.append(x)
+			else:
+				if len(list(b.attackers(not b.turn, x.to_square))) == 0:
+					pmt.append(x)
 
 	# 5. Can key squares be controlled by pawns?
 	ksq = []
