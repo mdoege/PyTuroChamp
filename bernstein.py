@@ -233,8 +233,7 @@ def get_pmt(b):
 	for x in m:
 		pt = b.piece_at(x.from_square)
 		if ( (pt.piece_type == c.QUEEN or pt.piece_type == c.ROOK)
-		  and sof[c.square_file(x.to_square)]
-		  and len(list(b.attackers(not b.turn, x.to_square))) == 0 ):
+		  and sof[c.square_file(x.to_square)] ):
 			pmt.append(x)
 
 	# 7. Can pawns be moved?
