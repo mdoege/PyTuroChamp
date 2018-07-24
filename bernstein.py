@@ -146,9 +146,10 @@ def get_pmt(b):
 	for x in m:
 		i = x.from_square
 		j = x.to_square
+		pt = b.piece_type_at(i)
 		if len(list(b.attackers(not b.turn, i))):
 			b.push(x)
-			if len(list(b.attackers(b.turn, j))) == 0:
+			if len(list(b.attackers(b.turn, j))) == 0 or pt == c.PAWN:
 				#print("# 2b", x)
 				pmt.append(x)
 			b.pop()
