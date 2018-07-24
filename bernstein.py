@@ -99,16 +99,10 @@ def get_pmt(b):
 		pmt = [str(x) for x in m]
 		return pmt
 
-	# Can check or checkmate be given?
+	# Can checkmate be given?
 	for x in m:
 		b.push(x)
 		if b.is_checkmate():
-			pmt.append(x)
-		b.pop()
-	for x in m:
-		b.push(x)
-		if b.is_check() and len(list(b.attackers(b.turn, x.to_square))) == 0 and x not in pmt:
-			#print("# check", x)
 			pmt.append(x)
 		b.pop()
 
@@ -193,6 +187,14 @@ def get_pmt(b):
 			else:
 				if len(list(b.attackers(not b.turn, x.to_square))) == 0:
 					pmt.append(x)
+
+	# Can check be given?
+	for x in m:
+		b.push(x)
+		if b.is_check() and len(list(b.attackers(b.turn, x.to_square))) == 0 and x not in pmt:
+			#print("# check", x)
+			pmt.append(x)
+		b.pop()
 
 	# 5. Can key squares be controlled by pawns?
 	ksq = []
