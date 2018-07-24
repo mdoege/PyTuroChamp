@@ -38,9 +38,9 @@ def getpos(b):
 	for i in range(64):
 		m = b.piece_at(i)
 		if len(list(b.attackers(c.WHITE, i))) and not len(list(b.attackers(c.BLACK, i))):
-			ws += len(list(b.attackers(c.WHITE, i)))
+			ws += 1
 		if len(list(b.attackers(c.BLACK, i))) and not len(list(b.attackers(c.WHITE, i))):
-			bs += len(list(b.attackers(c.BLACK, i)))
+			bs += 1
 
 	# 3. controlled squares around each King
 	wk, bk = 0, 0
