@@ -109,7 +109,13 @@ def get_pmt(b):
 		b.push(x)
 		if b.is_check() and len(list(b.attackers(b.turn, x.to_square))) == 0 and x not in pmt:
 			#print("# check", x)
-			pmt.append(x)
+			elm = list(b.legal_moves)
+			isbad = False
+			for xx in elm:
+				if b.piece_type_at(xx.from_square) == c.PAWN:	# check can be countered by pawn move?
+					isbad = True
+			if not isbad:
+				pmt.append(x)
 		b.pop()
 
 	# 2. Can material be (a) gained, (b) lost, or (c) exchanged?
@@ -146,10 +152,9 @@ def get_pmt(b):
 	for x in m:
 		i = x.from_square
 		j = x.to_square
-		pt = b.piece_type_at(i)
 		if len(list(b.attackers(not b.turn, i))):
 			b.push(x)
-			if len(list(b.attackers(b.turn, j))) == 0 or pt == c.PAWN:
+			if len(list(b.attackers(b.turn, j))) == 0:
 				#print("# 2b", x)
 				pmt.append(x)
 			b.pop()
