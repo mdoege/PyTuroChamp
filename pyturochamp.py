@@ -171,11 +171,15 @@ def isdead(b, ml, p):
 	"Is the position dead? (quiescence)"
 	if p >= QPLIES or not len(ml):
 		return True
-	d = True
-	for x in ml:
-		if b.is_capture(x):
-			d = False
-	return d
+	if b.is_check():
+		return False
+	x = b.pop()
+	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))) or b.is_check():
+		b.push(x)
+		return False
+	else:
+		b.push(x)
+		return True
 
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
