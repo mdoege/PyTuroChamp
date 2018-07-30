@@ -27,6 +27,7 @@ BlunderError = 0	# If blundering this move, randomly select the best move or a m
 BlunderPercent = 0	# Percent chance of blundering this move
 
 b = c.Board()
+NODES = 0
 
 ### Various test positions, with White to play:
 
@@ -184,6 +185,9 @@ def isdead(b, ml, p):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
+	global NODES
+
+	NODES += 1
 	if MATETEST:
 		res = b.result(claim_draw = True)
 		if res == '0-1':
@@ -214,6 +218,9 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
+	global NODES
+
+	NODES += 1
 	if MATETEST:
 		res = b.result(claim_draw = True)
 		if res == '0-1':
@@ -284,10 +291,11 @@ def getindex(ll):
 
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
-	global COMPC, PLAYC, MAXPLIES
+	global COMPC, PLAYC, MAXPLIES, NODES
 
 	lastpos = getpos(b)
 	ll = []
+	NODES = 0
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -304,6 +312,7 @@ def getmove(b, silent = False, usebook = False):
 	nl = len(list(b.legal_moves))
 	cr0 = b.has_castling_rights(COMPC)
 
+	start = time.time()
 	for n, x in enumerate(b.legal_moves):
 		if b.is_castling(x):		# are we castling now?
 			castle = pm()
@@ -332,6 +341,8 @@ def getmove(b, silent = False, usebook = False):
 		ll.reverse()
 	i = getindex(ll)
 	#print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+	print('info depth %d seldepth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1, QPLIES + 1,
+		100 * pm () * ll[0][2], 1000 * (time.time() - start), NODES, str(ll[i][0])))
 	return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
 if __name__ == '__main__':
