@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-# Show White moves that differ between PyTuroChamp and the TUROCHAMP-Glennie game
+# Show White moves that differ between PyTuroChamp and the TUROCHAMP-Kasparov game
 
 import chess as c
 import chess.pgn
