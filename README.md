@@ -116,6 +116,7 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 |---|---|
 | movetest.py | Test engine responses to board situations |
 | glennie.py | Compare White moves from TUROCHAMP vs. Glennie game to PyTuroChamp's moves and show differences (uses glennie.pgn) |
+| kasparov.py | Compare White moves from ChessBase TUROCHAMP vs. Kasparov game to PyTuroChamp's moves and show differences (uses kasparov.pgn) |
 | somatest.py | Compare White moves from SOMA vs. Machiavelli game to soma.py's moves and show differences (uses soma-mac.pgn) |
 | berntest.py | Compare White moves to the IBM 704 vs Human game (uses bernstein_ibm704.pgn)
 

@@ -1,0 +1,16 @@
+[Event "Alan Turing Centenary Exhibition"]
+[Site "University of Manchester, Manchester ENG"]
+[Date "2012.06.25"]
+[EventDate "?"]
+[Round "?"]
+[Result "0-1"]
+[White "Turochamp (Computer)"]
+[Black "Garry Kasparov"]
+[ECO "A00"]
+[WhiteElo "?"]
+[BlackElo "?"]
+[PlyCount "32"]
+
+1.e3 Nf6 2.Nc3 d5 3.Nh3 e5 4.Qf3 Nc6 5.Bd3 e4 6.Bxe4 dxe4
+7.Nxe4 Be7 8.Ng3 O-O 9.O-O Bg4 10.Qf4 Bd6 11.Qc4 Bxh3 12.gxh3
+Qd7 13.h4 Qh3 14.b3 Ng4 15.Re1 Qxh2+ 16.Kf1 Qxf2# 0-1
