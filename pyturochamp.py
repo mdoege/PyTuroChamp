@@ -204,6 +204,8 @@ def searchmax(b, ply, alpha, beta):
 		for x in ml:
 			if b.is_capture(x):
 				ml2.append(x)
+		if len(ml2) == 0:	# no considerable moves
+			return getval(b)
 	else:
 		ml2 = ml
 	for x in ml2:
@@ -237,6 +239,8 @@ def searchmin(b, ply, alpha, beta):
 		for x in ml:
 			if b.is_capture(x):
 				ml2.append(x)
+		if len(ml2) == 0:	# no considerable moves
+			return getval(b)
 	else:
 		ml2 = ml
 	for x in ml2:
