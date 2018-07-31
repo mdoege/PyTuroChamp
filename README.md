@@ -163,22 +163,22 @@ Note that the focus of the project has shifted more towards playability rather t
 
 The script glennie.py allows comparison of White's moves from the TUROCHAMP&mdash;Glennie game with PyTuroChamp's moves. Changing the parameters in pyturochamp.py will yield different results.
 
-The best match seems to be PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
+The best match is observed with PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):
 ```
 $ pypy3 glennie.py
 pstab = 0, maxplies = 1, qplies = 7
 # orig PTC
 1 e2e4 e2e3
-4 g1f3 d4e5
+4 g1f3 d1d3
 6 d4d5 a2a3
 10 f1b5 d2e3
 15 h1g1 e1g1
 17 a6b5 a6c4
 19 b5c6 e2c4
-22 c1d2 e2d2
+22 c1d2 e2e3
 23 g5g4 b2b3
-25 d5b3 b2b3
-26 b3c4 d1g1
+25 d5b3 d1g1
+26 b3c4 d2e2
 27 g4g3 g4g5
 ===> 12 moves differ
 ```
