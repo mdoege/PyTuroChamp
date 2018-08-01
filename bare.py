@@ -18,6 +18,7 @@ MAXPLIES = 3	# maximum search depth
 PSTAB    = .5	# influence of piece-square table on moves, 0 = none
 
 b = c.Board()
+NODES = 0
 
 def getpos(b):
 	"Get positional-play value for a board"
@@ -49,6 +50,9 @@ def getval(b):
 # https://chessprogramming.wikispaces.com/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
+	global NODES
+
+	NODES += 1
 	if ply >= MAXPLIES:
 		return getval(b)
 	for x in order(b, ply):
@@ -63,6 +67,9 @@ def searchmax(b, ply, alpha, beta):
 
 def searchmin(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
+	global NODES
+
+	NODES += 1
 	if ply >= MAXPLIES:
 		return getval(b)
 	for x in order(b, ply):
@@ -95,12 +102,19 @@ def order(b, ply):
 	bm = [q[0] for q in am]
 	return bm
 
+def pm():
+	if COMPC == c.WHITE:
+		return 1
+	else:
+		return -1
+
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
-	global COMPC, PLAYC, MAXPLIES
+	global COMPC, PLAYC, MAXPLIES, NODES
 
 	lastpos = getpos(b)
 	ll = []
+	NODES = 0
 
 	if b.turn == c.WHITE:
 		COMPC = c.WHITE
@@ -116,6 +130,7 @@ def getmove(b, silent = False, usebook = False):
 
 	nl = len(list(b.legal_moves))
 
+	start = time.time()
 	for n, x in enumerate(b.legal_moves):
 		b.push(x)
 		p = getpos(b) - lastpos
@@ -128,10 +143,12 @@ def getmove(b, silent = False, usebook = False):
 		ll.append((x, p, t))
 		b.pop()
 
-	ll.sort(key = lambda m: m[1] + m[2])
+	ll.sort(key = lambda m: m[1] + 1000 * m[2])
 	if COMPC == c.WHITE:
 		ll.reverse()
 	print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
+	print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1,
+		100 * pm () * ll[0][2], 1000 * (time.time() - start), NODES, str(ll[0][0])))
 	return ll[0][1] + ll[0][2], [str(ll[0][0])]
 
 if __name__ == '__main__':
