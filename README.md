@@ -155,7 +155,7 @@ setuptools   28.8.0
 $ pypy3 ptc_xboard.py newt
 ```
 
-### Comparison to historical games
+### Comparison to other games
 
 Note that the focus of the project has shifted more towards playability rather than perfectly recreating the old games, so the discussion below may only apply to earlier engine versions.
 
@@ -189,6 +189,19 @@ These best-fit parameters also agree with Turing's text who specified a brute-fo
 Turing's idea to evaluate material by dividing White's value by Black's value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where "W/B" plays h4h5 and "W-B" plays a6c4.
 
 According to Stockfish analysis, the "W-B" move is also the only winning move for White, while the "W/B" move leads to a drawn position. So at least in this game, "W/B" is inferior to "W-B". (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP's moves by Turing and Glennie.)
+
+#### ChessBase TUROCHAMP&mdash;Kasparov (2012)
+```
+$ pypy3 kasparov.py
+pstab = 0, maxplies = 1, qplies = 7
+3 g1h3 h2h4
+5 f1d3 a2a4
+8 e4g3 e1g1
+9 e1g1 b2b3
+15 f1e1 c4b5
+===> 5 moves differ
+```
+The ChessBase TUROCHAMP implementation does not play TUROCHAMP's signature moves a4 or h4 and prefers 3. Nh3 instead. As [Andre Adrian](http://www.andreadrian.de/schach/) notes, this probably means ChessBase TUROCHAMP has a bug, since the Knight would have more mobility on f3.
 
 #### SOMA&mdash;Machiavelli (1961)
 
