@@ -1,6 +1,6 @@
 ![logo](https://github.com/mdoege/PyTuroChamp/raw/master/pic/ptc_banner.png "logo bar")
 
-## PyTuroChamp, SOMA, Bernstein, and *El Ajedrecista*
+## PyTuroChamp, *Plankalkül*, SOMA, Bernstein, and *El Ajedrecista*
 
 Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
