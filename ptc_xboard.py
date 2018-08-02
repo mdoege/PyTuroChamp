@@ -33,6 +33,11 @@ elif sys.argv[-1] == 'bare':
 	lf = "Bare-log.txt"
 	mf = "Bare.pgn"
 	nm = "Bare"
+elif sys.argv[-1] == 'plan':
+	import plan as p
+	lf = "Plan-log.txt"
+	mf = "Plan.pgn"
+	nm = "Plan"
 elif sys.argv[-1] == 'soma':
 	import soma as p
 	lf = "SOMA-log.txt"
@@ -163,6 +168,8 @@ while True:
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
+			if nm == 'Plan':
+				print2("option name maxplies type spin default 3 min 0 max 1024")
 			if nm == 'Newt':
 				print2("option name depth type spin default 14 min 0 max 1024")
 				print2("option name qplies type spin default 6 min 0 max 1024")
