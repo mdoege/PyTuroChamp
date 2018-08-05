@@ -4,6 +4,7 @@
 
 import chess as c
 import sys, math, time
+from random import random
 
 # computer plays as Black by default
 
@@ -110,7 +111,7 @@ def getmove(b, silent = False, usebook = False):
 	start = time.time()
 	for n, x in enumerate(b.legal_moves):
 		b.push(x)
-		p = 0
+		p = random()
 		if COMPC == c.WHITE:
 			t = searchmin(b, 0, -1e6, 1e6)
 		else:
