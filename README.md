@@ -20,7 +20,7 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 ***Plankalkül*** (1948) by Konrad Zuse is an early chess algorithm only based on material with no positional criteria. (Strictly speaking, *[Plankalkül](https://en.wikipedia.org/wiki/Plankalk%C3%BCl)* is Zuse's programming language in which his chess algorithm is implemented, but the terms are used interchangeably here.) If no tactics are within its tree search horizon, *Plankalkül* will play random moves.
 
-Normally *Plankalkül* would only search one ply deep, but the version here defaults to four plies, at which it is more than a match for TUROCHAMP (at its default settings).
+Normally *Plankalkül* would only search one ply deep, but the version here defaults to four plies, at which it is somehwat weaker than PTC at its default settings but a bit stronger than SOMA.
 
 **SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and works very differently to TUROCHAMP.
 
