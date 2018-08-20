@@ -12,7 +12,21 @@ PLAYC = c.BLACK
 
 b = c.Board()
 
+def getval(b):
+	"Get total piece value of board"
+	return (
+		len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
+	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
+	+	3.5 * (len(b.pieces(c.BISHOP, c.WHITE)) - len(b.pieces(c.BISHOP, c.BLACK)))
+	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
+	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+	)
 
+def pm():
+	if COMPC == c.WHITE:
+		return 1
+	else:
+		return -1
 
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"
@@ -32,8 +46,8 @@ def getmove(b, silent = False, usebook = False):
 
 	nl = len(list(b.legal_moves))
 	move = str(choice(list(b.legal_moves)))
+	print('info score cp %d' % (100 * pm() * getval(b)))
 	return 0, [move]
-
 
 if __name__ == '__main__':
 	while True:	# game loop
