@@ -14,9 +14,7 @@ is favored like Turing's algorithm would. Whereas with PSTAB = 2,
 
 is played as in the TUROCHAMP&mdash;Glennie game.
 
-**Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table.
-
-**Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.
+Bare and Newt are two variants based on the PyTuroChamp code: **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table. **Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.
 
 ***Plankalkül*** (1948) by Konrad Zuse is an early chess algorithm only based on material with no positional criteria. (Strictly speaking, *[Plankalkül](https://en.wikipedia.org/wiki/Plankalk%C3%BCl)* is Zuse's programming language in which his chess algorithm is implemented, but the terms are used interchangeably here.) If no tactics are within its tree search horizon, *Plankalkül* will play random moves.
 
