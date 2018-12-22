@@ -22,9 +22,7 @@ is played as in the TUROCHAMP&mdash;Glennie game.
 
 Normally *Plankalkül* would only search one ply deep, but the version here defaults to four plies, at which it is somehwat weaker than PTC at its default settings but a bit stronger than SOMA.
 
-**SOMA** (the Smith One-Move Analyzer, 1961) is another early chess engine and works very differently to TUROCHAMP.
-
-SOMA was created by British biologist John Maynard Smith as a challenger to *Machiavelli*, which itself had been developed around the same time as TUROCHAMP. A game (with human-computed moves) between TUROCHAMP and *Machiavelli* was intended but never took place, but SOMA is very similar to *Machiavelli* in terms of its algorithm and playing strength, so it can be pitted against PyTuroChamp.
+**SOMA** (the Smith One-Move Analyzer, 1961) was created by British biologist John Maynard Smith as a challenger to *Machiavelli*, which itself had been developed around the same time as TUROCHAMP. A game (with human-computed moves) between TUROCHAMP and *Machiavelli* was intended but never took place, but SOMA is very similar to *Machiavelli* in terms of its algorithm and playing strength, so it can be pitted against PyTuroChamp.
 
 SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other ones, it requires far less than a second to compute a move.
 
