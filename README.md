@@ -48,11 +48,11 @@ Options for boosting program performance include PyPy and (for PyTuroChamp) runn
 
 ### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
-Material is evaluated as White minus Black by PTC, while Turing preferred White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.
+**Material is evaluated as White minus Black** by PTC, while Turing preferred White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.
 
-Move ordering is used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
+**Move ordering is used by the engine** to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
 
-An optional piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
+**An optional piece-square table (PST) was added**, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
 
 ### Running the engines from a chess GUI
 
