@@ -4,15 +4,7 @@
 
 Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
-**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0
-
- 1. e3
-
-is favored like Turing's algorithm would. Whereas with PSTAB = 2,
-
- 1. e4
-
-is played as in the TUROCHAMP&mdash;Glennie game.
+**PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0, 1. e3 is favored like Turing's algorithm would. Whereas with PSTAB = 2, 1. e4 is played as in the TUROCHAMP&mdash;Glennie game.
 
 Bare and Newt are two variants based on the PyTuroChamp code: **Bare** removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table. **Newt** also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.
 
