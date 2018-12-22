@@ -48,7 +48,7 @@ Options for boosting program performance include PyPy and (for PyTuroChamp) runn
 
 ### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
-Material is evaluated as White minus Black by PTC, while Turing favoured White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.
+Material is evaluated as White minus Black by PTC, while Turing preferred White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.
 
 Move ordering is used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
 
