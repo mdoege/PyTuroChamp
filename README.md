@@ -64,11 +64,11 @@ It is also possible and perhaps easier—especially on Windows—to launch Pytho
 
 If you want to use one of the other engines besides pyturochamp.py, add an additional command line parameter to ptc_xboard.py: newt, ptc, bare, plan, soma, bern, torres, or rmove.
 
-Cute Chess (Linux):
+**Cute Chess** (Linux version shown here):
 
 ![screenshot](https://github.com/mdoege/PyTuroChamp/raw/master/pic/Screenshot_20180702_191254.png "Cute Chess configuration")
 
-Arena (Linux):
+**Arena** (Linux version shown here):
 
 ![screenshot](https://github.com/mdoege/PyTuroChamp/raw/master/pic/Screenshot_20171123_102423.png "Arena configuration")
 
