@@ -28,13 +28,13 @@ SOMA was created by British biologist John Maynard Smith as a challenger to *Mac
 
 SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other ones, it requires far less than a second to compute a move.
 
-**The Bernstein Chess Program** was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky in 1957 and ran on an IBM 704. The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program.
+**The Bernstein Chess Program** (1957) was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky and ran on an IBM 704. The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program.
 
 On an IBM 704, one of the last vacuum tube computers, it searched four plies minimax in around 8 minutes, considering the seven most plausible moves from each position and evaluated material, mobility, area control, and King defense.
 
-As seven moves are calculated in each of four plies, up to 7⁴+7³+7²+7 = 2,800 positions will be analyzed, although in practice due to Alpha-Beta the number is lower.
+For each of four plies, seven plausible moves are selected by certain rules and saved to the plausible move table (PMT). Therefore, up to 7⁴+7³+7²+7 = 2,800 positions will be analyzed, although in practice due to Alpha-Beta the number will be lower.
 
-***El Ajedrecista*** is an automaton built in 1912 by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
+***El Ajedrecista*** (1912) is an automaton built by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.
 
 ***El Ajedrecista* needs to play as White! (With Black, it will play random moves to enable self play.)**
 
@@ -81,7 +81,7 @@ If you want to use one of the other engines besides pyturochamp.py, add an addit
 * qplies: Quiescence search depth in plies
 * pstab: Piece-square table factor; 0 = no influence of PST
 * matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
-* pmtlen (Bernstein): Length of the Plausible Move Table
+* pmtlen (Bernstein): Size of the plausible move table
 * pmtstart (Bernstein): First ply where the PMT is used, so e.g. PMTSTART = 2 means that the PMT will not be used during the first two plies.
 * MoveError: Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent: Chance of a blunder in percent
