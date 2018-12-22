@@ -48,9 +48,11 @@ Options for boosting program performance include PyPy and (for PyTuroChamp) runn
 
 ### Differences between PyTuroChamp (PTC) and Turing's Paper Machine (TPM)
 
-A piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
+Material is evaluated as White minus Black by PTC, while Turing favoured White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.
 
-Move ordering is also used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
+Move ordering is used by the engine to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that "looked good" to him and only later checked that all other moves were worse.
+
+An optional piece-square table (PST) was added, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)
 
 ### Running the engines from a chess GUI
 
@@ -60,7 +62,7 @@ The recommended option on Linux or macOS is to modify and use the included shell
 
 It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)
 
-If you want to use one of the other engines besides pyturochamp.py, add "bare" or "newt" as additional command line parameters.
+If you want to use one of the other engines besides pyturochamp.py, add an additional command line parameter to ptc_xboard.py: newt, ptc, bare, plan, soma, bern, torres, or rmove.
 
 Cute Chess (Linux):
 
@@ -160,9 +162,7 @@ setuptools   28.8.0
 $ pypy3 ptc_xboard.py newt
 ```
 
-### Comparison to other games
-
-Note that the focus of the project has shifted more towards playability rather than perfectly recreating the old games, so the discussion below may only apply to earlier engine versions.
+### Comparison to historical games
 
 #### TUROCHAMP&mdash;Glennie (1952)
 

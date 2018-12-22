@@ -1,7 +1,6 @@
 #!/usr/bin/env python3
 
-# A Python chess engine,
-# inspired by (but not compatible with)
+# A Python chess engine inspired by
 # http://en.chessbase.com/post/reconstructing-turing-s-paper-machine
 
 from pst import pst
