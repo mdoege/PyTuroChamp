@@ -24,7 +24,7 @@ MoveError = 0		# On every move, randomly select the best move or a move inferior
 BlunderError = 0	# If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
 			# Blunder Error overrides Move Error and should be > Move Error.
 BlunderPercent = 0	# Percent chance of blundering this move
-PlayerAdvantage = 0	# If > 0, keep the evaluation at least this many decipawns in favor of the player
+PlayerAdvantage = 0	# If not 0, keep the evaluation at least this many decipawns in favor of the player
 
 b = c.Board()
 NODES = 0
@@ -297,7 +297,7 @@ def getindex(ll):
 			ma = [x for x in inds if x[0] >=  PlayerAdvantage / 10.]
 		if len(ma) == 0:
 			ma = [x for x in inds if x[0] == 0]
-		if PlayerAdvantage > 0 and len(ma) > 0:
+		if PlayerAdvantage != 0 and len(ma) > 0:
 			return ma[0][1]
 		elif err > 0 and len(mm) > 0:
 			return choice(mm)[1]

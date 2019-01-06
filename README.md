@@ -69,7 +69,7 @@ If you want to use one of the other engines besides pyturochamp.py, add an addit
 * matetest: This switch selects whether mates or draws should also be evaluated at maximum search depth, not just the next move as in Turing's algorithm. It allows PTC to seek out or avoid mates and also avoid draws when it is ahead in material. This also works for Newt and SOMA, which also have a tendency to reeach a draw even when they are ahead in material, because their normal evaluation function does not include any draw rules.
 * pmtlen (Bernstein): Size of the plausible move table
 * pmtstart (Bernstein): First ply where the PMT is used, so e.g. PMTSTART = 2 means that the PMT will not be used during the first two plies.
-* PlayerAdvantage (PTC): If PlayerAdvantage > 0, keep the evaluation at least this many decipawns in favor of the player. (Takes precedence over the other easy play parameters below.)
+* PlayerAdvantage (PTC): If not 0, keep the evaluation at least this many decipawns in favor of the player. (Takes precedence over the other easy play parameters below.) Negative values are also allowed. So if you are playing as White, e.g. -30 will keep the eval above -3 and 10 will keep it over +1.
 * MoveError (PTC): Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move
 * BlunderPercent (PTC): Chance of a blunder in percent
 * BlunderError (PTC): If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move

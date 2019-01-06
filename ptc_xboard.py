@@ -166,7 +166,7 @@ while True:
 				print2("option name BlunderError type spin default 0 min 0 max 1024")
 				print2("option name BlunderPercent type spin default 0 min 0 max 1024")
 
-				print2("option name PlayerAdvantage type spin default 0 min 0 max 1024")
+				print2("option name PlayerAdvantage type spin default 0 min -1024 max 1024")
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
