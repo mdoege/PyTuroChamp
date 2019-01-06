@@ -24,6 +24,7 @@ MoveError = 0		# On every move, randomly select the best move or a move inferior
 BlunderError = 0	# If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
 			# Blunder Error overrides Move Error and should be > Move Error.
 BlunderPercent = 0	# Percent chance of blundering this move
+PlayerAdvantage = 0	# If > 0, keep the evaluation at least this many decipawns in favor of the player
 
 b = c.Board()
 NODES = 0
@@ -279,18 +280,29 @@ def pm():
 		return -1
 
 def getindex(ll):
-	"Select either the best move, or an almost equivalent move, or a blunder from the list of moves"
+	"Select either the best move or another move if easy play UCI parameters are set"
 	if random() < (BlunderPercent / 100.):
 		err = BlunderError / 10.
 	else:
 		err = MoveError / 10.
-	if err == 0:
+	if err == 0 and PlayerAdvantage == 0:
 		return 0	# best move
 	else:
-		vals = [x[1] + x[2] for x in ll]
-		inds = zip(vals, range(len(ll)))
+		vals = [x[2] for x in ll]
+		inds = list(zip(vals, range(len(ll))))
 		mm = [x for x in inds if (abs(x[0] - vals[0]) < err)]
-		return choice(mm)[1]
+		if COMPC == c.WHITE:
+			ma = [x for x in inds if x[0] <= -PlayerAdvantage / 10.]
+		else:
+			ma = [x for x in inds if x[0] >=  PlayerAdvantage / 10.]
+		if len(ma) == 0:
+			ma = [x for x in inds if x[0] == 0]
+		if PlayerAdvantage > 0 and len(ma) > 0:
+			return ma[0][1]
+		elif err > 0 and len(mm) > 0:
+			return choice(mm)[1]
+		else:
+			return 0
 
 def getmove(b, silent = False, usebook = False):
 	"Get move list for board"

@@ -165,6 +165,8 @@ while True:
 				print2("option name MoveError type spin default 0 min 0 max 1024")
 				print2("option name BlunderError type spin default 0 min 0 max 1024")
 				print2("option name BlunderPercent type spin default 0 min 0 max 1024")
+
+				print2("option name PlayerAdvantage type spin default 0 min 0 max 1024")
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
@@ -262,6 +264,9 @@ while True:
 		elif 'setoption name BlunderPercent value' in l:
 			p.BlunderPercent = int(l.split()[4])
 			print2("# BlunderPercent: %u" % p.BlunderPercent)
+		elif 'setoption name PlayerAdvantage value' in l:
+			p.PlayerAdvantage = int(l.split()[4])
+			print2("# PlayerAdvantage: %u" % p.PlayerAdvantage)
 		elif l == 'isready':
 			if not d:
 				newgame()
