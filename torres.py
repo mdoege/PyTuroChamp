@@ -75,7 +75,7 @@ def getmove(b, silent = False, usebook = False):
 if __name__ == '__main__':
 	while True:	# game loop
 		while True:
-			print(b)
+			print(b.unicode())
 			if sys.version < '3':
 				move = raw_input("Your move? ")
 			else:

@@ -278,7 +278,7 @@ def getmove(b, silent = False, usebook = True):
 if __name__ == '__main__':
 	while True:	# game loop
 		while True:
-			print(b)
+			print(b.unicode())
 			print()
 			#print(getopen(b))
 			if sys.version < '3':
@@ -292,7 +292,7 @@ if __name__ == '__main__':
 					b.push_san(move)
 				except ValueError:
 					b.push_uci(move)
-				print(b)
+				print(b.unicode())
 			except:
 				print("Sorry? Try again. (Or type quit to quit.)")
 			else:

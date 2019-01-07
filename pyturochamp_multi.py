@@ -63,7 +63,7 @@ def getmove(b, silent = False, usebook = False):
 		PLAYC = c.WHITE
 
 	if not silent:
-		print(b)
+		print(b.unicode())
 		print(ptc.getval(b))
 		print("FEN:", b.fen())
 
@@ -93,7 +93,7 @@ def getmove(b, silent = False, usebook = False):
 if __name__ == '__main__':
 	while True:	# game loop
 		while True:
-			print(b)
+			print(b.unicode())
 			print(ptc.getval(b))
 			if sys.version < '3':
 				move = raw_input("Your move? ")
