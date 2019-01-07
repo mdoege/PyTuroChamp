@@ -15,7 +15,7 @@ p.PSTAB = 0
 p.MAXPLIES = 3	# 4 plies
 
 bad, badpmt = 0, 0
-ml = list(game.main_line())
+ml = list(game.mainline_moves())
 print('pstab = %u, maxplies = %u' % (p.PSTAB, p.MAXPLIES))
 
 # Check if correct move is in PST

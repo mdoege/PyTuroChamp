@@ -20,7 +20,7 @@ p.MATETEST = False
 
 print('pstab = %u, maxplies = %u, qplies = %u' % (p.PSTAB, p.MAXPLIES, p.QPLIES))
 
-for m in game.main_line():
+for m in game.mainline_moves():
 	if b.turn == c.WHITE:
 		t, r = p.getmove(b, usebook = False, silent = True)
 		if r[0] != str(m):

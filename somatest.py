@@ -14,7 +14,7 @@ bad = 0
 o = open('somatest.txt', 'a')
 o2 = open('somatest-diff.txt', 'a')
 
-for m in game.main_line():
+for m in game.mainline_moves():
 	if b.turn == c.WHITE:
 		t, r = p.getmove(b, usebook = False, silent = True)
 		if r[0] == str(m):
