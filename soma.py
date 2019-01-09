@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 
 # SOMA, the Smith One-Move Analyzer (1961)
-# https://chessprogramming.wikispaces.com/SOMA
+# https://chessprogramming.org/SOMA
 
 import chess as c
 import sys, math, time

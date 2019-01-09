@@ -182,7 +182,7 @@ def isdead(b, ml, p):
 		b.push(x)
 		return True
 
-# https://chessprogramming.wikispaces.com/Alpha-Beta
+# https://chessprogramming.org/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
 	global NODES

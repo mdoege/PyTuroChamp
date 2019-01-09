@@ -3,7 +3,7 @@
 # Piece-Square Tables from
 # https://github.com/thomasahle/sunfish/commit/e33a4d31fb8604de6a25961fcf0ec8871f1b7066
 # and
-# https://chessprogramming.wikispaces.com/Simplified+evaluation+function
+# https://chessprogramming.org/Simplified+evaluation+function
 
 import chess
 

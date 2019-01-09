@@ -2,7 +2,7 @@
 
 ## PyTuroChamp, *Plankalkül*, SOMA, Bernstein, and *El Ajedrecista*
 
-Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.wikispaces.com/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.wikispaces.com/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.wikispaces.com/The+Bernstein+Chess+Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
+Python implementations of Alan Turing's [TUROCHAMP](https://chessprogramming.org/Turochamp) (1950), John Maynard Smith's [SOMA](https://chessprogramming.org/SOMA) (1961), [The Bernstein Chess Program](https://chessprogramming.org/The_Bernstein_Chess_Program) (1957), Leonardo Torres y Quevedo's [*El Ajedrecista*](https://en.wikipedia.org/wiki/El_Ajedrecista) (1912), and some related engines
 
 **PyTuroChamp** is closest to the chess engine in Turing's paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0, 1. e3 is favored like Turing's algorithm would. Whereas with PSTAB = 2, 1. e4 is played as in the TUROCHAMP&mdash;Glennie game.
 
@@ -114,7 +114,7 @@ Newt on the other hand counts plies normally from the root position, so maxplies
 | somatest.py | Compare White moves from SOMA vs. Machiavelli game to soma.py's moves and show differences (uses soma-mac.pgn) |
 | berntest.py | Compare White moves to the IBM 704 vs Human game (uses bernstein_ibm704.pgn)
 
-In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.wikispaces.com/Norbert+Raimund+Leisner).
+In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by [Norbert Raimund Leisner](https://chessprogramming.org/Norbert+Raimund+Leisner).
 
 ### Improving performance by using PyPy
 
@@ -222,7 +222,7 @@ However, the description of the SOMA algorithm in *New Scientist* leaves out som
 
 * Turing, Alan (1952): [*Digital computers applied to games*](https://docs.google.com/file/d/0B0xb4crOvCgTNmEtRXFBQUIxQWs/edit)
 * Smith, John M. and Michie, Donald (1961): [Machines that play games](https://books.google.de/books?id=lo7r0zX_T0sC&lpg=PA369&dq=Machines+that+play+games.+1961,+New+Scientist,+12&pg=PA367&redir_esc=y#v=onepage&q&f=false)
-* [Chess Programming Wiki](https://chessprogramming.wikispaces.com/)
+* [Chess Programming Wiki](https://chessprogramming.org/)
 * Muller, H.G.: [*Micro-Max, a 133-line Chess Source*](http://home.hccnet.nl/h.g.muller/max-src2.html)
 
 ### License

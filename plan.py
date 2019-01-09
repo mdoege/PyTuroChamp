@@ -26,7 +26,7 @@ def getval(b):
 	+	4 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
-# https://chessprogramming.wikispaces.com/Alpha-Beta
+# https://chessprogramming.org/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
 	global NODES

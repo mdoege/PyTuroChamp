@@ -248,7 +248,7 @@ def get_pmt(b):
 
 	return pmt2[:PMTLEN]
 
-# https://chessprogramming.wikispaces.com/Alpha-Beta
+# https://chessprogramming.org/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions for player whose turn it is"
 	global NODES
