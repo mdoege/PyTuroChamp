@@ -7,7 +7,7 @@ from pst import pst
 
 import chess as c
 import sys, math, time
-from random import random, choice
+from random import random, expovariate, choice
 
 # computer plays as Black by default
 
@@ -24,6 +24,8 @@ MoveError = 0		# On every move, randomly select the best move or a move inferior
 BlunderError = 0	# If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
 			# Blunder Error overrides Move Error and should be > Move Error.
 BlunderPercent = 0	# Percent chance of blundering this move
+EasyLearn = 0		# Learn factor: pick from EasyLearn best moves
+EasyLambda = 2		# larger lambda = higher probability of selecting best move
 PlayerAdvantage = 0	# If not 0, keep the evaluation at least this many decipawns in favor of the player
 
 b = c.Board()
@@ -285,6 +287,9 @@ def getindex(ll):
 		err = BlunderError / 10.
 	else:
 		err = MoveError / 10.
+	if EasyLearn > 1:
+		ind = int(expovariate(EasyLambda))
+		return min(ind, len(ll) - 1, EasyLearn - 1)
 	if err == 0 and PlayerAdvantage == 0:
 		return 0	# best move
 	else:

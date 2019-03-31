@@ -166,6 +166,9 @@ while True:
 				print2("option name BlunderError type spin default 0 min 0 max 1024")
 				print2("option name BlunderPercent type spin default 0 min 0 max 1024")
 
+				print2("option name EasyLearn type spin default 0 min 0 max 1024")
+				print2("option name EasyLambda type spin default 20 min 1 max 1024")
+
 				print2("option name PlayerAdvantage type spin default 0 min -1024 max 1024")
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
@@ -264,6 +267,12 @@ while True:
 		elif 'setoption name BlunderPercent value' in l:
 			p.BlunderPercent = int(l.split()[4])
 			print2("# BlunderPercent: %u" % p.BlunderPercent)
+		elif 'setoption name EasyLearn value' in l:
+			p.EasyLearn = int(l.split()[4])
+			print2("# EasyLearn: %u" % p.EasyLearn)
+		elif 'setoption name EasyLambda value' in l:
+			p.EasyLambda = int(l.split()[4]) / 10.
+			print2("# EasyLambda: %u" % p.EasyLambda)
 		elif 'setoption name PlayerAdvantage value' in l:
 			p.PlayerAdvantage = int(l.split()[4])
 			print2("# PlayerAdvantage: %u" % p.PlayerAdvantage)
