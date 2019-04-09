@@ -1,0 +1,16 @@
+body { font-family:      Georgia, serif;
+       color:            #000;
+       margin-left:      20px;
+       margin-right:     20px;
+       text-align:       justify;
+       background-color: #fff }
+
+h1, h2, h3 {
+     font-family: MICR, Verdana, sans-serif;
+}
+
+@font-face {
+	font-family: 'MICR';
+	src: url('25240_MICR.ttf') format('truetype');
+}
+

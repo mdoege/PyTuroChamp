@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<head>
+<title>PyTUROCHAMP</title>
+<link rel="stylesheet" href="ptc.css">
+</head>
+<body>
+<h3 id="engine-descriptions">Engine descriptions</h3>
+<p><strong>PyTuroChamp</strong> is closest to the chess engine in Turing’s paper, but adds optional piece-square tables that can be tuned with the PSTAB parameter. A higher parameter means more aggressive forward movement. With PSTAB = 0, 1. e3 is favored like Turing’s algorithm would. Whereas with PSTAB = 2, 1. e4 is played as in the TUROCHAMP—Glennie game.</p>
+<p>Bare and Newt are two variants based on the PyTuroChamp code: <strong>Bare</strong> removes the Turing heuristics and quiescence search and only contains the bare minimum a chess engine needs to play: alpha-beta search and a piece-square table. <strong>Newt</strong> also does not use the Turing heuristics and adds newer chess programming techniques such as PV-based iterative deepening and an opening book (which unlike a normal opening book contains both good and bad openings). It is faster than the other two engines at the same search depth, offers more variety during the opening, and has time management, so it works well for Blitz games.</p>
+<p><strong><em>Plankalkül</em></strong> (1948) by computer pioneer Konrad Zuse is an early chess algorithm only based on material with no positional criteria. (Strictly speaking, <em><a href="https://en.wikipedia.org/wiki/Plankalk%C3%BCl">Plankalkül</a></em> is Zuse’s programming language in which his chess algorithm is implemented, but the terms are used interchangeably here.) If no tactics are within its tree search horizon, <em>Plankalkül</em> will play random moves.</p>
+<p>Normally <em>Plankalkül</em> would only search one ply deep, but the version here defaults to four plies, at which it is somehwat weaker than PTC at its default settings but a bit stronger than SOMA.</p>
+<p><strong>SOMA</strong> (the Smith One-Move Analyzer, 1961) was created by British biologist John Maynard Smith as a challenger to <em>Machiavelli</em>, which itself had been developed around the same time as TUROCHAMP. A game (with human-computed moves) between TUROCHAMP and <em>Machiavelli</em> was intended but never took place, but SOMA is very similar to <em>Machiavelli</em> in terms of its algorithm and playing strength, so it can be pitted against PyTuroChamp.</p>
+<p>SOMA only looks one ply ahead and uses swap-off values, total material, and square control criteria. While SOMA is a somewhat weaker engine than the other ones, it requires far less than a second to compute a move.</p>
+<p><strong>The Bernstein Chess Program</strong> (1957) was developed by Alex Bernstein with his colleagues Michael de V. Roberts, Timothy Arbuckle, and Martin Belsky. On an IBM 704, one of the last vacuum tube computers, it searched four plies minimax in around 8 minutes, considering material, mobility, area control, and King defense.</p>
+<p>The Bernstein Chess Program was the prototype of a selective forward pruning, Shannon Type B program: For each of four plies, seven plausible moves are selected by certain rules and saved to the plausible move table (PMT). Therefore, up to 7⁴+7³+7²+7 = 2,800 positions will be analyzed, although in practice due to Alpha-Beta the number will be lower.</p>
+<p><strong><em>El Ajedrecista</em></strong> (1912) is an automaton built by Leonardo Torres y Quevedo, one of the first autonomous machines capable of playing chess. It played an endgame with three chess pieces, automatically moving a White King and a Rook to checkmate the Black King moved by a human opponent.</p>
+<p><strong><em>El Ajedrecista</em> needs to play as White! (With Black, it will play random moves to enable self play.)</strong></p>
+<p>The starting position should be set up with White’s King and Rook on A8 and B7, respectively, while the Black King can be positioned anywhere on the first six ranks:</p>
+<figure>
+<img src="torres_start.png" title="A valid Torres starting position" alt="torres" /><figcaption>A valid Torres starting position</figcaption>
+</figure>
+<p><strong>PTC-Host</strong> lets you easily host games between the three engines directly from Python, without the need for a separate chess GUI.</p>
+<p>Options for boosting program performance include PyPy and (for PyTuroChamp) running the multi-core version. Note that the multi-core version of PyTuroChamp only works on macOS and Linux but not on Windows. It is also possible to combine PyPy and multi-core.</p>
+<h3 id="differences-between-pyturochamp-ptc-and-turings-paper-machine-tpm">Differences between PyTuroChamp (PTC) and Turing’s Paper Machine (TPM)</h3>
+<p><strong>Material is evaluated as White minus Black</strong> by PTC, while Turing preferred White divided by Black. Support for the latter is present in the code, but using the common approach of W-B means that the evaluation can be more easily compared to other engines. And in most situations, the choice between W-B and W/B does not influence the move chosen.</p>
+<p><strong>Move ordering is used by the engine</strong> to speed up search. This was not specified in the TPM, but humans also have a tendency to e.g. consider a queen or rook move before a pawn move, so move ordering might be said to be implicit in the way humans play the game. I.e., Turing first calculated moves that “looked good” to him and only later checked that all other moves were worse.</p>
+<p><strong>An optional piece-square table (PST) was added</strong>, so e.g. PTC will keep its king and queen on the back rank and advance its pawns. Without a PST, TPM has a tendency to e.g. move its queen all over the board during the opening repeatedly and generally not advance its pawns very much. Turing, had he implemented his TPM on a computer, might have noticed these problems and implemented something analogous to a PST. (The fact that PTC play 1. e3 whereas TUROCHAMP plays 1. e4 may be considered a justification for the need for a PST.)</p>
+<h3 id="running-the-engines-from-a-chess-gui-such-as-cute-chess-or-arena">Running the engines from a chess GUI such as Cute Chess or Arena</h3>
+<p>First, install the <a href="https://github.com/niklasf/python-chess">python-chess</a> chess library: <code>pip install python-chess</code></p>
+<p>The recommended option on Linux or macOS is to modify and use the included shell scripts (ptc, bare, newt).</p>
+<p>It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)</p>
+<p>If you want to use one of the other engines besides pyturochamp.py, add an additional command line parameter to ptc_xboard.py: newt, ptc, bare, plan, soma, bern, torres, or rmove.</p>
+<p><strong>Cute Chess</strong> (Linux version shown here):</p>
+<figure>
+<img src="Screenshot_20180702_191254.png" title="Cute Chess configuration" alt="screenshot" /><figcaption>Cute Chess configuration</figcaption>
+</figure>
+<p><strong>Arena</strong> (Linux version shown here):</p>
+<figure>
+<img src="Screenshot_20171123_102423.png" title="Arena configuration" alt="screenshot" /><figcaption>Arena configuration</figcaption>
+</figure>

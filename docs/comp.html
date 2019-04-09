@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<head>
+<title>PyTUROCHAMP</title>
+<link rel="stylesheet" href="ptc.css">
+</head>
+<body>
+<h3 id="comparison-to-historical-games">Comparison to historical games</h3>
+<h4 id="turochampglennie-1952">TUROCHAMP—Glennie (1952)</h4>
+<p>The script glennie.py allows comparison of White’s moves from the TUROCHAMP—Glennie game with PyTuroChamp’s moves. Changing the parameters in pyturochamp.py will yield different results.</p>
+<p>The best match is observed with PSTAB = 0, MAXPLIES = 1, QPLIES = 7 (or greater):</p>
+<pre><code>$ pypy3 glennie.py
+pstab = 0, maxplies = 1, qplies = 7
+# orig PTC
+1 e2e4 e2e3
+4 g1f3 d1d3
+6 d4d5 a2a3
+10 f1b5 d2e3
+15 h1g1 e1g1
+17 a6b5 a6c4
+19 b5c6 e2c4
+22 c1d2 e2e3
+23 g5g4 b2b3
+25 d5b3 d1g1
+26 b3c4 d2e2
+27 g4g3 g4g5
+===&gt; 12 moves differ</code></pre>
+<p>This is similar to the <a href="https://en.chessbase.com/post/reconstructing-turing-s-paper-machine">ChessBase Turing Engine</a>, which produces 11 mismatches (in moves 1, 5, 15, 17, 18, 19, 20, 22, 23, 27, and 29), although the CB and PTC moves are seldom the same.</p>
+<p>These best-fit parameters also agree with Turing’s text who specified a brute-force depth of two plies (equal to MAXPLIES = 1 in the case of PTC) and a high but unknown selective search depth (QPLIES).</p>
+<p>Turing’s idea to evaluate material by dividing White’s value by Black’s value (instead of subtracting Black from White) can also be tested. The only difference is in move 17, where “W/B” plays h4h5 and “W-B” plays a6c4.</p>
+<p>According to Stockfish analysis, the “W-B” move is also the only winning move for White, while the “W/B” move leads to a drawn position. So at least in this game, “W/B” is inferior to “W-B”. (Also note that in the Glennie game, TUROCHAMP plays 17. a6b5, which is a blunder and possibly caused by a wrong computation of TUROCHAMP’s moves by Turing and Glennie.)</p>
+<h4 id="chessbase-turochampkasparov-2012">ChessBase TUROCHAMP—Kasparov (2012)</h4>
+<pre><code>$ pypy3 kasparov.py
+pstab = 0, maxplies = 1, qplies = 7
+3 g1h3 h2h4
+5 f1d3 a2a4
+8 e4g3 e1g1
+9 e1g1 b2b3
+15 f1e1 c4b5
+===&gt; 5 moves differ</code></pre>
+<p>The ChessBase TUROCHAMP implementation does not play TUROCHAMP’s signature moves a4 or h4 and prefers 3. Nh3 instead. As <a href="http://www.andreadrian.de/schach/">Andre Adrian</a> notes, this probably means ChessBase TUROCHAMP has a bug, since the Knight would have more mobility on f3.</p>
+<h4 id="somamachiavelli-1961">SOMA—Machiavelli (1961)</h4>
+<p>A similiar comparison can be done to the SOMA game recorded in <em>New Scientist</em> (November 9, 1961; page 369) using somatest.py.</p>
+<p>Taking into account the random move selection feature of SOMA, the best-matched game from soma.py includes eight moves that differ from those given in the <em>New Scientist</em> article. (Soma.py’s own moves also vary due to randomness of course.)</p>
+<p>However, the description of the SOMA algorithm in <em>New Scientist</em> leaves out some details, so a few differences are to be expected. Also, SOMA’s moves in the 1961 article were computed by the article’s author, not a computer, so errors in computation are a possibility.</p>
+<pre><code># orig soma.py
+2 d2d4 d1g4
+3 b1c3 g1f3
+7 c1d2 d1h5
+10 f1e2 f2f3
+13 f3e4 e2a6
+18 e2f3 e2d3
+24 d5b5 d5d8
+27 e4f5 a5c3</code></pre>

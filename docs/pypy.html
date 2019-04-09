@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<head>
+<title>PyTUROCHAMP</title>
+<link rel="stylesheet" href="ptc.css">
+</head>
+<body>
+<h3 id="improving-performance-by-using-pypy">Improving performance by using PyPy</h3>
+<p>Running the scripts with <a href="http://pypy.org/">PyPy3</a> instead of python3 will make the engines run about two or three times as fast, so it is generally recommended to use PyPy.</p>
+<p>Below is a sample terminal session that shows how to set up PyPy under <strong>Arch Linux</strong> and run the PyTuroChamp scripts.</p>
+<p>Note that the “–local” command line switch is used here to install pip and python-chess into .local/ in the user’s home directory. This is optional, but perhaps a good idea on Linux. It also means that root permissions are not necessary during installation.</p>
+<pre><code># Install the Python 3 version of PyPy;
+#  this command works only on Arch
+#  and might be different on your Linux distro:
+$ sudo pacman -S pypy3
+
+# Install the pip package manager for PyPy:
+$ pypy3 -m ensurepip --user
+
+# Install python-chess:
+$ pypy3 -m pip install python-chess --user
+
+# Show packages installed under PyPy,
+#  pyton-chess should be there now:
+$ pypy3 -m pip list --user
+Package      Version
+------------ -------
+pip          18.1
+python-chess 0.24.2
+setuptools   28.8.0</code></pre>

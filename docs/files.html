@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<head>
+<title>PyTUROCHAMP</title>
+<link rel="stylesheet" href="ptc.css">
+</head>
+<body>
+<h3 id="files">Files</h3>
+<h4 id="engines">Engines</h4>
+<table border="1" width="70%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filename</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>pyturochamp.py</td>
+<td>The chess engine with Turing’s heuristics. Plays more human-like, except for weird but typical moves like a2a4 and h2h4.</td>
+</tr>
+<tr class="even">
+<td>bare.py</td>
+<td>Bare bones version of PyTuroChamp, only alpha-beta and piece-square tables are used. Very computer-like and not pretty but sometimes efficient play. Stockfish took <a href="https://github.com/mdoege/PyTuroChamp/blob/master/ptc-bare-stockfish.pgn">62 moves to checkmate it</a> (with ponder off).</td>
+</tr>
+<tr class="odd">
+<td>newt.py</td>
+<td>Like Bare, this engine does not include the Turing heuristics. It adds principal variation (PV)-based iterative deepening and quiescence search like PyTuroChamp and also an opening book, so it will not repeat the same moves in each game.</td>
+</tr>
+<tr class="even">
+<td>plan.py</td>
+<td>The <em>Plankalkül</em> engine</td>
+</tr>
+<tr class="odd">
+<td>soma.py</td>
+<td>The Smith One-Move Analyzer single-ply analyzer engine</td>
+</tr>
+<tr class="even">
+<td>bernstein.py</td>
+<td>The Bernstein Chess Program</td>
+</tr>
+<tr class="odd">
+<td>torres.py</td>
+<td><em>El Ajedrecista</em>, an automaton that checkmates Black with a Rook</td>
+</tr>
+<tr class="even">
+<td>rmove.py</td>
+<td>A random mover</td>
+</tr>
+<tr class="odd">
+<td>pyturochamp_multi.py</td>
+<td>Experimental multi-core version of PyTuroChamp</td>
+</tr>
+</tbody>
+</table>
+<h4 id="helper-scripts">Helper scripts</h4>
+<table border="1" width="70%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filename</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>ptc, bare, newt, plan, soma, bern, rmove</td>
+<td>Shell script to run PTC, Bare, Plan, Newt, SOMA or RMove from a chess GUI, e.g. <a href="https://github.com/cutechess/cutechess">Cute Chess</a> , <a href="https://www.kde.org/applications/games/knights/">KDE Knights</a> or <a href="https://www.gnu.org/software/xboard/">XBoard</a>. (Change the directory path inside first.)</td>
+</tr>
+<tr class="even">
+<td>ptc-host.py</td>
+<td>Hosts a game between PyTuroChamp as White and Bare as Black. Updated board images are written to board.svg. (During play, board.svg should be opened in an image viewer that automatically reloads changed files.)</td>
+</tr>
+<tr class="odd">
+<td>ptc_xboard.py</td>
+<td>Combined XBoard and UCI interface module for all engines. Moves will also be logged to a PGN file. Uses pyturochamp_multi.py by default now, but also allows selecting a different engine via a command line parameter (newt, ptc, bare, plan, soma, bern, torres, and rmove).</td>
+</tr>
+<tr class="even">
+<td>pst.py</td>
+<td>Helper file with piece-square tables</td>
+</tr>
+<tr class="odd">
+<td>ptc_worker.py</td>
+<td>Helper file for pyturochamp_multi.py</td>
+</tr>
+</tbody>
+</table>
+<h4 id="test-scripts">Test scripts</h4>
+<table border="1" width="70%">
+<colgroup>
+<col style="width: 50%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Filename</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>movetest.py</td>
+<td>Test engine responses to board situations</td>
+</tr>
+<tr class="even">
+<td>glennie.py</td>
+<td>Compare White moves from TUROCHAMP vs. Glennie game to PyTuroChamp’s moves and show differences (uses glennie.pgn)</td>
+</tr>
+<tr class="odd">
+<td>kasparov.py</td>
+<td>Compare White moves from ChessBase TUROCHAMP vs. Kasparov game to PyTuroChamp’s moves and show differences (uses kasparov_2012.pgn)</td>
+</tr>
+<tr class="even">
+<td>somatest.py</td>
+<td>Compare White moves from SOMA vs. Machiavelli game to soma.py’s moves and show differences (uses soma-mac.pgn)</td>
+</tr>
+<tr class="odd">
+<td>berntest.py</td>
+<td>Compare White moves to the IBM 704 vs Human game (uses bernstein_ibm704.pgn)</td>
+</tr>
+</tbody>
+</table>
+<p>In the icons directory, there are several logos in BMP format for various chess engine GUIs which were contributed by <a href="https://chessprogramming.org/Norbert+Raimund+Leisner">Norbert Raimund Leisner</a>.</p>
