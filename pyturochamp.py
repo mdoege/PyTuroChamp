@@ -144,7 +144,7 @@ def getval1(b):
 	+	3 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
 	+	3.5 * (len(b.pieces(c.BISHOP, c.WHITE)) - len(b.pieces(c.BISHOP, c.BLACK)))
 	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
-	+	10* (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+	+	10 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
 
 def getval2(b):
@@ -154,14 +154,14 @@ def getval2(b):
 	+	3 * len(b.pieces(c.KNIGHT, c.WHITE))
 	+	3.5 * len(b.pieces(c.BISHOP, c.WHITE))
 	+	5 * len(b.pieces(c.ROOK, c.WHITE))
-	+	10* len(b.pieces(c.QUEEN, c.WHITE))
+	+	10 * len(b.pieces(c.QUEEN, c.WHITE))
 	)
 	bv = (
 		len(b.pieces(c.PAWN, c.BLACK))
 	+	3 * len(b.pieces(c.KNIGHT, c.BLACK))
 	+	3.5 * len(b.pieces(c.BISHOP, c.BLACK))
 	+	5 * len(b.pieces(c.ROOK, c.BLACK))
-	+	10* len(b.pieces(c.QUEEN, c.BLACK))
+	+	10 * len(b.pieces(c.QUEEN, c.BLACK))
 	)
 	return wv / bv
 
