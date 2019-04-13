@@ -9,6 +9,7 @@ p.COMPC = c.WHITE
 p.PLAYC = c.BLACK
 
 pgn = open('bernstein_ibm704.pgn')
+#pgn = open('bernie_16_moves_win.pgn')
 game = chess.pgn.read_game(pgn)
 
 p.PSTAB = 0
