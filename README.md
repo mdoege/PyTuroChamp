@@ -17,6 +17,8 @@ Or run an engine with the console interface (Unicode output; enter your moves as
 
  $ pypy3 pyturochamp.py
 
+See the [chess GUI page](http://mdoege.github.io/PyTuroChamp/gui.html) for details on how to set up the chess engines in e.g. Cute Chess or Arena.
+
 ### Documentation
 
 Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/PyTuroChamp/)

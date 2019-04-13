@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>PyTUROCHAMP usage from a GUI</title>
+<link rel="stylesheet" href="ptc.css">
+</head>
+<body>
+<h3 id="running-the-engines-from-a-chess-gui-such-as-cute-chess-or-arena">Running the engines from a chess GUI such as Cute Chess or Arena</h3>
+<p>First, install the <a href="https://github.com/niklasf/python-chess">python-chess</a> chess library: <code>pip install python-chess</code></p>
+<p>The recommended option on Linux or macOS is to modify and use the included shell scripts (ptc, bare, newt).</p>
+<p>It is also possible and perhaps easier—especially on Windows—to launch Python directly from the GUI as in the Arena screenshot below. (Note that no log or PGN files will be created then, because the working directory will be somewhere where Python cannot create files.)</p>
+<p>If you want to use one of the other engines besides pyturochamp.py, add an additional command line parameter to ptc_xboard.py: newt, ptc, bare, plan, soma, bern, torres, or rmove.</p>
+<p><strong>Cute Chess</strong> (Linux version shown here):</p>
+<figure>
+<img src="Screenshot_20180702_191254.png" title="Cute Chess configuration" alt="screenshot" /><figcaption>Cute Chess configuration</figcaption>
+</figure>
+<p><strong>Arena</strong> (Linux version shown here):</p>
+<figure>
+<img src="Screenshot_20171123_102423.png" title="Arena configuration" alt="screenshot" /><figcaption>Arena configuration</figcaption>
+</figure>
+</body>
+</html>
+
