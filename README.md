@@ -23,6 +23,10 @@ See the [chess GUI page](http://mdoege.github.io/PyTuroChamp/gui.html) for detai
 
 Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/PyTuroChamp/)
 
+### Web browser version
+
+There are also browser-based versions of most of these engines (with a Python backend) at [github.com/mdoege/TUROjs](https://github.com/mdoege/TUROjs).
+
 ### License
 
 * Public Domain
