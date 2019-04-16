@@ -173,6 +173,7 @@ while True:
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
+				print2("option name matetest type check default true")
 			if nm == 'Plan':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 			if nm == 'Newt':
