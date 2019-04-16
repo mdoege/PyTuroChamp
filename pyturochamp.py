@@ -190,6 +190,14 @@ def searchmax(b, ply, alpha, beta):
 	global NODES
 
 	NODES += 1
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			return -1000
+		if res == '1-0':
+			return 1000
+		if res == '1/2-1/2':
+			return 0
 	ml = order(b, ply)
 	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
@@ -217,6 +225,14 @@ def searchmin(b, ply, alpha, beta):
 	global NODES
 
 	NODES += 1
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			return -1000
+		if res == '1-0':
+			return 1000
+		if res == '1/2-1/2':
+			return 0
 	ml = order(b, ply)
 	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
@@ -335,14 +351,6 @@ def getmove(b, silent = False, usebook = False):
 			t = searchmin(b, 0, -1e6, 1e6)
 		else:
 			t = searchmax(b, 0, -1e6, 1e6)
-		if MATETEST:
-			res = b.result(claim_draw = True)
-			if res == '1/2-1/2':
-				t = 0
-			if res == '1-0':
-				t = 1e8
-			if res == '0-1':
-				t = -1e8
 		if not silent:
 			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
