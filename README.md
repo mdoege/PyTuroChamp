@@ -26,4 +26,4 @@ Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/Py
 ### License
 
 * Public Domain
-* The opening book and the piece-square tables from [Sunfish](https://github.com/thomasahle/sunfish) are licensed under the GPL.
+* The opening book is licensed under the GPL.
