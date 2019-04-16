@@ -16,7 +16,7 @@ PLAYC = c.WHITE
 
 MAXPLIES = 3	# maximum search depth
 PSTAB    = .5	# influence of piece-square table on moves, 0 = none
-MATETEST  = True	# if True, include draw detection in the material eval
+MATETEST  = True	# if True, include draw and mate on next move detection in the material eval
 
 b = c.Board()
 NODES = 0
@@ -143,6 +143,10 @@ def getmove(b, silent = False, usebook = False):
 			res = b.result(claim_draw = True)
 			if res == '1/2-1/2':
 				t = 0
+			if res == '1-0':
+				t = 1e8
+			if res == '0-1':
+				t = -1e8
 		if not silent:
 			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
