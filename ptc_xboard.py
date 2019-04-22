@@ -180,7 +180,8 @@ while True:
 				print2("option name pstab type spin default 5 min 0 max 1024")
 				print2("option name matetest type check default true")
 			if nm == 'Shannon':
-				print2("option name maxplies type spin default 3 min 0 max 1024")
+				print2("option name maxplies type spin default 1 min 0 max 1024")
+				print2("option name qplies type spin default 7 min 0 max 1024")
 				print2("option name matetest type check default true")
 			if nm == 'Plan':
 				print2("option name maxplies type spin default 3 min 0 max 1024")

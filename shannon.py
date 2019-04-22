@@ -8,7 +8,8 @@ import sys, math, time
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3	# maximum search depth
+MAXPLIES = 1	# maximum search depth
+QPLIES    = MAXPLIES + 6
 MATETEST  = True	# if True, include draw and mate on next move detection in the material eval
 
 b = c.Board()
@@ -106,15 +107,45 @@ def getval(b):
 	v += .1 * (wmov - bmov)
 	return v
 
+def isdead(b, ml, p):
+	"Is the position dead? (quiescence)"
+	if p >= QPLIES or not len(ml):
+		return True
+	x = b.pop()
+	if (b.is_capture(x) and len(b.attackers(not b.turn, x.to_square))):
+		b.push(x)
+		return False
+	else:
+		b.push(x)
+		return True
+
 # https://chessprogramming.org/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
 	"Search moves and evaluate positions"
 	global NODES
 
 	NODES += 1
-	if ply >= MAXPLIES:
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			return -1000
+		if res == '1-0':
+			return 1000
+		if res == '1/2-1/2':
+			return 0
+	ml = order(b, ply)
+	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
-	for x in order(b, ply):
+	if ply >= MAXPLIES:
+		ml2 = []
+		for x in ml:
+			if b.is_capture(x):
+				ml2.append(x)
+		if len(ml2) == 0:	# no considerable moves
+			return getval(b)
+	else:
+		ml2 = ml
+	for x in ml2:
 		b.push(x)
 		t = searchmin(b, ply + 1, alpha, beta)
 		b.pop()
@@ -129,9 +160,27 @@ def searchmin(b, ply, alpha, beta):
 	global NODES
 
 	NODES += 1
-	if ply >= MAXPLIES:
+	if MATETEST:
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			return -1000
+		if res == '1-0':
+			return 1000
+		if res == '1/2-1/2':
+			return 0
+	ml = order(b, ply)
+	if ply >= MAXPLIES and isdead(b, ml, ply):
 		return getval(b)
-	for x in order(b, ply):
+	if ply >= MAXPLIES:
+		ml2 = []
+		for x in ml:
+			if b.is_capture(x):
+				ml2.append(x)
+		if len(ml2) == 0:	# no considerable moves
+			return getval(b)
+	else:
+		ml2 = ml
+	for x in ml2:
 		b.push(x)
 		t = searchmax(b, ply + 1, alpha, beta)
 		b.pop()
@@ -144,7 +193,7 @@ def searchmin(b, ply, alpha, beta):
 def order(b, ply):
 	"Move ordering"
 	if ply > 0:
-		return b.legal_moves
+		return list(b.legal_moves)
 	am, bm = [], []
 	for x in b.legal_moves:
 		if b.is_capture(x):
