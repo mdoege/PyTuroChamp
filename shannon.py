@@ -97,7 +97,7 @@ def getval(b):
 	bdoub = getdoub(bf)
 	wback = getback(b, c.WHITE)
 	bback = getback(b, c.BLACK)
-	v = v + .5 * (wdoub - bdoub + wiso - biso + wback - bback)
+	v = v - .5 * (wdoub - bdoub + wiso - biso + wback - bback)
 	oturn = b.turn
 	b.turn = c.WHITE
 	wmov = len(list(b.legal_moves))
