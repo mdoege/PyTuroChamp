@@ -64,10 +64,16 @@ elif sys.argv[-1] == 'rmove':
 	mf = "RMove.pgn"
 	nm = "Random Mover"
 else:
-	import pyturochamp_multi as p
-	lf = "PyTuroChamp-log.txt"
-	mf = "PyTuroChamp.pgn"
-	nm = "PyTuroChamp Multi-Core"
+	if 'linux' in sys.platform:
+		import pyturochamp_multi as p
+		lf = "PyTuroChamp-log.txt"
+		mf = "PyTuroChamp.pgn"
+		nm = "PyTuroChamp Multi-Core"
+	else:
+		import pyturochamp as p
+		lf = "PyTuroChamp-log.txt"
+		mf = "PyTuroChamp.pgn"
+		nm = "PyTuroChamp"
 
 try:
 	log = open(lf, 'w')
