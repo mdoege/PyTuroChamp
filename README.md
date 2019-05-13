@@ -23,6 +23,10 @@ See the [chess GUI page](http://mdoege.github.io/PyTuroChamp/gui.html) for detai
 
 Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/PyTuroChamp/)
 
+### Windows UCI executable
+
+There is a Windows EXE of PyTuroChamp (created with [PyInstaller](https://github.com/pyinstaller/pyinstaller)) that can be used e.g. in Arena as an UCI engine: [pyturochamp.exe.zip](https://drive.google.com/open?id=1Tye_42KCrsTzMbKmUO6yp63CIGY5MJhn)
+
 ### Web browser version
 
 There are also browser-based versions of most of these engines (with a Python backend) at [github.com/mdoege/TUROjs](https://github.com/mdoege/TUROjs).
