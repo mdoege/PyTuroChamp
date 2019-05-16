@@ -73,6 +73,7 @@ def getmove(b, silent = False, usebook = False):
 	inlist = list(b.legal_moves)
 	nummov = len(inlist)
 
+	start = time.time()
 	while len(ll) < nummov:
 		#if len(inlist) > 0:
 		#	print(len(inlist), len(ll), nummov)
@@ -87,7 +88,9 @@ def getmove(b, silent = False, usebook = False):
 	if COMPC == c.WHITE:
 		ll.reverse()
 	i = getindex(ll)
-	print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+	#print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+	print('info depth %d seldepth %d score cp %d time %d pv %s' % (MAXPLIES + 1, QPLIES + 1,
+		100 * ptc.pm() * ll[i][2], 1000 * (time.time() - start), str(ll[i][0])))
 	return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
 if __name__ == '__main__':
