@@ -34,6 +34,12 @@ b = c.Board()
 
 ptc_worker.start()
 
+def pm():
+	if COMPC == c.WHITE:
+		return 1
+	else:
+		return -1
+
 def getindex(ll):
 	"Select either the best move, or an almost equivalent move, or a blunder from the list of moves"
 	if random() < (BlunderPercent / 100.):
@@ -90,7 +96,7 @@ def getmove(b, silent = False, usebook = False):
 	i = getindex(ll)
 	#print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
 	print('info depth %d seldepth %d score cp %d time %d pv %s' % (MAXPLIES + 1, QPLIES + 1,
-		100 * ptc.pm() * ll[i][2], 1000 * (time.time() - start), str(ll[i][0])))
+		100 * pm() * ll[i][2], 1000 * (time.time() - start), str(ll[i][0])))
 	return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
 if __name__ == '__main__':
