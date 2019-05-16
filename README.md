@@ -23,9 +23,10 @@ See the [chess GUI page](http://mdoege.github.io/PyTuroChamp/gui.html) for detai
 
 Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/PyTuroChamp/)
 
-### Windows UCI/WinBoard binary
+### Windows and macOS PyTuroChamp binaries created with [PyInstaller](https://github.com/pyinstaller/pyinstaller)
 
-There is a Windows EXE of PyTuroChamp (created with [PyInstaller](https://github.com/pyinstaller/pyinstaller)) that can be used as an UCI engine e.g. in Arena or in WinBoard: [pyturochamp.exe.zip](https://drive.google.com/open?id=1Tye_42KCrsTzMbKmUO6yp63CIGY5MJhn)
+* Windows EXE: [pyturochamp.exe.zip](https://drive.google.com/open?id=1Tye_42KCrsTzMbKmUO6yp63CIGY5MJhn)
+* macOS binary: [pyturochamp_mac.zip](https://drive.google.com/open?id=1OVESRVpugTCenzO6I6daIpQWPHlbr7wi)
 
 ### Web browser version
 
