@@ -11,6 +11,7 @@ PLAYC = c.WHITE
 MAXPLIES = 1	# maximum search depth
 QPLIES    = MAXPLIES + 6
 MATETEST  = True	# if True, include draw and mate on next move detection in the material eval
+PAWNRULE  = True	# use pawn criteria
 
 b = c.Board()
 NODES = 0
@@ -89,15 +90,16 @@ def getval(b):
 	+	5 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
 	+	9 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
 	)
-	wf = getpawnfile(b, c.WHITE)
-	bf = getpawnfile(b, c.BLACK)
-	wiso = getiso(wf)
-	biso = getiso(bf)
-	wdoub = getdoub(wf)
-	bdoub = getdoub(bf)
-	wback = getback(b, c.WHITE)
-	bback = getback(b, c.BLACK)
-	v = v - .5 * (wdoub - bdoub + wiso - biso + wback - bback)
+	if PAWNRULE:
+		wf = getpawnfile(b, c.WHITE)
+		bf = getpawnfile(b, c.BLACK)
+		wiso = getiso(wf)
+		biso = getiso(bf)
+		wdoub = getdoub(wf)
+		bdoub = getdoub(bf)
+		wback = getback(b, c.WHITE)
+		bback = getback(b, c.BLACK)
+		v = v - .5 * (wdoub - bdoub + wiso - biso + wback - bback)
 	oturn = b.turn
 	b.turn = c.WHITE
 	wmov = len(list(b.legal_moves))

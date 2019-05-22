@@ -189,6 +189,7 @@ while True:
 				print2("option name maxplies type spin default 1 min 0 max 1024")
 				print2("option name qplies type spin default 7 min 0 max 1024")
 				print2("option name matetest type check default true")
+				print2("option name pawnrule type check default false")
 			if nm == 'Plan':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 			if nm == 'Newt':
@@ -261,6 +262,12 @@ while True:
 			else:
 				p.MATETEST = False
 			print2("# matetest: %s" % p.MATETEST)
+		elif 'setoption name pawnrule value' in l:
+			if l.split()[4] == "true":
+				p.PAWNRULE = True
+			else:
+				p.PAWNRULE = False
+			print2("# pawnrule: %s" % p.PAWNRULE)
 		elif 'setoption name usebook value' in l:
 			if l.split()[4] == "true":
 				p.USEBOOK = True

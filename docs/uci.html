@@ -24,6 +24,7 @@
 <li>MoveError (PTC): Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move</li>
 <li>BlunderPercent (PTC): Chance of a blunder in percent</li>
 <li>BlunderError (PTC): If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move</li>
+<li>pawnrule (Shannon): Enable/disable pawn evalution criteria in Shannon. Disabling this makes the engine run faster without massively changing moves.</li>
 </ul>
 <p>Please note that for PTC and Bare, you should use odd numbers for maxplies and qplies (maxplies = 3 equals four plies; maxplies = 1 equals two plies). This is because PTC and Bare do not count the very first ply (i.e. the first own move considered).</p>
 <p>Newt on the other hand counts plies normally from the root position, so maxplies and qplies should be even numbers.</p>
