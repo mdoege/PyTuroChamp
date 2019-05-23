@@ -63,6 +63,11 @@ elif sys.argv[-1] == 'rmove':
 	lf = "RMove-log.txt"
 	mf = "RMove.pgn"
 	nm = "Random Mover"
+elif sys.argv[-1] == 'adapt':
+	import adapt as p
+	lf = "Adapt-log.txt"
+	mf = "Adapt.pgn"
+	nm = "Simple Adaptive Engine"
 else:
 	if 'linux' in sys.platform:
 		import pyturochamp_multi as p
@@ -206,6 +211,9 @@ while True:
 				print2("option name pmtlen type spin default 7 min 1 max 1024")
 				print2("option name pmtstart type spin default 0 min 0 max 1024")
 				print2("option name matetest type check default true")
+			if nm == 'Simple Adaptive Engine':
+				print2("option name nummov type spin default 5 min 1 max 1024")
+				print2("option name mtime type spin default 3 min 1 max 1024")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -246,6 +254,12 @@ while True:
 		elif 'setoption name qplies value' in l:
 			p.QPLIES = int(l.split()[4])
 			print2("# qplies: %u" % p.QPLIES)
+		elif 'setoption name nummov value' in l:
+			p.NUMMOV = int(l.split()[4])
+			print2("# nummov: %u" % p.NUMMOV)
+		elif 'setoption name mtime value' in l:
+			p.MTIME = int(l.split()[4])
+			print2("# mtime: %u" % p.MTIME)
 		elif 'setoption name pstab value' in l:
 			if 'Bare' in nm or 'Newt' in nm:
 				p.PSTAB = int(l.split()[4]) / 10.	# convert to pawn units for Bare and Newt
