@@ -66,7 +66,7 @@ def getmove(b, silent = False):
 			diff = abs(mov[x][0] - target)
 			pos = mov[x][0]
 
-	print('info score cp %d time %d pv %s' % (100 * pos, 1000 * (time.time() - start), m))
+	print('info score cp %d time %d pv %s' % (pm() * 100 * pos, 1000 * (time.time() - start), m))
 	return pos, [m]
 
 if __name__ == '__main__':
