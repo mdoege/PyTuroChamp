@@ -58,7 +58,7 @@ def getmove(b, silent = False):
 		#print("# ", info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0])
 		mov.append((info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0]))
 
-	diff = 1000
+	diff = 1e6
 	pos = 0
 	for x in range(resm):
 		if abs(mov[x][0] - target) < diff:
