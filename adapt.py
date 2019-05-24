@@ -3,7 +3,10 @@
 # Simple adaptive chess engine using Stockfish
 
 import chess as c
-import chess.engine
+if c.__version__ < '0.26':
+	import chess.uci
+else:
+	import chess.engine
 
 import sys, math, time
 
@@ -24,7 +27,6 @@ def pm():
 	else:
 		return -1
 
-
 def getmove(b, silent = False):
 	"Get move for board"
 	global COMPC, PLAYC
@@ -43,20 +45,40 @@ def getmove(b, silent = False):
 	target = -1 * pm()	# evaluation target value
 
 	start = time.time()
-
-	engine = chess.engine.SimpleEngine.popen_uci(ENGINE)
-	info = engine.analyse(b, chess.engine.Limit(time = MTIME), multipv = NUMMOV)
-	engine.quit()
-
 	mov = []
-	resm = len(info)
-	#print(resm)
-	#for i in info:
-	#	print(i)
 
-	for x in range(resm):
-		#print("# ", info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0])
-		mov.append((info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0]))
+	if c.__version__ >= '0.26':
+		engine = chess.engine.SimpleEngine.popen_uci(ENGINE)
+		info = engine.analyse(b, chess.engine.Limit(time = MTIME), multipv = NUMMOV)
+		engine.quit()
+
+		resm = len(info)
+		for x in range(resm):
+			#print("# ", info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0])
+			mov.append((info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0]))
+	else:
+		engine = c.uci.popen_engine(ENGINE)
+		engine.uci()
+		engine.setoption({"MultiPV": NUMMOV})
+		engine.isready()
+		engine.position(b)
+		info_handler = chess.uci.InfoHandler()
+		engine.info_handlers.append(info_handler)
+		engine.go(movetime = MTIME)
+		engine.quit()
+
+		pv = info_handler.info["pv"]
+		score = info_handler.info["score"]
+		resm = len(pv)
+		for x in range(1, resm + 1):
+			sc = score[x].cp
+			if sc == None:
+				sc = score[x].mate
+				if sc > 0:
+					sc = 1000 - sc
+				else:
+					sc = -1000 - sc
+			mov.append((pm() * sc / 100, pv[x][0]))
 
 	diff = 1e6
 	pos = 0
