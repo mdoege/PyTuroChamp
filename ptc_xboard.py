@@ -214,7 +214,7 @@ while True:
 			if nm == 'Simple Adaptive Engine':
 				print2("option name nummov type spin default 5 min 1 max 1024")
 				print2("option name mtime type spin default 3 min 1 max 1024")
-				print2("option name ev type spin default 100 min 1 max 1024")
+				print2("option name ev type spin default 100 min -1024 max 1024")
 				print2("option name enginepath type string default stockfish")
 
 			print2("uciok")
