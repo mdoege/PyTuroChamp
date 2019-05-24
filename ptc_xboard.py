@@ -214,6 +214,7 @@ while True:
 			if nm == 'Simple Adaptive Engine':
 				print2("option name nummov type spin default 5 min 1 max 1024")
 				print2("option name mtime type spin default 3 min 1 max 1024")
+				print2("option name enginepath type string default stockfish")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -260,6 +261,9 @@ while True:
 		elif 'setoption name mtime value' in l:
 			p.MTIME = int(l.split()[4])
 			print2("# mtime: %u" % p.MTIME)
+		elif 'setoption name enginepath value' in l:
+			p.ENGINE = l.split()[4]
+			print2("# enginepath: %s" % p.ENGINE)
 		elif 'setoption name pstab value' in l:
 			if 'Bare' in nm or 'Newt' in nm:
 				p.PSTAB = int(l.split()[4]) / 10.	# convert to pawn units for Bare and Newt
