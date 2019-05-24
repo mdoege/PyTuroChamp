@@ -17,6 +17,7 @@ PLAYC = c.WHITE
 
 NUMMOV = 5		# number of moves to consider for each position
 MTIME = 3		# time in seconds per move
+EV = 1			# target evaluation
 ENGINE = "stockfish"	# name of chess engine binary to use
 
 b = c.Board()
@@ -42,7 +43,7 @@ def getmove(b, silent = False):
 		print(b.unicode())
 		print("FEN:", b.fen())
 
-	target = -1 * pm()	# evaluation target value
+	target = -EV * pm()	# evaluation target value
 
 	start = time.time()
 	mov = []
@@ -64,7 +65,7 @@ def getmove(b, silent = False):
 		engine.position(b)
 		info_handler = chess.uci.InfoHandler()
 		engine.info_handlers.append(info_handler)
-		engine.go(movetime = MTIME)
+		engine.go(movetime = 1000 * MTIME)
 		engine.quit()
 
 		pv = info_handler.info["pv"]

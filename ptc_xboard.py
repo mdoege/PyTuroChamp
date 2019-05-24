@@ -214,6 +214,7 @@ while True:
 			if nm == 'Simple Adaptive Engine':
 				print2("option name nummov type spin default 5 min 1 max 1024")
 				print2("option name mtime type spin default 3 min 1 max 1024")
+				print2("option name ev type spin default 100 min 1 max 1024")
 				print2("option name enginepath type string default stockfish")
 
 			print2("uciok")
@@ -261,6 +262,9 @@ while True:
 		elif 'setoption name mtime value' in l:
 			p.MTIME = int(l.split()[4])
 			print2("# mtime: %u" % p.MTIME)
+		elif 'setoption name ev value' in l:
+			p.EV = int(l.split()[4]) / 100.
+			print2("# ev: %u" % p.EV)
 		elif 'setoption name enginepath value' in l:
 			p.ENGINE = l.split()[4]
 			print2("# enginepath: %s" % p.ENGINE)
