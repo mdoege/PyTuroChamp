@@ -20,12 +20,17 @@
 <li>pmtlen (Bernstein): Size of the plausible move table</li>
 <li>pmtstart (Bernstein): First ply where the PMT is used, so e.g. PMTSTART = 2 means that the PMT will not be used during the first two plies.</li>
 <li>EasyLearn (PTC): Learn factor AKA easy play factor; e.g. if EasyLearn = 3, then PTC picks a move randomly from the three best moves. An <a href="https://en.wikipedia.org/wiki/Exponential_distribution">exponential distribution</a> with λ=EasyLambda/10 is used. With the default value of λ=2, the best move is selected 86% of the time, while for λ=1 and λ=0.5 the probabilities are 63% and 39% respectively. A low value of EasyLearn, e.g. EasyLearn=2, can be used to add occasional randomness without weakening PTC too much.</li>
-<li>PlayerAdvantage (PTC): If not 0, keep the evaluation at least this many decipawns in favor of the player. (Takes precedence over the other easy play parameters below.) Negative values are also allowed. So if you are playing as White, e.g. -30 will keep the eval above -3 and 10 will keep it over +1.</li>
+<li>PlayerAdvantage (PTC): If not 0, keep the evaluation at least this many <b>decipawns</b> in favor of the player. (Takes precedence over the other easy play parameters below.) Negative values are also allowed. So if you are playing as White, e.g. -30 will keep the eval above -3 and 10 will keep it over +1.</li>
 <li>MoveError (PTC): Choose randomly from moves that are up to MoveError (in decipawns) worse than the best move</li>
 <li>BlunderPercent (PTC): Chance of a blunder in percent</li>
 <li>BlunderError (PTC): If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move</li>
 <li>pawnrule (Shannon): Enable/disable pawn evalution criteria in Shannon. Disabling this makes the engine run faster without massively changing moves.</li>
+<li>nummov (Simple Adaptive Engine): Number of moves to consider in a position.</li>
+<li>mtime (Simple Adaptive Engine): Move time in seconds. Starting and stopping Stockfish needs extra time, so in practice it may be about one to three seconds more than mtime per move.</li>
+<li>ev (Simple Adaptive Engine): Similar to PlayerAdvantage, but in <b>centipawns</b>: target evaluation which the engine tries to maintain. 100 is the default, 300 would mean one bishop advantage for the player. Negative values also work.</li>
+<li>enginepath (Simple Adaptive Engine): Path to chess engine binary (must support UCI and MultiPV).</li>
 </ul>
+
 <p>Please note that for PTC and Bare, you should use odd numbers for maxplies and qplies (maxplies = 3 equals four plies; maxplies = 1 equals two plies). This is because PTC and Bare do not count the very first ply (i.e. the first own move considered).</p>
 <p>Newt on the other hand counts plies normally from the root position, so maxplies and qplies should be even numbers.</p>
 </body>
