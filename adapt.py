@@ -19,6 +19,7 @@ NUMMOV = 5		# number of moves to consider for each position
 MTIME = 3		# time in seconds per move
 EV = 1			# target evaluation
 ENGINE = "stockfish"	# name of chess engine binary to use
+TRUEVAL = True	# show true evaluation instead of evalution of chosen computer move
 
 b = c.Board()
 
@@ -89,6 +90,10 @@ def getmove(b, silent = False):
 			diff = abs(mov[x][0] - target)
 			pos = mov[x][0]
 
+	if TRUEVAL and COMPC == c.WHITE:
+		pos = max([q[0] for q in mov])
+	if TRUEVAL and COMPC == c.BLACK:
+		pos = min([q[0] for q in mov])
 	print('info score cp %d time %d pv %s' % (pm() * 100 * pos, 1000 * (time.time() - start), m))
 	return pos, [m]
 
