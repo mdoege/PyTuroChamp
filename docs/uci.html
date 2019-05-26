@@ -28,7 +28,8 @@
 <li>nummov (Simple Adaptive Engine): Number of moves to consider in a position.</li>
 <li>mtime (Simple Adaptive Engine): Move time in seconds. Starting and stopping Stockfish needs extra time, so in practice it may be about one to three seconds more than mtime per move.</li>
 <li>ev (Simple Adaptive Engine): Similar to PlayerAdvantage, but in <b>centipawns</b>: target evaluation which the engine tries to maintain. 100 is the default, 300 would mean one bishop advantage for the player. Negative values also work.</li>
-<li>alim (Simple Adaptive Engine): Maximum deviation from ev allowed for adaptive play in centipawns. Beyond those limits, optimum moves are played.</li>
+<li>alim (Simple Adaptive Engine): Maximum deviation from zero allowed for adaptive play in centipawns. Beyond those limits, optimum moves are played.</li>
+<li>lambda (Simple Adaptive Engine): Similar to EasyLambda, uses an exponential distribution to modify the target evaluation. A lower lambda such as 1 causes more blunders, a high value such as 100 no blunders at all.</li>
 <li>enginepath (Simple Adaptive Engine): Path to chess engine binary (must support UCI and MultiPV).</li>
 <li>trueval (Simple Adaptive Engine): If true, use the true evaluation of the board for info score. If false, use evaluation of selected move, which should be close to ev.</li>
 </ul>

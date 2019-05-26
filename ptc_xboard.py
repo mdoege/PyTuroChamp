@@ -212,10 +212,11 @@ while True:
 				print2("option name pmtstart type spin default 0 min 0 max 1024")
 				print2("option name matetest type check default true")
 			if nm == 'Simple Adaptive Engine':
-				print2("option name nummov type spin default 5 min 1 max 1024")
+				print2("option name nummov type spin default 20 min 1 max 1024")
 				print2("option name mtime type spin default 3 min 1 max 1024")
 				print2("option name ev type spin default 100 min -1024 max 1024")
 				print2("option name alim type spin default 200 min 0 max 1024")
+				print2("option name lambda type spin default 10 min 1 max 1024")
 				print2("option name enginepath type string default stockfish")
 				print2("option name trueval type check default true")
 
@@ -270,6 +271,9 @@ while True:
 		elif 'setoption name alim value' in l:
 			p.ALIM = int(l.split()[4]) / 100.
 			print2("# alim: %u" % p.ALIM)
+		elif 'setoption name lambda value' in l:
+			p.LAMBDA = int(l.split()[4]) / 10.
+			print2("# lambda: %u" % p.LAMBDA)
 		elif 'setoption name enginepath value' in l:
 			p.ENGINE = l.split()[4]
 			print2("# enginepath: %s" % p.ENGINE)

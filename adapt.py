@@ -9,16 +9,18 @@ else:
 	import chess.engine
 
 import sys, math, time
+from random import expovariate
 
 # computer plays as Black by default
 
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-NUMMOV = 5		# number of moves to consider for each position
+NUMMOV = 20		# number of moves to consider for each position
 MTIME = 3		# time in seconds per move
 EV = 1			# target evaluation
 ALIM = 2		# limit for adaptive playing
+LAMBDA = 1		# blunder parameter
 ENGINE = "stockfish"	# name of chess engine binary to use
 TRUEVAL = True	# show true evaluation instead of evalution of chosen computer move
 
@@ -45,7 +47,7 @@ def getmove(b, silent = False):
 		print(b.unicode())
 		print("FEN:", b.fen())
 
-	target = -EV * pm()	# evaluation target value
+	target = (EV + expovariate(LAMBDA)) * -pm()	# evaluation target value
 
 	start = time.time()
 	mov = []
@@ -90,8 +92,8 @@ def getmove(b, silent = False):
 	else:
 		realpos = min([q[0] for q in mov])
 	if ALIM > 0:
-		target = .5 * (target + realpos)
-		if abs(realpos - target) >= ALIM:	# play best move if eval is outside bounds
+		# play best move if eval is outside bounds:
+		if (COMPC == c.WHITE and realpos > ALIM) or (COMPC == c.BLACK and realpos < -ALIM):
 			target = realpos
 
 	for x in range(resm):
