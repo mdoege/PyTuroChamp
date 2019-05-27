@@ -23,9 +23,10 @@ EV = 1			# target evaluation
 ALIM = 2		# limit for adaptive playing
 LAMBDA = 1		# blunder parameter
 ENGINE = "stockfish"	# name of chess engine binary to use
-TRUEVAL = True	# show true evaluation instead of evalution of chosen computer move
-USEBOOK = True
-BOOKPATH = "Elo2400.bin"
+TRUEVAL = True	# show true evaluation instead of evalution of chosen computer move?
+USEBOOK = True	# use opening book?
+BOOKPATH = "Elo2400.bin"	# path to Polyglot opening book
+WAITBOOK = True	# slow down book moves
 
 b = c.Board()
 
@@ -63,6 +64,8 @@ def getmove(b, silent = False):
 			except:
 				pass
 			else:
+				if WAITBOOK:
+					time.sleep(MTIME + 1)
 				if c.__version__ >= '0.28':
 					return 0, [mv.move.uci()]
 				else:

@@ -221,6 +221,7 @@ while True:
 				print2("option name trueval type check default true")
 				print2("option name usebook type check default true")
 				print2("option name bookpath type string default Elo2400.bin")
+				print2("option name waitbook type check default true")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -288,6 +289,12 @@ while True:
 			else:
 				p.TRUEVAL = False
 			print2("# trueval: %s" % p.TRUEVAL)
+		elif 'setoption name waitbook value' in l:
+			if l.split()[4] == "true":
+				p.WAITBOOK = True
+			else:
+				p.WAITBOOK = False
+			print2("# waitbook: %s" % p.WAITBOOK)
 		elif 'setoption name pstab value' in l:
 			if 'Bare' in nm or 'Newt' in nm:
 				p.PSTAB = int(l.split()[4]) / 10.	# convert to pawn units for Bare and Newt
