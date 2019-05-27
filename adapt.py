@@ -63,7 +63,10 @@ def getmove(b, silent = False):
 			except:
 				pass
 			else:
-				return 0, [mv.move.uci()]
+				if c.__version__ >= '0.28':
+					return 0, [mv.move.uci()]
+				else:
+					return 0, [mv.move().uci()]
 
 	if c.__version__ >= '0.26':
 		engine = chess.engine.SimpleEngine.popen_uci(ENGINE)
