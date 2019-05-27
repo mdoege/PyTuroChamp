@@ -3,6 +3,7 @@
 # Simple adaptive chess engine using Stockfish
 
 import chess as c
+import chess.polyglot
 if c.__version__ < '0.26':
 	import chess.uci
 else:
@@ -23,6 +24,8 @@ ALIM = 2		# limit for adaptive playing
 LAMBDA = 1		# blunder parameter
 ENGINE = "stockfish"	# name of chess engine binary to use
 TRUEVAL = True	# show true evaluation instead of evalution of chosen computer move
+USEBOOK = True
+BOOKPATH = "Elo2400.bin"
 
 b = c.Board()
 
@@ -51,6 +54,16 @@ def getmove(b, silent = False):
 
 	start = time.time()
 	mov = []
+
+	# get a book move if available:
+	if USEBOOK:
+		with chess.polyglot.open_reader(BOOKPATH) as book:
+			try:
+				mv = book.weighted_choice(b)
+			except:
+				pass
+			else:
+				return 0, [mv.move.uci()]
 
 	if c.__version__ >= '0.26':
 		engine = chess.engine.SimpleEngine.popen_uci(ENGINE)

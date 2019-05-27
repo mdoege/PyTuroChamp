@@ -12,7 +12,7 @@
 <ul>
 <li>maxplies (PTC, Bare): Brute-force search depth in plies</li>
 <li>depth (Newt): Maximum brute-force search depth in plies. This can be set quite high, because it will never be reached: for Blitz games, time management will prevent it, while for longer time controls, maxnodes sets an upper limit for computation.</li>
-<li>usebook (Newt): Use opening book?</li>
+<li>usebook (Newt, SAE): Use opening book?</li>
 <li>maxnodes (Newt): How many nodes to search at most. Mainly useful for non-Blitz games to limit computation effort.</li>
 <li>qplies: Quiescence search depth in plies</li>
 <li>pstab: Piece-square table factor; 0 = no influence of PST</li>
@@ -25,13 +25,14 @@
 <li>BlunderPercent (PTC): Chance of a blunder in percent</li>
 <li>BlunderError (PTC): If this move is a blunder, choose randomly from moves that are up to BlunderError (in decipawns) worse than the best move</li>
 <li>pawnrule (Shannon): Enable/disable pawn evalution criteria in Shannon. Disabling this makes the engine run faster without massively changing moves.</li>
-<li>nummov (Simple Adaptive Engine): Number of moves to consider in a position.</li>
-<li>mtime (Simple Adaptive Engine): Move time in seconds. Starting and stopping Stockfish needs extra time, so in practice it may be about one to three seconds more than mtime per move.</li>
-<li>ev (Simple Adaptive Engine): Similar to PlayerAdvantage, but in <b>centipawns</b>: target evaluation which the engine tries to maintain. 100 is the default, 300 would mean one bishop advantage for the player. Negative values also work.</li>
-<li>alim (Simple Adaptive Engine): Maximum deviation from zero allowed for adaptive play in centipawns. Beyond those limits, optimum moves are played.</li>
-<li>lambda (Simple Adaptive Engine): Similar to EasyLambda, uses an exponential distribution to modify the target evaluation. A lower lambda such as 1 causes more blunders, a high value such as 100 no blunders at all.</li>
-<li>enginepath (Simple Adaptive Engine): Path to chess engine binary (must support UCI and MultiPV).</li>
-<li>trueval (Simple Adaptive Engine): If true, use the true evaluation of the board for info score. If false, use evaluation of selected move, which should be close to ev.</li>
+<li>nummov (SAE): Number of moves to consider in a position.</li>
+<li>mtime (SAE): Move time in seconds. Starting and stopping Stockfish needs extra time, so in practice it may be about one to three seconds more than mtime per move.</li>
+<li>ev (SAE): Similar to PlayerAdvantage, but in <b>centipawns</b>: target evaluation which the engine tries to maintain. 100 is the default, 300 would mean one bishop advantage for the player. Negative values also work.</li>
+<li>alim (SAE): Maximum deviation from zero allowed for adaptive play in centipawns. Beyond those limits, optimum moves are played.</li>
+<li>lambda (SAE): Similar to EasyLambda, uses an exponential distribution to modify the target evaluation. A lower lambda such as 1 causes more blunders, a high value such as 100 no blunders at all.</li>
+<li>enginepath (SAE): Path to chess engine binary (must support UCI and MultiPV)</li>
+<li>bookpath (SAE): Path to opening book in Polyglot format</li>
+<li>trueval (SAE): If true, use the true evaluation of the board for info score. If false, use evaluation of selected move, which should be close to ev.</li>
 </ul>
 
 <p>Please note that for PTC and Bare, you should use odd numbers for maxplies and qplies (maxplies = 3 equals four plies; maxplies = 1 equals two plies). This is because PTC and Bare do not count the very first ply (i.e. the first own move considered).</p>

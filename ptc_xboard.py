@@ -219,6 +219,8 @@ while True:
 				print2("option name lambda type spin default 10 min 1 max 1024")
 				print2("option name enginepath type string default stockfish")
 				print2("option name trueval type check default true")
+				print2("option name usebook type check default true")
+				print2("option name bookpath type string default Elo2400.bin")
 
 			print2("uciok")
 		elif l == 'ucinewgame':
@@ -277,6 +279,9 @@ while True:
 		elif 'setoption name enginepath value' in l:
 			p.ENGINE = l.split()[4]
 			print2("# enginepath: %s" % p.ENGINE)
+		elif 'setoption name bookpath value' in l:
+			p.BOOKPATH = l.split()[4]
+			print2("# bookpath: %s" % p.BOOKPATH)
 		elif 'setoption name trueval value' in l:
 			if l.split()[4] == "true":
 				p.TRUEVAL = True
