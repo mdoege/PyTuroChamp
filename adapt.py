@@ -67,9 +67,11 @@ def getmove(b, silent = False):
 				if WAITBOOK:
 					time.sleep(MTIME + 1)
 				if c.__version__ >= '0.28':
-					return 0, [mv.move.uci()]
+					mm = mv.move.uci()
 				else:
-					return 0, [mv.move().uci()]
+					mm = mv.move().uci()
+				print('info score book time %d pv %s' % (1000 * (time.time() - start), mm))
+				return 0, [mm]
 
 	if c.__version__ >= '0.26':
 		engine = chess.engine.SimpleEngine.popen_uci(ENGINE)
