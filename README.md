@@ -13,6 +13,21 @@ Install python-chess and then either run one of the chess engines with the UCI/X
 
  $ pypy3 ptc_xboard.py soma
 
+The parameter to ptc_xboard.py, in this case "soma", selects the engine to use; if you leave it out, PTC is selected.
+
+| Parameter | Engine |
+| ---       | ---    |
+| adapt     | Simple Adaptive Engine |
+| bare      | Bare-bones engine |
+| bern      | The Bernstein chess program |
+| ptc       | TUROCHAMP (Default) |
+| newt      | Newt |
+| plan      | Plankalkül |
+| rmove     | Random Mover |
+| shannon   | Shannon chess engine |
+| soma      | The Smith One-Move Analyzer |
+| torres    | *El Ajedrecista* by Torres y Quevedo |
+
 Or run an engine with the console interface (Unicode output; enter your moves as e.g. "e2e4"; use black on white text in the terminal for correct piece colors):
 
  $ pypy3 pyturochamp.py
