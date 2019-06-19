@@ -21,7 +21,7 @@ The parameter to ptc_xboard.py, in this case "soma", selects the engine to use; 
 | bare      | Bare-bones engine | Has piece-square tables for positional play; is the strongest engine here (with all engines on default settings) except adapt |
 | bern      | The Bernstein chess program | Selects plausible moves to prune search tree |
 | newt      | Newt | Includes an opening book and other experimental features |
-| plan      | Plankalkül | Is set to a higher search depth than e.g. the Java implementation by default to make it a bit stronger |
+| plan      | Plankalkül | Is set to a search depth of four plies rather than a single ply by default to bring playing strength more in line with the other engines |
 | ptc       | TUROCHAMP (Default) | The Turing/Champernowne engine after which this repo is named |
 | rmove     | Random Mover | All other engines should win or draw against this |
 | shannon   | Shannon chess engine | Pretty much an engine that maximizes mobility |
