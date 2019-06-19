@@ -15,18 +15,18 @@ Install python-chess and then either run one of the chess engines with the UCI/X
 
 The parameter to ptc_xboard.py, in this case "soma", selects the engine to use; if you leave it out, PTC is selected.
 
-| Parameter | Engine |
-| ---       | ---    |
-| adapt     | Simple Adaptive Engine |
-| bare      | Bare-bones engine |
-| bern      | The Bernstein chess program |
-| newt      | Newt |
-| plan      | Plankalkül |
-| ptc       | TUROCHAMP (Default) |
-| rmove     | Random Mover |
-| shannon   | Shannon chess engine |
-| soma      | The Smith One-Move Analyzer |
-| torres    | *El Ajedrecista* by Torres y Quevedo |
+| Parameter | Engine | Notes |
+| ---       | ---    | ---   |
+| adapt     | Simple Adaptive Engine | Needs an UCI engine with MultiPV (Stockfish by default) |
+| bare      | Bare-bones engine | Has piece-square tables for positional play; is the strongest engine here |
+| bern      | The Bernstein chess program | Selects plausible moves to prune search tree |
+| newt      | Newt | Includes an opening book and other experimental features |
+| plan      | Plankalkül | Is set to a higher search depth than e.g. the Java implementation by default to make it a bit stronger |
+| ptc       | TUROCHAMP (Default) | The Turing/Champernowne engine after which this repo is named |
+| rmove     | Random Mover | All other engines should win or draw against this |
+| shannon   | Shannon chess engine | Pretty much an engine that maximizes mobility |
+| soma      | The Smith One-Move Analyzer | Swap-off instead of tree search-based engine |
+| torres    | *El Ajedrecista* by Torres y Quevedo | Plays only as White like the real machine! (Random moves as Black.) |
 
 Or run an engine with the console interface (Unicode output; enter your moves as e.g. "e2e4"; use black on white text in the terminal for correct piece colors):
 
