@@ -20,9 +20,9 @@ The parameter to ptc_xboard.py, in this case "soma", selects the engine to use; 
 | adapt     | Simple Adaptive Engine |
 | bare      | Bare-bones engine |
 | bern      | The Bernstein chess program |
-| ptc       | TUROCHAMP (Default) |
 | newt      | Newt |
 | plan      | Plankalkül |
+| ptc       | TUROCHAMP (Default) |
 | rmove     | Random Mover |
 | shannon   | Shannon chess engine |
 | soma      | The Smith One-Move Analyzer |
