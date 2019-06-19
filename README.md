@@ -18,7 +18,7 @@ The parameter to ptc_xboard.py, in this case "soma", selects the engine to use; 
 | Parameter | Engine | Notes |
 | ---       | ---    | ---   |
 | adapt     | Simple Adaptive Engine | Needs an UCI engine with MultiPV (Stockfish by default) |
-| bare      | Bare-bones engine | Has piece-square tables for positional play; is the strongest engine here |
+| bare      | Bare-bones engine | Has piece-square tables for positional play; is the strongest engine here (with all engines on default settings) except adapt |
 | bern      | The Bernstein chess program | Selects plausible moves to prune search tree |
 | newt      | Newt | Includes an opening book and other experimental features |
 | plan      | Plankalkül | Is set to a higher search depth than e.g. the Java implementation by default to make it a bit stronger |
