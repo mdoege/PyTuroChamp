@@ -50,7 +50,7 @@ Note that only Turochamp itself is included, not the various other chess engines
 
 ### Related projects
 
-* [nimTUROCHAMP](https://github.com/mdoege/nimTUROCHAMP): Nim port of pyturochamp.py; also includes a HTML/JS version for web browsers
+* [nimTUROCHAMP](https://github.com/mdoege/nimTUROCHAMP): Nim port of pyturochamp.py; also includes an HTML/JS version for web browsers
 * [TUROjs](https://github.com/mdoege/TUROjs): PyTuroChamp as a Flask web app with server-side Python engines
 
 ### License
