@@ -48,9 +48,10 @@ Note that only Turochamp itself is included, not the various other chess engines
 * macOS binary: [pyturochamp_mac.zip](https://drive.google.com/open?id=1OVESRVpugTCenzO6I6daIpQWPHlbr7wi)
 * Linux ELF binary: [pyturochamp_linux.tar.gz](https://drive.google.com/open?id=1TrvkMkuuCsScVVR_PTzM_q5OmrOZZ5j0)
 
-### Web browser version
+### Related projects
 
-There are also browser-based versions of most of these engines (with a Python backend) at [github.com/mdoege/TUROjs](https://github.com/mdoege/TUROjs).
+* [nimTUROCHAMP](https://github.com/mdoege/nimTUROCHAMP): Nim port of pyturochamp.py; also includes a HTML/JS version for web browsers
+* [TUROjs](https://github.com/mdoege/TUROjs): PyTuroChamp as a Flask web app with server-side Python engines
 
 ### License
 
