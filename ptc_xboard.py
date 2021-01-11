@@ -194,7 +194,6 @@ while True:
 				print2("option name EasyLambda type spin default 20 min 1 max 1024")
 
 				print2("option name PlayerAdvantage type spin default 0 min -1024 max 1024")
-				print2("option name UCI_Chess960 type check default false")
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
@@ -207,7 +206,7 @@ while True:
 			if nm == 'Plan':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 			if nm == 'Newt':
-				print2("option name depth type spin default 14 min 0 max 1024")
+				print2("option name depth type spin default 4 min 0 max 1024")
 				print2("option name qplies type spin default 6 min 0 max 1024")
 				print2("option name pstab type spin default 1 min 0 max 1024")
 				print2("option name maxnodes type spin default 1000000 min 0 max 1000000000")
@@ -232,6 +231,8 @@ while True:
 				print2("option name bookpath type string default Elo2400.bin")
 				print2("option name waitbook type check default true")
 
+			if nm != 'Simple Adaptive Engine':
+				print2("option name UCI_Chess960 type check default false")
 			print2("uciok")
 		elif l == 'ucinewgame':
 			newgame()
