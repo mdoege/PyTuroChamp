@@ -80,6 +80,8 @@ else:
 		mf = "PyTuroChamp.pgn"
 		nm = "PyTuroChamp"
 
+p.Chess960 = False    # Chess960 mode off by default
+
 try:
 	log = open(lf, 'w')
 except:
@@ -123,13 +125,19 @@ def pgn():
 def newgame():
 	global d
 
-	d = c.Board()
+	if p.Chess960:
+		d = c.Board(chess960 = True)
+	else:
+		d = c.Board()
 
 def fromfen(fen):
 	global d
 
 	try:
-		d = c.Board(fen)
+		if p.Chess960:
+			d = c.Board(fen, chess960 = True)
+		else:
+			d = c.Board(fen)
 	except:
 		print2("Bad FEN")
 	#print(d)
@@ -186,6 +194,7 @@ while True:
 				print2("option name EasyLambda type spin default 20 min 1 max 1024")
 
 				print2("option name PlayerAdvantage type spin default 0 min -1024 max 1024")
+				print2("option name UCI_Chess960 type check default false")
 			if nm == 'Bare':
 				print2("option name maxplies type spin default 3 min 0 max 1024")
 				print2("option name pstab type spin default 5 min 0 max 1024")
@@ -348,10 +357,15 @@ while True:
 		elif 'setoption name PlayerAdvantage value' in l:
 			p.PlayerAdvantage = int(l.split()[4])
 			print2("# PlayerAdvantage: %u" % p.PlayerAdvantage)
+		elif 'setoption name UCI_Chess960 value' in l:
+			if l.split()[4] == "true":
+				p.Chess960 = True
+			else:
+				p.Chess960 = False
+			print2("# UCI_Chess960: %s" % p.Chess960)
 		elif l == 'isready':
 			if not d:
 				newgame()
-			print2("id name %s" % nm)
 			print2("readyok")
 		elif 'setboard' in l:
 			fen = l.split(' ', 1)[1]
