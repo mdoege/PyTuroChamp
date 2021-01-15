@@ -347,10 +347,18 @@ def getmove(b, silent = False, usebook = False):
 			if b.is_castling(y):	# can we castle in the next move?
 				p += pm()
 
-		if COMPC == c.WHITE:
-			t = searchmin(b, 0, -1e6, 1e6)
+		res = b.result(claim_draw = True)
+		if res == '0-1':
+			t = -1000
+		elif res == '1-0':
+			t = 1000
+		elif res == '1/2-1/2':
+			t = 0
 		else:
-			t = searchmax(b, 0, -1e6, 1e6)
+			if COMPC == c.WHITE:
+				t = searchmin(b, 0, -1e6, 1e6)
+			else:
+				t = searchmax(b, 0, -1e6, 1e6)
 		if not silent:
 			print("(%u/%u) %s %.1f %.2f" % (n + 1, nl, x, p, t))
 		ll.append((x, p, t))
