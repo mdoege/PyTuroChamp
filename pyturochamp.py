@@ -190,7 +190,7 @@ def searchmax(b, ply, alpha, beta):
 	global NODES
 
 	NODES += 1
-	if MATETEST:
+	if MATETEST and ply < 2 and b.is_check():
 		res = b.result(claim_draw = True)
 		if res == '0-1':
 			return -1000
@@ -225,7 +225,7 @@ def searchmin(b, ply, alpha, beta):
 	global NODES
 
 	NODES += 1
-	if MATETEST:
+	if MATETEST and ply < 2 and b.is_check():
 		res = b.result(claim_draw = True)
 		if res == '0-1':
 			return -1000
