@@ -8,12 +8,12 @@ body { font-family:      Georgia, serif;
        background-image: url("xorpic.png"); }
 
 h1, h2, h3 {
-     font-family: MICR, Verdana, sans-serif;
-     font-size: 28pt;
+     font-family: ocr, Verdana, sans-serif;
+     font-size: 18pt;
 }
 
 @font-face {
-	font-family: 'MICR';
-	src: url('25240_MICR.ttf') format('truetype');
+	font-family: 'ocr';
+	src: url('OCRA.otf') format('truetype');
 }
 
