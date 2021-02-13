@@ -1,12 +1,15 @@
 body { font-family:      Georgia, serif;
+       font-size:        16pt;
        color:            #000;
        margin-left:      20px;
        margin-right:     20px;
        text-align:       justify;
-       background-color: #fff }
+       background-color: #999;
+       background-image: url("xorpic.png"); }
 
 h1, h2, h3 {
      font-family: MICR, Verdana, sans-serif;
+     font-size: 28pt;
 }
 
 @font-face {
