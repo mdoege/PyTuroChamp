@@ -38,16 +38,6 @@ See the [chess GUI page](http://mdoege.github.io/PyTuroChamp/gui.html) for detai
 
 Full documentation at [mdoege.github.io/PyTuroChamp/](http://mdoege.github.io/PyTuroChamp/)
 
-### PyTuroChamp binaries created with [PyInstaller](https://github.com/pyinstaller/pyinstaller)
-
-These binaries can be used from a chess GUI that supports UCI or XBoard/WinBoard.
-
-Note that only Turochamp itself is included, not the various other chess engines in this repo.
-
-* Windows EXE: [pyturochamp.exe.zip](https://drive.google.com/open?id=1Tye_42KCrsTzMbKmUO6yp63CIGY5MJhn)
-* macOS binary: [pyturochamp_mac.zip](https://drive.google.com/open?id=1OVESRVpugTCenzO6I6daIpQWPHlbr7wi)
-* Linux ELF binary: [pyturochamp_linux.tar.gz](https://drive.google.com/open?id=1TrvkMkuuCsScVVR_PTzM_q5OmrOZZ5j0)
-
 ### Related projects
 
 * [nimTUROCHAMP](https://github.com/mdoege/nimTUROCHAMP): Nim port of pyturochamp.py; also includes an HTML/JS version for web browsers
