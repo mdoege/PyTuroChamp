@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 # Multiprocessing version of PyTuroChamp
+# (needs the fork multiprocessing start method, so it is mainly for Linux)
 
 # A Python chess engine,
 # inspired by (but not compatible with)

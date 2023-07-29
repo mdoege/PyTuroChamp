@@ -2,8 +2,11 @@
 
 import pyturochamp as ptc
 import chess as c
-from multiprocessing import Queue, Process, cpu_count
+from multiprocessing import Queue, Process, cpu_count, set_start_method
 from queue import Empty, Full
+
+# needed for Python 3.14 and later:
+set_start_method("fork")
 
 def worker():
 	while True:
