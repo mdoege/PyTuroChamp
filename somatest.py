@@ -15,14 +15,14 @@ o = open('somatest.txt', 'a')
 o2 = open('somatest-diff.txt', 'a')
 
 for m in game.mainline_moves():
-	if b.turn == c.WHITE:
-		t, r = p.getmove(b, usebook = False, silent = True)
-		if r[0] == str(m):
-			o.write('%u %s %s\n' % (b.fullmove_number, m, r[0]))
-		else:
-			o2.write('%u %s %s\n' % (b.fullmove_number, m, r[0]))
-			bad += 1
-	b.push(m)
+    if b.turn == c.WHITE:
+        t, r = p.getmove(b, usebook = False, silent = True)
+        if r[0] == str(m):
+            o.write('%u %s %s\n' % (b.fullmove_number, m, r[0]))
+        else:
+            o2.write('%u %s %s\n' % (b.fullmove_number, m, r[0]))
+            bad += 1
+    b.push(m)
 
 print('===>', bad, 'moves differ')
 

@@ -33,11 +33,11 @@ t = [
 ]
 
 for x, y, z in t:
-	d = c.Board(x)
-	t, r = p.getmove(d, usebook = False)
-	if r[0] == y:
-		print(z, "test passed", 30 * '=')
-	else:
-		print(z, "test FAILED:", r[0], 30 * '*')
+    d = c.Board(x)
+    t, r = p.getmove(d, usebook = False)
+    if r[0] == y:
+        print(z, "test passed", 30 * '=')
+    else:
+        print(z, "test FAILED:", r[0], 30 * '*')
 
 
