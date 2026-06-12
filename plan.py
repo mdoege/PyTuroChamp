@@ -11,20 +11,23 @@ from random import random
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 3    # maximum search depth
+MAXPLIES = 3  # maximum search depth
 
 b = c.Board()
 NODES = 0
 
+
 def getval(b):
     "Get total piece value of board"
     return (
-        len(b.pieces(c.PAWN, c.WHITE))          - len(b.pieces(c.PAWN, c.BLACK))
-    +    2 * (len(b.pieces(c.KNIGHT, c.WHITE))   - len(b.pieces(c.KNIGHT, c.BLACK)))
-    +    2 * (len(b.pieces(c.BISHOP, c.WHITE))   - len(b.pieces(c.BISHOP, c.BLACK)))
-    +    3 * (len(b.pieces(c.ROOK, c.WHITE))     - len(b.pieces(c.ROOK, c.BLACK)))
-    +    4 * (len(b.pieces(c.QUEEN, c.WHITE))    - len(b.pieces(c.QUEEN, c.BLACK)))
+        len(b.pieces(c.PAWN, c.WHITE))
+        - len(b.pieces(c.PAWN, c.BLACK))
+        + 2 * (len(b.pieces(c.KNIGHT, c.WHITE)) - len(b.pieces(c.KNIGHT, c.BLACK)))
+        + 2 * (len(b.pieces(c.BISHOP, c.WHITE)) - len(b.pieces(c.BISHOP, c.BLACK)))
+        + 3 * (len(b.pieces(c.ROOK, c.WHITE)) - len(b.pieces(c.ROOK, c.BLACK)))
+        + 4 * (len(b.pieces(c.QUEEN, c.WHITE)) - len(b.pieces(c.QUEEN, c.BLACK)))
     )
+
 
 # https://chessprogramming.org/Alpha-Beta
 def searchmax(b, ply, alpha, beta):
@@ -44,6 +47,7 @@ def searchmax(b, ply, alpha, beta):
             alpha = t
     return alpha
 
+
 def searchmin(b, ply, alpha, beta):
     "Search moves and evaluate positions"
     global NODES
@@ -61,6 +65,7 @@ def searchmin(b, ply, alpha, beta):
             beta = t
     return beta
 
+
 def order(b, ply):
     "Move ordering"
     if ply > 0:
@@ -70,16 +75,22 @@ def order(b, ply):
         if b.is_capture(x):
             if b.piece_at(x.to_square):
                 # MVV/LVA sorting (http://home.hccnet.nl/h.g.muller/mvv.html)
-                am.append((x, 10 * b.piece_at(x.to_square).piece_type
-                            - b.piece_at(x.from_square).piece_type))
-            else:    # to square is empty during en passant capture
+                am.append(
+                    (
+                        x,
+                        10 * b.piece_at(x.to_square).piece_type
+                        - b.piece_at(x.from_square).piece_type,
+                    )
+                )
+            else:  # to square is empty during en passant capture
                 am.append((x, 10 - b.piece_at(x.from_square).piece_type))
         else:
             am.append((x, b.piece_at(x.from_square).piece_type))
-    am.sort(key = lambda m: m[1])
+    am.sort(key=lambda m: m[1])
     am.reverse()
     bm = [q[0] for q in am]
     return bm
+
 
 def pm():
     if COMPC == c.WHITE:
@@ -87,7 +98,8 @@ def pm():
     else:
         return -1
 
-def getmove(b, silent = False, usebook = False):
+
+def getmove(b, silent=False, usebook=False):
     "Get move list for board"
     global COMPC, PLAYC, MAXPLIES, NODES
 
@@ -121,20 +133,29 @@ def getmove(b, silent = False, usebook = False):
         ll.append((x, p, t))
         b.pop()
 
-    ll.sort(key = lambda m: m[1] + 1000 * m[2])
+    ll.sort(key=lambda m: m[1] + 1000 * m[2])
     if COMPC == c.WHITE:
         ll.reverse()
-    print('# %.2f %s' % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
-    print('info depth %d score cp %d time %d nodes %d pv %s' % (MAXPLIES + 1,
-        100 * pm () * ll[0][2], 1000 * (time.time() - start), NODES, str(ll[0][0])))
+    print("# %.2f %s" % (ll[0][1] + ll[0][2], [str(ll[0][0])]))
+    print(
+        "info depth %d score cp %d time %d nodes %d pv %s"
+        % (
+            MAXPLIES + 1,
+            100 * pm() * ll[0][2],
+            1000 * (time.time() - start),
+            NODES,
+            str(ll[0][0]),
+        )
+    )
     return ll[0][1] + ll[0][2], [str(ll[0][0])]
 
-if __name__ == '__main__':
-    while True:    # game loop
+
+if __name__ == "__main__":
+    while True:  # game loop
         while True:
             print(b.unicode())
             print(getval(b))
-            if sys.version < '3':
+            if sys.version < "3":
                 move = raw_input("Your move? ")
             else:
                 move = input("Your move? ")
@@ -148,19 +169,23 @@ if __name__ == '__main__':
             else:
                 break
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
 
         tt = time.time()
         t, m = getmove(b)
-        print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-            b.fullmove_number, m[0],
-            (time.time() - tt) // 60, (time.time() - tt) % 60))
+        print(
+            "My move: %u. %s     ( calculation time spent: %u m %u s )"
+            % (
+                b.fullmove_number,
+                m[0],
+                (time.time() - tt) // 60,
+                (time.time() - tt) % 60,
+            )
+        )
         b.push(c.Move.from_uci(m[0]))
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
-
-

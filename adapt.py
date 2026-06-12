@@ -4,7 +4,8 @@
 
 import chess as c
 import chess.polyglot
-if c.__version__ < '0.26':
+
+if c.__version__ < "0.26":
     import chess.uci
 else:
     import chess.engine
@@ -17,18 +18,19 @@ from random import expovariate
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-NUMMOV = 20        # number of moves to consider for each position
-MTIME = 3        # time in seconds per move
-EV = 1            # target evaluation
-ALIM = 2        # limit for adaptive playing
-LAMBDA = 1        # blunder parameter
-ENGINE = "stockfish"    # name of chess engine binary to use
-TRUEVAL = True    # show true evaluation instead of evalution of chosen computer move?
-USEBOOK = True    # use opening book?
-BOOKPATH = "Elo2400.bin"    # path to Polyglot opening book
-WAITBOOK = True    # slow down book moves
+NUMMOV = 20  # number of moves to consider for each position
+MTIME = 3  # time in seconds per move
+EV = 1  # target evaluation
+ALIM = 2  # limit for adaptive playing
+LAMBDA = 1  # blunder parameter
+ENGINE = "stockfish"  # name of chess engine binary to use
+TRUEVAL = True  # show true evaluation instead of evalution of chosen computer move?
+USEBOOK = True  # use opening book?
+BOOKPATH = "Elo2400.bin"  # path to Polyglot opening book
+WAITBOOK = True  # slow down book moves
 
 b = c.Board()
+
 
 def pm():
     if COMPC == c.WHITE:
@@ -36,7 +38,8 @@ def pm():
     else:
         return -1
 
-def getmove(b, silent = False):
+
+def getmove(b, silent=False):
     "Get move for board"
     global COMPC, PLAYC
 
@@ -51,7 +54,7 @@ def getmove(b, silent = False):
         print(b.unicode())
         print("FEN:", b.fen())
 
-    target = (EV + expovariate(LAMBDA)) * -pm()    # evaluation target value
+    target = (EV + expovariate(LAMBDA)) * -pm()  # evaluation target value
 
     start = time.time()
     mov = []
@@ -66,22 +69,29 @@ def getmove(b, silent = False):
             else:
                 if WAITBOOK:
                     time.sleep(MTIME + 1)
-                if c.__version__ >= '0.28':
+                if c.__version__ >= "0.28":
                     mm = mv.move.uci()
                 else:
                     mm = mv.move().uci()
-                print('info score book time %d pv %s' % (1000 * (time.time() - start), mm))
+                print(
+                    "info score book time %d pv %s" % (1000 * (time.time() - start), mm)
+                )
                 return 0, [mm]
 
-    if c.__version__ >= '0.26':
+    if c.__version__ >= "0.26":
         engine = chess.engine.SimpleEngine.popen_uci(ENGINE)
-        info = engine.analyse(b, chess.engine.Limit(time = MTIME), multipv = NUMMOV)
+        info = engine.analyse(b, chess.engine.Limit(time=MTIME), multipv=NUMMOV)
         engine.quit()
 
         resm = len(info)
         for x in range(resm):
-            #print("# ", info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0])
-            mov.append((info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0]))
+            # print("# ", info[x]["score"].white().score(mate_score = 100000) / 100, info[x]["pv"][0])
+            mov.append(
+                (
+                    info[x]["score"].white().score(mate_score=100000) / 100,
+                    info[x]["pv"][0],
+                )
+            )
     else:
         engine = c.uci.popen_engine(ENGINE)
         engine.uci()
@@ -90,7 +100,7 @@ def getmove(b, silent = False):
         engine.position(b)
         info_handler = chess.uci.InfoHandler()
         engine.info_handlers.append(info_handler)
-        engine.go(movetime = 1000 * MTIME)
+        engine.go(movetime=1000 * MTIME)
         engine.quit()
 
         pv = info_handler.info["pv"]
@@ -114,7 +124,9 @@ def getmove(b, silent = False):
         realpos = min([q[0] for q in mov])
     if ALIM > 0:
         # play best move if eval is outside bounds:
-        if (COMPC == c.WHITE and realpos > ALIM) or (COMPC == c.BLACK and realpos < -ALIM):
+        if (COMPC == c.WHITE and realpos > ALIM) or (
+            COMPC == c.BLACK and realpos < -ALIM
+        ):
             target = realpos
 
     for x in range(resm):
@@ -125,14 +137,18 @@ def getmove(b, silent = False):
 
     if TRUEVAL:
         pos = realpos
-    print('info score cp %d time %d pv %s' % (pm() * 100 * pos, 1000 * (time.time() - start), m))
+    print(
+        "info score cp %d time %d pv %s"
+        % (pm() * 100 * pos, 1000 * (time.time() - start), m)
+    )
     return pos, [m]
 
-if __name__ == '__main__':
-    while True:    # game loop
+
+if __name__ == "__main__":
+    while True:  # game loop
         while True:
             print(b.unicode())
-            if sys.version < '3':
+            if sys.version < "3":
                 move = raw_input("Your move? ")
             else:
                 move = input("Your move? ")
@@ -146,19 +162,23 @@ if __name__ == '__main__':
             else:
                 break
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
 
         tt = time.time()
         t, m = getmove(b)
-        print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-            b.fullmove_number, m[0],
-            (time.time() - tt) // 60, (time.time() - tt) % 60))
+        print(
+            "My move: %u. %s     ( calculation time spent: %u m %u s )"
+            % (
+                b.fullmove_number,
+                m[0],
+                (time.time() - tt) // 60,
+                (time.time() - tt) % 60,
+            )
+        )
         b.push(c.Move.from_uci(m[0]))
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
-
-

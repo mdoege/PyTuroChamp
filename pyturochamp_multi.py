@@ -19,21 +19,22 @@ from random import random, choice
 COMPC = c.BLACK
 PLAYC = c.WHITE
 
-MAXPLIES = 1    # maximum search depth
-QPLIES    = MAXPLIES + 2
-PSTAB     = 0    # influence of piece-square table on moves, 0 = none
-PDEAD     = 1   # version of dead position eval
-MATETEST  = False    # if True, include mate and draw detection in the material eval
+MAXPLIES = 1  # maximum search depth
+QPLIES = MAXPLIES + 2
+PSTAB = 0  # influence of piece-square table on moves, 0 = none
+PDEAD = 1  # version of dead position eval
+MATETEST = False  # if True, include mate and draw detection in the material eval
 
 # Easy play / random play parameters
-MoveError = 0        # On every move, randomly select the best move or a move inferior by this value (in decipawns)
-BlunderError = 0    # If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
-            # Blunder Error overrides Move Error and should be > Move Error.
-BlunderPercent = 0    # Percent chance of blundering this move
+MoveError = 0  # On every move, randomly select the best move or a move inferior by this value (in decipawns)
+BlunderError = 0  # If blundering this move, randomly select the best move or a move inferior by this value (in decipawns)
+# Blunder Error overrides Move Error and should be > Move Error.
+BlunderPercent = 0  # Percent chance of blundering this move
 
 b = c.Board()
 
 ptc_worker.start()
+
 
 def pm():
     if COMPC == c.WHITE:
@@ -41,21 +42,23 @@ def pm():
     else:
         return -1
 
+
 def getindex(ll):
     "Select either the best move, or an almost equivalent move, or a blunder from the list of moves"
-    if random() < (BlunderPercent / 100.):
-        err = BlunderError / 10.
+    if random() < (BlunderPercent / 100.0):
+        err = BlunderError / 10.0
     else:
-        err = MoveError / 10.
+        err = MoveError / 10.0
     if err == 0:
-        return 0    # best move
+        return 0  # best move
     else:
         vals = [x[1] + x[2] for x in ll]
         inds = zip(vals, range(len(ll)))
         mm = [x for x in inds if (abs(x[0] - vals[0]) < err)]
         return choice(mm)[1]
 
-def getmove(b, silent = False, usebook = False):
+
+def getmove(b, silent=False, usebook=False):
     "Get move list for board"
     global COMPC, PLAYC, MAXPLIES
 
@@ -82,30 +85,51 @@ def getmove(b, silent = False, usebook = False):
 
     start = time.time()
     while len(ll) < nummov:
-        #if len(inlist) > 0:
+        # if len(inlist) > 0:
         #    print(len(inlist), len(ll), nummov)
         if len(inlist):
             ptc_worker.urlq.put_nowait(
-                (b.copy(), inlist.pop(), lastpos, COMPC, cr0, MAXPLIES, QPLIES, PSTAB, PDEAD, MATETEST))
+                (
+                    b.copy(),
+                    inlist.pop(),
+                    lastpos,
+                    COMPC,
+                    cr0,
+                    MAXPLIES,
+                    QPLIES,
+                    PSTAB,
+                    PDEAD,
+                    MATETEST,
+                )
+            )
         try:
             ll.append(ptc_worker.urlr.get_nowait())
         except Empty:
             pass
-    ll.sort(key = lambda m: m[1] + 1000 * m[2])
+    ll.sort(key=lambda m: m[1] + 1000 * m[2])
     if COMPC == c.WHITE:
         ll.reverse()
     i = getindex(ll)
-    #print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
-    print('info depth %d seldepth %d score cp %d time %d pv %s' % (MAXPLIES + 1, QPLIES + 1,
-        100 * pm() * ll[i][2], 1000 * (time.time() - start), str(ll[i][0])))
+    # print('# %.2f %s' % (ll[i][1] + ll[i][2], [str(ll[i][0])]))
+    print(
+        "info depth %d seldepth %d score cp %d time %d pv %s"
+        % (
+            MAXPLIES + 1,
+            QPLIES + 1,
+            100 * pm() * ll[i][2],
+            1000 * (time.time() - start),
+            str(ll[i][0]),
+        )
+    )
     return ll[i][1] + ll[i][2], [str(ll[i][0])]
 
-if __name__ == '__main__':
-    while True:    # game loop
+
+if __name__ == "__main__":
+    while True:  # game loop
         while True:
             print(b.unicode())
             print(ptc.getval(b))
-            if sys.version < '3':
+            if sys.version < "3":
                 move = raw_input("Your move? ")
             else:
                 move = input("Your move? ")
@@ -119,19 +143,23 @@ if __name__ == '__main__':
             else:
                 break
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
 
         tt = time.time()
         t, m = getmove(b)
-        print("My move: %u. %s     ( calculation time spent: %u m %u s )" % (
-            b.fullmove_number, m[0],
-            (time.time() - tt) // 60, (time.time() - tt) % 60))
+        print(
+            "My move: %u. %s     ( calculation time spent: %u m %u s )"
+            % (
+                b.fullmove_number,
+                m[0],
+                (time.time() - tt) // 60,
+                (time.time() - tt) % 60,
+            )
+        )
         b.push(c.Move.from_uci(m[0]))
 
-        if b.result() != '*':
+        if b.result() != "*":
             print("Game result:", b.result())
             break
-
-
